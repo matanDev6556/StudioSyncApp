@@ -17,7 +17,7 @@ class WidgetTree extends StatefulWidget {
 
 class _WidgetTreeState extends State<WidgetTree> {
   final authService = Get.find<AuthService>();
-  final userController = Get.find<UserController>();
+  final controller = Get.find<WidgetTreeController>();
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _WidgetTreeState extends State<WidgetTree> {
     // Start listening to auth changes
     authService.authStateChanges.listen((user) {
       if (user != null) {
-        userController.checkUserRoleAndRedirect();
+        controller.checkUserRoleAndRedirect();
       }
     });
   }
