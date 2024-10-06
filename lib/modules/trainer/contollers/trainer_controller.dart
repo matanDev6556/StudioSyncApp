@@ -3,9 +3,10 @@ import 'package:studiosync/core/shared/controllers/user_controller.dart';
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 
 class TrainerController extends UserController {
+  
   Rx<TrainerModel?> trainer = Rx<TrainerModel?>(null);
 
-  TrainerController(super.authService, super.firestoreService);
+  TrainerController(super.authService, super.firestoreService,super.storageServices);
 
   // Generic function to add item to the correct list
   void addItemToList<T>(List<T> Function(TrainerModel) getList, T newItem) {

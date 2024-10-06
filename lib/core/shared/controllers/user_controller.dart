@@ -23,14 +23,14 @@ import 'package:uuid/uuid.dart';
 class UserController<T extends UserModel> extends GetxController {
   final AuthService authService;
   final FirestoreService firestoreService;
+  final StorageServices storageServices;
 
-  UserController(this.authService, this.firestoreService);
+  UserController(this.authService, this.firestoreService, this.storageServices);
 
-  Rx<UserModel?> userModel = Rx<UserModel?>(null);
+  var userModel = Rxn<UserModel>();
   final isLoading = false.obs;
 
   bool get isTrainer => userModel.value?.isTrainerUser ?? false;
-  final storage = Get.find<StorageServices>();
 
   RxInt selectedIndex = 0.obs;
   void updateIndex(int index) {
@@ -48,7 +48,7 @@ class UserController<T extends UserModel> extends GetxController {
         final userId = userModel.value?.userId;
 
         isLoading.value = true;
-        final imgUrl = await storage.uploadImageas(
+        final imgUrl = await storageServices.uploadImageas(
             imageFile, '$userId/${const Uuid().v4()}.jpg');
         print("imgUrl-----" + imgUrl);
         return imgUrl;
@@ -86,27 +86,9 @@ class UserController<T extends UserModel> extends GetxController {
         if (mapUser == null) {
           Get.offAllNamed(Routes.signUpAs);
         } else if (mapUser['isTrainer']) {
-          // create the spetsific controller for trainer
-          Get.put(TrainerController(Get.find(), Get.find()), permanent: true);
-          final controller = Get.find<TrainerController>();
-          // create the logged in user
-          TrainerModel trainerModel = TrainerModel.fromJson(mapUser);
-          //assigen the user to the controllers
-          controller.trainer.value = trainerModel;
-          userModel.value = trainerModel;
-          //route to the speysific home view
-          Get.offAllNamed(Routes.homeTrainer);
+          await _handleTrainerLogin(mapUser);
         } else {
-          // create the spetsific controller for trainer
-          Get.put(TraineeController(Get.find(), Get.find()), permanent: true);
-          final controller = Get.find<TraineeController>();
-          // create the logged in user
-          TraineeModel traineeModel = TraineeModel.fromJson(mapUser);
-          //assigen the user to the controllers
-          controller.trainer.value = traineeModel;
-          userModel.value = traineeModel;
-          //route to the speysific home view
-          Get.offAllNamed(Routes.homeTrainee);
+          await _handleTraineeLogin(mapUser);
         }
       } catch (e) {
         print("Error: $e");
@@ -117,5 +99,35 @@ class UserController<T extends UserModel> extends GetxController {
     } else {
       Get.offAllNamed(Routes.login);
     }
+  }
+
+  Future<void> _handleTrainerLogin(Map<String, dynamic> mapUser) async {
+    Get.put(
+        TrainerController(
+          Get.find(),
+          Get.find(),
+          Get.find(),
+        ),
+        permanent: true);
+    final controller = Get.find<TrainerController>();
+    TrainerModel trainerModel = TrainerModel.fromJson(mapUser);
+    controller.trainer.value = trainerModel;
+    userModel.value = trainerModel;
+    Get.offAllNamed(Routes.homeTrainer);
+  }
+
+  Future<void> _handleTraineeLogin(Map<String, dynamic> mapUser) async {
+    Get.put(
+        TraineeController(
+          Get.find(),
+          Get.find(),
+          Get.find(),
+        ),
+        permanent: true);
+    final controller = Get.find<TraineeController>();
+    TraineeModel traineeModel = TraineeModel.fromJson(mapUser);
+    controller.trainee.value = traineeModel;
+    userModel.value = traineeModel;
+    Get.offAllNamed(Routes.homeTrainee);
   }
 }

@@ -4,6 +4,7 @@ import 'package:studiosync/core/shared/widgets/app_bar.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
 import 'package:studiosync/modules/trainer/views/profile/trainer_profile_view.dart';
+import 'package:studiosync/modules/trainer/views/trainees/trainees_list_view.dart';
 
 class TrainerTabsView extends StatelessWidget {
   const TrainerTabsView({Key? key}) : super(key: key);
@@ -72,7 +73,7 @@ class ClientsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Upcoming Sessions Here'));
+    return TraineesListView();
   }
 }
 

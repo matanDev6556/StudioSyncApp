@@ -6,12 +6,14 @@ class CustomImageWidget extends StatelessWidget {
   final String? imageUrl;
   final double height;
   final double width;
-
   final bool isLoading; // New isLoading flag
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
   final BoxFit boxFit;
   final IconData defaultIcon;
+
+  // New parameter for border color
+  final Color? borderColor;
 
   const CustomImageWidget({
     Key? key,
@@ -23,6 +25,7 @@ class CustomImageWidget extends StatelessWidget {
     this.onDelete,
     this.boxFit = BoxFit.cover,
     this.defaultIcon = Icons.person, // Default placeholder icon
+    this.borderColor, // Optional border color
   }) : super(key: key);
 
   @override
@@ -30,11 +33,14 @@ class CustomImageWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: height,
-          width: width,
+          height: height.h,
+          width: width.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.r),
             color: Colors.grey[200], // Background color for the placeholder
+            border: borderColor != null // Check if borderColor is provided
+                ? Border.all(color: borderColor!, width: 2) // Set border
+                : null, // No border if borderColor is null
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12.r),

@@ -3,7 +3,9 @@ import 'package:studiosync/core/shared/controllers/user_controller.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 
 class TraineeController extends UserController {
-  TraineeController(super.authService, super.firestoreService);
+  TraineeController(
+      super.authService, super.firestoreService, super.storageServices);
 
-  Rx<TraineeModel?> trainer = Rx<TraineeModel?>(null);
+  Rx<TraineeModel?> trainee = Rx<TraineeModel?>(null);
+  TraineeModel? get train => userModel.value as TraineeModel;
 }

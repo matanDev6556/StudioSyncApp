@@ -37,7 +37,13 @@ class MainApp extends StatelessWidget {
         getPages: AppRouter.routes,
         initialBinding: BindingsBuilder(
           () {
-            Get.put(UserController(Get.find(), Get.find()));
+            Get.put(
+              UserController(
+                Get.find(),
+                Get.find(),
+                Get.find(),
+              ),
+            );
           },
         ),
       ),
