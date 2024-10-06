@@ -38,11 +38,7 @@ class MainApp extends StatelessWidget {
         initialBinding: BindingsBuilder(
           () {
             Get.put(
-              UserController(
-                Get.find(),
-                Get.find(),
-                Get.find(),
-              ),
+              WidgetTreeController(Get.find(), Get.find(), Get.find()),
             );
           },
         ),

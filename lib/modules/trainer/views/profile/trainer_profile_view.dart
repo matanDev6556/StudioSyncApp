@@ -20,7 +20,7 @@ class TrainerEditProfile extends StatelessWidget {
 
   void _handleSave() {
     if (_formKey.currentState!.validate()) {
-      controller.saveNewTrainerToDb();
+      controller.saveTrainerToDb();
     } else {
       Validations.showValidationSnackBar(
           'Fill the requierd fields!', AppStyle.backGrey3);
@@ -30,7 +30,6 @@ class TrainerEditProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      print('build');
       return Form(
         key: _formKey,
         child: ListView(

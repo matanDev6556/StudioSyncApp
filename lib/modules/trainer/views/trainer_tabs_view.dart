@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/core/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/core/shared/widgets/app_bar.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
@@ -19,6 +20,7 @@ class TrainerTabsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<TrainerController>();
+    final tabController = Get.find<GeneralTabController>();
 
     return Obx(() {
       final trainer = controller.trainer.value; // trainer is reactive
@@ -30,10 +32,10 @@ class TrainerTabsView extends StatelessWidget {
           thereIsNotifications: false,
           isLoading: controller.isLoading.value,
         ),
-        body: _pages[controller.selectedIndex.value],
+        body: _pages[tabController.selectedIndex.value],
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: controller.selectedIndex.value,
-          onTap: controller.updateIndex,
+          currentIndex: tabController.selectedIndex.value,
+          onTap: (index) => tabController.updateIndex(index),
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: const Icon(
