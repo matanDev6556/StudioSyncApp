@@ -25,10 +25,10 @@ class TraineesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    final uid = authService.currentUser?.uid;
-    if (uid != null) {
-      fetchTrainees(uid);
-    }
+    
+    
+      fetchTrainees();
+    
 
     // Set up a listener to filter the list whenever searchQuery or activeStatusFilter changes
     debounce(searchQuery, (_) => applyFilters(),
@@ -36,12 +36,13 @@ class TraineesController extends GetxController {
     ever(activeStatusFilter, (_) => applyFilters());
   }
 
-  Future<void> fetchTrainees(String trainerId) async {
+  Future<void> fetchTrainees() async {
     try {
+      final uid = authService.currentUser?.uid;
       isLoading.value = true;
 
       // Fetch the trainees from the service
-      final trainees = await traineeService.fetchTrainees(trainerId);
+      final trainees = await traineeService.fetchTrainees(uid!);
 
       // Update the trainees list
       traineesList.value = trainees;

@@ -8,6 +8,7 @@ import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/shared/controllers/user_controller.dart';
 import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/modules/auth/controllers/login_controller.dart';
 
 Future<void> main() async {
   // init firebase
@@ -40,6 +41,7 @@ class MainApp extends StatelessWidget {
             Get.put(
               WidgetTreeController(Get.find(), Get.find(), Get.find()),
             );
+            Get.lazyPut(() => LoginController(Get.find()));
           },
         ),
       ),

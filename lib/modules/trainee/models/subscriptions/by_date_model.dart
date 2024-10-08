@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/core/utils/dates.dart';
 import 'package:studiosync/core/utils/validations.dart';
-import 'package:studiosync/core/shared/models/subscriptions/subscription_model.dart';
-import 'package:studiosync/core/shared/widgets/linear_progress.dart';
+import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
+import 'package:studiosync/modules/trainee_profile.dart/widgets/subscriptions/by_date_sub_widget.dart';
 
 class SubscriptionByDate extends Subscription {
   DateTime startDate;
@@ -71,43 +69,18 @@ class SubscriptionByDate extends Subscription {
   }
 
   @override
-  Widget getSubscriptionContainer(
-      {required Function editButton, bool isTrainer = true}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                DatesUtils.daysLeft(startDate, endDate),
-                style: TextStyle(
-                  color: AppStyle.deepBlackOrange,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                ),
-              ),
-              Text(
-                '$usedMonthlyTraining/$monthlyTrainingLimit at ${DatesUtils.getMonthName(currentMonth)}',
-                style: TextStyle(
-                  color: AppStyle.backGrey3.withOpacity(0.7),
-                  fontSize: 17,
-                ),
-              ),
-            ],
-          ),
-          AppStyle.h(5),
-          LinearProgressWorkOuts(
-            isActive: isActive(),
-            isTrainer: isTrainer,
-            howWorkOutsDid: DateTime.now().difference(startDate).inDays,
-            totalWorkouts: endDate.difference(startDate).inDays,
-            editButton: () => editButton(),
-          ),
-        ],
-      ),
+  Widget getSubscriptionContainer({
+    required Function editButton,
+    bool isTrainer = true,
+  }) {
+    return ByDateSubscriptionWidget(
+      usedMonthlyTraining: usedMonthlyTraining,
+      monthlyTrainingLimit: monthlyTrainingLimit,
+      currentMonth: currentMonth,
+      startDate: startDate,
+      endDate: endDate,
+      editButton: editButton,
+      isActive: isActive,
     );
   }
 

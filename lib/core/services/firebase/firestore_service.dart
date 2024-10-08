@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  FirebaseFirestore get firestore => _firestore;
+
   // פונקציה ליצירת מסמך חדש
   Future<void> createDocument(String collectionPath, String documentId,
       Map<String, dynamic> data) async {

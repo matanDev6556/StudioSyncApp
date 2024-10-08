@@ -20,7 +20,6 @@ class ImageService {
         return imgUrl;
       }
     } catch (e) {
-      print('ERROR: ${e.toString()}');
       return null;
     }
     return null;
