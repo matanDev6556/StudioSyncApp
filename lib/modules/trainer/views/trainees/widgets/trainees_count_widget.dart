@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 
 class TraineesHeaderWidget extends StatelessWidget {
@@ -9,15 +10,46 @@ class TraineesHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Text(
-        'Trainees: $totalTrainees',
-        style:  TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: AppStyle.deepBlackOrange,
-        ),
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Total Trainees',
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+              color: AppStyle.softBrown,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+            decoration: BoxDecoration(
+              color: AppStyle.softOrange.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(15.r),
+            ),
+            child: Text(
+              totalTrainees.toString(),
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: AppStyle.softOrange,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -23,4 +23,17 @@ class TraineeService {
       throw Exception('Error fetching trainees: $e');
     }
   }
+
+  Stream<TraineeModel?> getTraineeStream(String userId) {
+    return firestoreService.firestore
+        .collection('trainees')
+        .doc(userId)
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.exists) {
+        return TraineeModel.fromJson(snapshot.data() as Map<String, dynamic>);
+      }
+      return null;
+    });
+  }
 }

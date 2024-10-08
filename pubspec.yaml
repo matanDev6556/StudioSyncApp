@@ -48,6 +48,9 @@ dependencies:
   firebase_core: ^2.27.0
   flutter_screenutil: ^5.9.3
   cached_network_image: ^3.3.1
+  liquid_pull_to_refresh: ^3.0.1
+  dots_indicator: ^3.0.0
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:

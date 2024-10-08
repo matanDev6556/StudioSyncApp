@@ -10,13 +10,11 @@ import 'package:studiosync/core/shared/widgets/custom_text_field.dart';
 import 'package:studiosync/core/shared/widgets/custome_bttn.dart';
 import 'package:studiosync/core/router/routes.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final LoginController loginController = Get.find();
-    // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     double height = 0.4.h;
 
     return Scaffold(
@@ -64,7 +62,7 @@ class LoginView extends StatelessWidget {
                   color: AppStyle.deepOrange,
                   maxLines: 1,
                   onChanged: (newVal) {
-                    loginController.setEmail(newVal);
+                    controller.setEmail(newVal);
                   },
                   validator: (valid) {
                     return Validations.validateEmail(valid);
@@ -82,7 +80,7 @@ class LoginView extends StatelessWidget {
                   color: AppStyle.deepOrange,
                   maxLines: 1,
                   onChanged: (newVal) {
-                    loginController.setPassword(newVal);
+                    controller.setPassword(newVal);
                   },
                   validator: (valid) {
                     return Validations.validateEmptey(valid, 'Password');
@@ -90,8 +88,7 @@ class LoginView extends StatelessWidget {
                 ),
                 AppStyle.h(15.h),
                 Obx(() {
-                  if (loginController.loginStatus.value ==
-                      LoginStatus.submitting) {
+                  if (controller.loginStatus.value == LoginStatus.submitting) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
@@ -102,7 +99,7 @@ class LoginView extends StatelessWidget {
                     color: AppStyle.deepOrange,
                     width: MediaQuery.of(context).size.width * 0.85,
                     onTap: () {
-                      loginController.login();
+                      controller.login();
                     },
                   );
                 }),

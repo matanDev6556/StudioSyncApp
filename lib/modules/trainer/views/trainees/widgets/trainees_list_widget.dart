@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/views/trainees/widgets/trainee_card_widget.dart';
 
@@ -32,9 +34,7 @@ class TraineesListWidget extends StatelessWidget {
         final trainee = traineesList[index];
         return TraineeCardWidget(
           trainee: trainee,
-          onTap: () {
-           
-          },
+          onTap: () => Get.toNamed(Routes.profileTrainee, arguments: trainee),
         );
       },
     );

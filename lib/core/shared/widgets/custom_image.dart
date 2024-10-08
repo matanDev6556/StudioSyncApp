@@ -18,8 +18,8 @@ class CustomImageWidget extends StatelessWidget {
   const CustomImageWidget({
     Key? key,
     this.imageUrl,
-    this.width = 120.0,
-    this.height = 150.0,
+    this.width = 100.0,
+    this.height = 100.0,
     this.isLoading = false, // Set isLoading default to false
     this.onEdit,
     this.onDelete,

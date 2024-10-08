@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/validations.dart';
-import 'package:studiosync/core/shared/models/subscriptions/subscription_model.dart';
-import 'package:studiosync/core/shared/widgets/linear_progress.dart';
+import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
+import 'package:studiosync/modules/trainee_profile.dart/widgets/subscriptions/by_total_sub_widget.dart';
 
 class SubscriptionByTotalTrainings extends Subscription {
   int totalTrainings;
@@ -65,39 +63,13 @@ class SubscriptionByTotalTrainings extends Subscription {
   @override
   Widget getSubscriptionContainer(
       {required Function editButton, bool isTrainer = true}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                '$usedTrainings / $totalTrainings Workouts',
-                style: TextStyle(
-                  color: AppStyle.deepBlackOrange,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                ),
-              ),
-              const Spacer(),
-              expiredDate != null
-                  ? Text(
-                      'Expired at : ${DateFormat('dd-MM-yy').format(expiredDate!)}',
-                      style: TextStyle(color: AppStyle.backGrey3),
-                    )
-                  : const SizedBox(),
-            ],
-          ),
-          LinearProgressWorkOuts(
-            isActive: isActive(),
-            isTrainer: isTrainer,
-            howWorkOutsDid: isActive() ? usedTrainings : 1,
-            totalWorkouts: isActive() ? totalTrainings : 1,
-            editButton: () => editButton(),
-          ),
-        ],
-      ),
+    return ByTotalSubscriptionContainer(
+      expiredDate: expiredDate,
+      usedTrainings: usedTrainings,
+      totalTrainings: totalTrainings,
+      editButton: editButton,
+      isActive: isActive(),
+      isTrainer: isTrainer,
     );
   }
 
@@ -133,3 +105,5 @@ class SubscriptionByTotalTrainings extends Subscription {
     return this;
   }
 }
+
+class SubscriptionContainer {}

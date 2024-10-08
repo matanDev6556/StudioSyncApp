@@ -75,7 +75,7 @@ class ClientsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TraineesListView();
+    return const TraineesListView();
   }
 }
 

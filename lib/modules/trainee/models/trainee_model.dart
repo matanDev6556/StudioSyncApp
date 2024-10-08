@@ -1,14 +1,13 @@
-import 'package:studiosync/core/shared/models/subscriptions/by_date_model.dart';
-import 'package:studiosync/core/shared/models/subscriptions/by_total_trainings_model.dart';
-import 'package:studiosync/core/shared/models/subscriptions/subscription_model.dart';
+import 'package:studiosync/modules/trainee/models/subscriptions/by_date_model.dart';
+import 'package:studiosync/modules/trainee/models/subscriptions/by_total_trainings_model.dart';
+import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
 import 'package:studiosync/core/shared/models/user_model.dart';
 import 'package:studiosync/modules/trainee/models/workout.dart';
 
 class TraineeModel extends UserModel {
   String? trainerID;
   DateTime? startWorOutDate;
-  List<double>? wehights;
-  List<WorkoutModel>? workout;
+  List<WorkoutModel>? workouts;
   Subscription? subscription;
 
   TraineeModel({
@@ -21,8 +20,7 @@ class TraineeModel extends UserModel {
     required super.userCity,
     required super.userPhone,
     this.startWorOutDate,
-    this.wehights = const <double>[],
-    this.workout = const <WorkoutModel>[],
+    this.workouts = const <WorkoutModel>[],
     this.trainerID = '',
     this.subscription,
   });
@@ -54,19 +52,13 @@ class TraineeModel extends UserModel {
       userCity: userCity ?? this.userCity,
       userPhone: userPhone ?? this.userPhone,
       startWorOutDate: startWorkOutDate ?? startWorOutDate,
-      wehights: weights ?? wehights,
-      workout: workout ?? this.workout,
-      
+      workouts: workout ?? this.workouts,
       trainerID: trainerID ?? this.trainerID,
       subscription: subscription ?? this.subscription,
     );
   }
 
   factory TraineeModel.fromJson(Map<String, dynamic> json) {
-    List<dynamic>? weightsList = json['weights'];
-    List<double>? weights =
-    weightsList?.map((weight) => weight.toDouble()).cast<double>().toList();
-
     List<WorkoutModel>? workoutList = (json['workout'] as List<dynamic>)
         .map((e) => WorkoutModel.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -89,7 +81,6 @@ class TraineeModel extends UserModel {
       id: json['id'],
       imgUrl: json['imgUrl'],
       userFullName: json['userFullName'],
-     
       isTrainer: json['isTrainer'],
       userEmail: json['userEmail'],
       userAge: json['userAge'],
@@ -98,8 +89,7 @@ class TraineeModel extends UserModel {
       startWorOutDate: json['startWorOutDate'] != null
           ? DateTime.parse(json['startWorOutDate'])
           : null,
-      wehights: weights ?? [],
-      workout: workoutList,
+      workouts: workoutList,
       trainerID: json['trainerID'],
       subscription: subscription,
     );
@@ -112,7 +102,7 @@ class TraineeModel extends UserModel {
     traineeModelData['id'] = userId;
     traineeModelData['imgUrl'] = imgUrl;
     traineeModelData['userFullName'] = userFullName;
-    
+
     traineeModelData['isTrainer'] = isTrainer;
     traineeModelData['userEmail'] = userEmail;
     traineeModelData['userAge'] = userAge;
@@ -120,13 +110,12 @@ class TraineeModel extends UserModel {
     traineeModelData['userPhone'] = userPhone;
 
     traineeModelData['startWorOutDate'] = startWorOutDate?.toIso8601String();
-    traineeModelData['weights'] = wehights;
 
     traineeModelData['subscription'] =
-    subscription == null ? null : subscription?.toMap();
+        subscription == null ? null : subscription?.toMap();
 
-    if (workout != null) {
-      traineeModelData['workout'] = workout!.map((e) => e.toMap()).toList();
+    if (workouts != null) {
+      traineeModelData['workout'] = workouts!.map((e) => e.toMap()).toList();
     }
     traineeModelData['trainerID'] = trainerID;
 
@@ -146,21 +135,27 @@ class TraineeModel extends UserModel {
   }
 
   String getWeightTrendMessage() {
-    if (wehights!.length < 2) {
-      return "Not enough data";
-    }
+    if (workouts != null) {
+      if (workouts!.length < 2) {
+        return "Not enough data";
+      }
 
-    double latestWeight = wehights!.first;
-    double initialWeight = wehights!.last;
-    double weightDifference = latestWeight - initialWeight;
+      // סדר את רשימת האימונים לפי התאריך
+      workouts!.sort((a, b) => a.dateScope!.compareTo(b.dateScope!));
 
-    if (latestWeight > initialWeight) {
-      return "You've gained ${weightDifference.toStringAsFixed(2)} kg.";
-    } else if (latestWeight < initialWeight) {
-      return "You've lost ${(-weightDifference).toStringAsFixed(2)} kg.";
-    } else {
-      return "Your weight remains unchanged.";
+      double initialWeight = workouts!.first.weight; // משקל התחלתי
+      double latestWeight = workouts!.last.weight; // משקל עדכני
+      double weightDifference = latestWeight - initialWeight;
+
+      if (latestWeight > initialWeight) {
+        return "You've gained ${weightDifference.toStringAsFixed(2)} kg.";
+      } else if (latestWeight < initialWeight) {
+        return "You've lost ${(-weightDifference).toStringAsFixed(2)} kg.";
+      } else {
+        return "Your weight remains unchanged.";
+      }
     }
+    return "Not enough data";
   }
 
   bool isActive() {
