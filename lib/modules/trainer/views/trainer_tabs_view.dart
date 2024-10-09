@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/shared/controllers/tabs_controller.dart';
-import 'package:studiosync/core/shared/widgets/app_bar.dart';
+import 'package:studiosync/shared/controllers/tabs_controller.dart';
+import 'package:studiosync/shared/widgets/app_bar.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
 import 'package:studiosync/modules/trainer/views/profile/trainer_profile_view.dart';

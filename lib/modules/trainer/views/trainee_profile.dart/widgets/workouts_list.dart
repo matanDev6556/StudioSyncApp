@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/modules/trainee/models/workout.dart';
-import 'package:studiosync/modules/trainee_profile.dart/widgets/dots_inticator.dart';
-import 'package:studiosync/modules/trainee_profile.dart/widgets/single_workout_card.dart';
+import 'package:studiosync/modules/trainee/models/workout_model.dart';
+import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/dots_inticator.dart';
+import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/single_workout_card.dart';
 
 class WorkoutListCard extends StatefulWidget {
   final List<WorkoutModel> workouts;
@@ -16,21 +16,27 @@ class WorkoutListCard extends StatefulWidget {
 
 class _WorkoutListCardState extends State<WorkoutListCard> {
   late PageController _pageController;
-  double _currentPage = 0;
+  int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-    _pageController.addListener(() {
+    _pageController.addListener(_onPageChanged);
+  }
+
+  void _onPageChanged() {
+    int newPage = _pageController.page!.round();
+    if (newPage != _currentPage) {
       setState(() {
-        _currentPage = _pageController.page!;
+        _currentPage = newPage;
       });
-    });
+    }
   }
 
   @override
   void dispose() {
+    _pageController.removeListener(_onPageChanged);
     _pageController.dispose();
     super.dispose();
   }
@@ -56,8 +62,8 @@ class _WorkoutListCardState extends State<WorkoutListCard> {
         ),
         SizedBox(height: 15.h),
         DotsIndicatorWidget(
-          dotsCount: widget.workouts.length,
-          activePosition: _currentPage.toInt(),
+          dotsCount: widget.workouts.isNotEmpty ? widget.workouts.length : 1,
+          activePosition: _currentPage,
         ),
       ],
     );

@@ -8,84 +8,95 @@ class ExpandableList<T> extends StatelessWidget {
   final Widget Function(T) itemBuilder;
   final VoidCallback onAddItem;
   final Function(T) onRemoveItem;
-  final IconData? iconData; // הוספת שדה לאייקון
+  final IconData? iconData;
 
   const ExpandableList({
-    super.key,
+    Key? key,
     required this.title,
     required this.list,
     required this.itemBuilder,
     required this.onAddItem,
     required this.onRemoveItem,
-    this.iconData, // הוספת השדה לקונסטרוקטור
-  });
+    this.iconData,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color.fromARGB(255, 245, 245, 245),
+      elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15.r),
       ),
-      child: ExpansionTile(
-        leading: iconData != null
-            ? Icon(iconData, color: AppStyle.darkOrange)
-            : null, // הוספת האייקון לצד השמאלי
-        title: Text(
-          title,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-            color: AppStyle.darkOrange,
-          ),
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: Icon(
-                Icons.add,
-                color: AppStyle.backGrey3,
-              ),
-              onPressed: onAddItem,
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          leading: iconData != null
+              ? Icon(iconData, color: AppStyle.softOrange, size: 24.sp)
+              : null,
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+              color: AppStyle.deepBlackOrange,
             ),
-            Icon(
-              Icons.keyboard_arrow_down,
-              color: AppStyle.backGrey3,
-            ), // אייקון של חץ לפתיחה/סגירה
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.add_circle_outline,
+                  color: AppStyle.softOrange,
+                  size: 24.sp,
+                ),
+                onPressed: onAddItem,
+              ),
+              Icon(
+                Icons.keyboard_arrow_down,
+                color: AppStyle.softOrange,
+                size: 24.sp,
+              ),
+            ],
+          ),
+          children: [
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: list.length,
+              separatorBuilder: (context, index) => Divider(
+                color: AppStyle.backGrey2.withOpacity(0.5),
+                height: 1,
+              ),
+              itemBuilder: (context, index) {
+                final item = list[index];
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.1),
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+                    title: itemBuilder(item),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete_outline, color: Colors.red, size: 24.sp),
+                      onPressed: () => onRemoveItem(item),
+                    ),
+                  ),
+                );
+              },
+            ),
           ],
         ),
-        children: list.map((item) {
-          return Container(
-            margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: const Offset(0, 2), // הצללה
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  itemBuilder(item),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () => onRemoveItem(item),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }).toList(),
       ),
     );
   }

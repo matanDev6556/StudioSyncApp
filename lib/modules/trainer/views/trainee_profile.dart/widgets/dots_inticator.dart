@@ -6,15 +6,19 @@ class DotsIndicatorWidget extends StatelessWidget {
   final int dotsCount;
   final int activePosition;
 
-  const DotsIndicatorWidget(
-      {super.key, required this.dotsCount, required this.activePosition});
+  const DotsIndicatorWidget({
+    super.key,
+    required this.dotsCount,
+    required this.activePosition,
+  }) : assert(dotsCount > 0, 'dotsCount must be greater than zero');
 
   @override
   Widget build(BuildContext context) {
+    final safeActivePosition = activePosition.clamp(0, dotsCount - 1);
     return Center(
       child: DotsIndicator(
         dotsCount: dotsCount,
-        position: activePosition.toInt(),
+        position: safeActivePosition,
         decorator: DotsDecorator(
           activeColor: AppStyle.deepOrange,
           size: const Size.square(7.5),

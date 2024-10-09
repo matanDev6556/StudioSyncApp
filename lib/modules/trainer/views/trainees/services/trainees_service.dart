@@ -1,10 +1,10 @@
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 
-class TraineeService {
+class TraineeListService {
   final FirestoreService firestoreService;
 
-  TraineeService(this.firestoreService);
+  TraineeListService(this.firestoreService);
 
   Future<List<TraineeModel>> fetchTrainees(String trainerId) async {
     try {

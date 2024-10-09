@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/shared/widgets/custom_image.dart';
+import 'package:studiosync/shared/widgets/custom_image.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 
@@ -23,7 +23,29 @@ class AppBarTraineeWidget extends StatelessWidget {
         Container(
           width: double.infinity,
           height: rectangleHeight,
-          color: AppStyle.softOrange, // הצבע של הריבוע
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                AppStyle.softOrange
+                    .withOpacity(0.8), // Lighter shade of softOrange
+                AppStyle.softOrange, // Original softOrange
+                AppStyle.softOrange.withRed(255), // Warmer orange
+                AppStyle.softOrange
+                    .withRed(255)
+                    .withBlue(50), // Slightly cooler orange
+              ],
+              stops: const [0.0, 0.3, 0.7, 1.0],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              ),
+            ],
+          ),
         ),
         // User Image
         Positioned(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/services/firebase/auth_service.dart';
 import 'package:studiosync/modules/auth/views/login_view.dart';
-import 'package:studiosync/core/shared/controllers/user_controller.dart';
+import 'package:studiosync/shared/controllers/user_controller.dart';
 
 // when user get inside the app he will first go to widget tree for check if
 // the user already sign up or not, also whe check if the user is trainer or trainee

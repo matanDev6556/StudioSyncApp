@@ -6,11 +6,13 @@ import 'package:studiosync/modules/trainer/views/trainees/widgets/trainee_card_w
 
 class TraineesListWidget extends StatelessWidget {
   final List<TraineeModel> traineesList;
+ // final int? workoutsLength;
   final bool isLoading;
 
   const TraineesListWidget({
     required this.traineesList,
     required this.isLoading,
+    //required this.workoutsLength,
     Key? key,
   }) : super(key: key);
 
@@ -33,6 +35,7 @@ class TraineesListWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final trainee = traineesList[index];
         return TraineeCardWidget(
+          //workoutsLength: workoutsLength,
           trainee: trainee,
           onTap: () => Get.toNamed(Routes.profileTrainee, arguments: trainee),
         );

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:studiosync/core/shared/widgets/custom_image.dart';
+import 'package:studiosync/shared/widgets/custom_image.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 
 class TraineeCardWidget extends StatelessWidget {
   final TraineeModel trainee;
   final VoidCallback onTap;
+  //final int? workoutsLength;
 
   const TraineeCardWidget({
     required this.trainee,
     required this.onTap,
+    //required this.workoutsLength,
     Key? key,
   }) : super(key: key);
 
@@ -61,10 +63,6 @@ class TraineeCardWidget extends StatelessWidget {
                     SizedBox(height: 8.h),
                     Row(
                       children: [
-                        _buildInfoChip(
-                          icon: Icons.fitness_center,
-                          label: '${trainee.workouts?.length ?? 0} workouts',
-                        ),
                         SizedBox(width: 8.w),
                         _buildInfoChip(
                           icon: Icons.calendar_today,

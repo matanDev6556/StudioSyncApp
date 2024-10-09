@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainee/models/workout.dart';
+import 'package:studiosync/modules/trainee/models/workout_model.dart';
 
 class SingleWorkoutWidget extends StatelessWidget {
   final WorkoutModel workout;
@@ -24,7 +24,7 @@ class SingleWorkoutWidget extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [AppStyle.backGrey2, AppStyle.backGrey2.withOpacity(0.8)],
+            colors: [Colors.white, AppStyle.backGrey2.withOpacity(0.8)],
           ),
           borderRadius: BorderRadius.circular(20),
         ),
@@ -64,7 +64,7 @@ class SingleWorkoutWidget extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20.h),
-              _buildInfoRow(
+              InfoRowWidget(
                 icon: 'assets/icons/weight_icon.png',
                 label: 'Weight',
                 value: '${workout.weight.toStringAsFixed(1)} kg',
@@ -84,7 +84,7 @@ class SingleWorkoutWidget extends StatelessWidget {
                           final scope = workout.listScopes[scopeIndex];
                           return Padding(
                             padding: EdgeInsets.symmetric(vertical: 8.h),
-                            child: _buildInfoRow(
+                            child: InfoRowWidget(
                               icon: 'assets/icons/measure-1-svgrepo-com.png',
                               label: scope.name,
                               value: '${scope.size.toStringAsFixed(1)} cm',
@@ -101,7 +101,7 @@ class SingleWorkoutWidget extends StatelessWidget {
                         final scope = workout.listScopes[scopeIndex];
                         return Padding(
                           padding: EdgeInsets.symmetric(vertical: 8.h),
-                          child: _buildInfoRow(
+                          child: InfoRowWidget(
                             icon: 'assets/icons/measure-1-svgrepo-com.png',
                             label: scope.name,
                             value: '${scope.size.toStringAsFixed(1)} cm',
@@ -115,43 +115,52 @@ class SingleWorkoutWidget extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildInfoRow(
-      {required String icon, required String label, required String value}) {
-    return Row(
-      children: [
-        Container(
-          padding: EdgeInsets.all(8.w),
-          decoration: BoxDecoration(
-            color: AppStyle.softOrange.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Image.asset(
-            icon,
-            height: 24.h,
-            color: AppStyle.softOrange,
-          ),
-        ),
-        SizedBox(width: 12.w),
-        Expanded(
-          child: Text(
-            label,
-            style: TextStyle(
-              color: AppStyle.softBrown,
-              fontWeight: FontWeight.w500,
-              fontSize: 16.sp,
+
+  class InfoRowWidget extends StatelessWidget {
+    final String icon;
+    final String label;
+    final String value;
+
+    const InfoRowWidget({Key? key, required this.icon, required this.label, required this.value}) : super(key: key);
+
+    @override
+    Widget build(BuildContext context) {
+      return Row(
+        children: [
+          Container(
+            padding: EdgeInsets.all(8.w),
+            decoration: BoxDecoration(
+              color: AppStyle.softOrange.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Image.asset(
+              icon,
+              height: 24.h,
+              color: AppStyle.softOrange,
             ),
           ),
-        ),
-        Text(
-          value,
-          style: TextStyle(
-            color: AppStyle.backGrey3,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w600,
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Text(
+              label,
+              style: TextStyle(
+                color: AppStyle.softBrown,
+                fontWeight: FontWeight.w500,
+                fontSize: 16.sp,
+              ),
+            ),
           ),
-        ),
-      ],
-    );
+          Text(
+            value,
+            style: TextStyle(
+              color: AppStyle.backGrey3,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      );
+    }
   }
-}

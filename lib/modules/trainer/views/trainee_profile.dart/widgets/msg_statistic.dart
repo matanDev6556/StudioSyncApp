@@ -16,15 +16,26 @@ class WeightTrendMessageWidget extends StatelessWidget {
       ),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppStyle.softOrange.withOpacity(0.3),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, AppStyle.softOrange.withOpacity(0.3)],
+        ),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.auto_graph,
-            color: AppStyle.deepOrange,
-            size: 25,
+          Container(
+            padding: EdgeInsets.all(8.w),
+            decoration: BoxDecoration(
+              color: AppStyle.softOrange.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: Icon(
+              Icons.auto_graph,
+              color: AppStyle.deepOrange,
+              size: 25,
+            ),
           ),
           AppStyle.w(10),
           Flexible(

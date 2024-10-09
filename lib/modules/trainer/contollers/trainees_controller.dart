@@ -6,9 +6,8 @@ import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/views/trainees/services/trainees_service.dart';
 import 'package:studiosync/modules/trainer/views/trainees/services/trainess_filter_service.dart';
 
-
 class TraineesController extends GetxController {
-  final TraineeService traineeService;
+  final TraineeListService traineeService;
   final TraineeFilterService filterService;
   final AuthService authService;
 
@@ -25,10 +24,8 @@ class TraineesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    
-    
-      fetchTrainees();
-    
+
+    fetchTrainees();
 
     // Set up a listener to filter the list whenever searchQuery or activeStatusFilter changes
     debounce(searchQuery, (_) => applyFilters(),

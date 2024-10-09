@@ -39,6 +39,12 @@ class _SplashScreenState extends State<SplashView>
   }
 
   @override
+  void dispose() {
+    _controller?.dispose(); 
+    super.dispose(); 
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(

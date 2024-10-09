@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainee/models/workout.dart';
-import 'package:studiosync/modules/trainee_profile.dart/widgets/single_workout_card.dart';
+import 'package:studiosync/modules/trainee/models/workout_model.dart';
+import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/single_workout_card.dart';
 
 class AllWorkoutsView extends StatelessWidget {
   final List<WorkoutModel> workouts;
@@ -71,7 +71,7 @@ class AllWorkoutsView extends StatelessWidget {
             color: Colors.grey.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 5,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),

@@ -1,4 +1,4 @@
-import 'package:studiosync/core/shared/models/user_model.dart';
+import 'package:studiosync/shared/models/user_model.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/models/price_tier_model.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/shared/widgets/custom_image.dart';
-import 'package:studiosync/core/shared/widgets/custom_text_field.dart';
-import 'package:studiosync/core/shared/widgets/custome_bttn.dart';
-import 'package:studiosync/core/shared/widgets/custome_dropdown.dart';
+import 'package:studiosync/shared/widgets/custom_image.dart';
+import 'package:studiosync/shared/widgets/custom_text_field.dart';
+import 'package:studiosync/shared/widgets/custome_bttn.dart';
+import 'package:studiosync/shared/widgets/custome_dropdown.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/const.dart';
 import 'package:studiosync/core/utils/validations.dart';
@@ -35,74 +35,55 @@ class TrainerEditProfile extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 10),
           children: [
-            Text(
-              'About me',
-              style: TextStyle(
-                color: AppStyle.deepBlackOrange,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
-              ),
-              textAlign: TextAlign.start,
+            _buildSectionTitle('About me'),
+            SizedBox(height: 16.h),
+            _buildTextField(
+              icon: Icons.person,
+              hintText: "Name",
+              initialValue: controller.trainer.value!.userFullName,
+              onChanged: (newVal) => controller.updateLocalTrainer(
+                  controller.trainer.value!.copyWith(userFullName: newVal)),
+              validator: (val) => Validations.validateEmptey(val, 'Name'),
             ),
-            AppStyle.h(16.h),
-            Obx(() => CustomTextField(
-                  icon: Icon(Icons.person, color: AppStyle.backGrey3),
-                  initialValue: controller.trainer.value!.userFullName,
-                  hintText: "Name",
-                  hintColor: AppStyle.softBrown.withOpacity(0.6),
-                  fill: true,
-                  color: AppStyle.backGrey,
-                  onChanged: (newVal) => controller.updateLocalTrainer(
-                      controller.trainer.value!.copyWith(userFullName: newVal)),
-                  validator: (val) => Validations.validateEmptey(val, 'Name'),
-                )),
-            AppStyle.h(16.h),
-            Obx(() => CustomTextField(
-                  icon: Icon(Icons.email, color: AppStyle.backGrey3),
-                  initialValue: controller.trainer.value!.userEmail,
-                  hintText: "Email",
-                  hintColor: AppStyle.softBrown.withOpacity(0.6),
-                  fill: true,
-                  color: AppStyle.backGrey,
-                  onChanged: (newVal) => controller.updateLocalTrainer(
-                      controller.trainer.value!.copyWith(userEmail: newVal)),
-                  validator: (val) => Validations.validateEmail(val),
-                )),
-            AppStyle.h(16.h),
-            Obx(() => CustomTextField(
-                  icon: Icon(Icons.description, color: AppStyle.backGrey3),
-                  initialValue: controller.trainer.value!.userAge.toString(),
-                  hintText: "Age",
-                  hintColor: AppStyle.softBrown.withOpacity(0.6),
-                  fill: true,
-                  color: AppStyle.backGrey,
-                  onChanged: (newVal) => controller.updateLocalTrainer(
-                      controller.trainer.value!
-                          .copyWith(userAge: int.parse(newVal))),
-                  validator: (val) => Validations.validOnlyNumbers(val, 'Age'),
-                )),
-            AppStyle.h(16.h),
-            Obx(() => CustomTextField(
-                  icon: Icon(Icons.link, color: AppStyle.backGrey3),
-                  initialValue: controller.trainer.value!.instagramLink,
-                  hintText: controller.trainer.value!.instagramLink.isEmpty
-                      ? 'Add your Instagram link'
-                      : controller.trainer.value!.instagramLink,
-                  hintColor: AppStyle.softBrown.withOpacity(0.6),
-                  fill: true,
-                  color: AppStyle.backGrey,
-                  onChanged: (newVal) => controller.updateLocalTrainer(
-                      controller.trainer.value!
-                          .copyWith(instagramLink: newVal)),
-                )),
+            SizedBox(height: 16.h),
+            _buildTextField(
+              icon: Icons.email,
+              hintText: "Email",
+              initialValue: controller.trainer.value!.userEmail,
+              onChanged: (newVal) => controller.updateLocalTrainer(
+                  controller.trainer.value!.copyWith(userEmail: newVal)),
+              validator: (val) => Validations.validateEmail(val),
+            ),
+            SizedBox(height: 16.h),
+            _buildTextField(
+              icon: Icons.person,
+              hintText: "Age",
+              initialValue: controller.trainer.value!.userAge.toString(),
+              onChanged: (newVal) => controller.updateLocalTrainer(controller
+                  .trainer.value!
+                  .copyWith(userAge: int.parse(newVal))),
+              validator: (val) => Validations.validateEmptey(val, 'Age'),
+            ),
+            SizedBox(height: 16.h),
+            _buildTextField(
+              icon: Icons.email,
+              hintText: controller.trainer.value!.instagramLink.isEmpty
+                  ? 'Add your Instagram link'
+                  : controller.trainer.value!.instagramLink,
+              initialValue: controller.trainer.value!.userEmail,
+              onChanged: (newVal) => controller.updateLocalTrainer(
+                  controller.trainer.value!.copyWith(instagramLink: newVal)),
+              validator: null,
+            ),
             AppStyle.h(16.h),
             Obx(
               () => CustomDropDown<String>(
                 icon: Icon(
                   Icons.location_on_sharp,
-                  color: AppStyle.backGrey3,
+                  color: AppStyle.softOrange,
                 ),
-                textColor: Colors.black,
+                color: AppStyle.softOrange.withOpacity(0.1),
+                textColor: AppStyle.softBrown,
                 initialValue: controller.trainer.value!.userCity,
                 onChanged: (newVal) => controller.updateLocalTrainer(
                     controller.trainer.value!.copyWith(userCity: newVal)),
@@ -111,18 +92,15 @@ class TrainerEditProfile extends StatelessWidget {
               ),
             ),
             AppStyle.h(16.h),
-            Obx(() => CustomTextField(
-                  icon: Icon(Icons.description, color: AppStyle.backGrey3),
-                  initialValue: controller.trainer.value!.about,
-                  hintText: "ביוגרפיה",
-                  hintColor: AppStyle.softBrown.withOpacity(0.6),
-                  fill: true,
-                  color: AppStyle.backGrey,
-                  maxLines: 5,
-                  onChanged: (newVal) => controller.updateLocalTrainer(
-                      controller.trainer.value!.copyWith(about: newVal)),
-                  validator: (val) => Validations.validateEmptey(val, 'About'),
-                )),
+            _buildTextField(
+              icon: Icons.email,
+              hintText: 'About',
+              maxLines: 5,
+              initialValue: controller.trainer.value!.userEmail,
+              onChanged: (newVal) => controller.updateLocalTrainer(
+                  controller.trainer.value!.copyWith(about: newVal)),
+              validator: (val) => Validations.validateEmptey(val, 'About'),
+            ),
             AppStyle.h(16.h),
             CustomButton(
               text: 'Save',
@@ -133,10 +111,8 @@ class TrainerEditProfile extends StatelessWidget {
               isLoading: controller.isLoading.value,
             ),
             AppStyle.h(16.h),
-            Divider(
-              thickness: 2,
-              color: AppStyle.backGrey2,
-            ),
+            _buildDivider(),
+            _buildSectionTitle('Studio detailes'),
             Obx(() => _buildExpandableList<String>(
                   icon: Icons.location_on_sharp,
                   title: 'Locations',
@@ -147,7 +123,8 @@ class TrainerEditProfile extends StatelessWidget {
                   onRemoveItem: (item) => controller.removeItemFromList(
                       (trainer) => trainer.locationsList, item),
                 )),
-            Obx(() => _buildExpandableList<String>(
+            Obx(
+              () => _buildExpandableList<String>(
                 icon: Icons.fitness_center,
                 title: 'Services',
                 list: controller.trainer.value!.lessonsTypeList,
@@ -155,7 +132,9 @@ class TrainerEditProfile extends StatelessWidget {
                 onAddItem: (newItem) => controller.addItemToList(
                     (trainer) => trainer.lessonsTypeList, newItem),
                 onRemoveItem: (item) => controller.removeItemFromList(
-                    (trainer) => trainer.lessonsTypeList, item))),
+                    (trainer) => trainer.lessonsTypeList, item),
+              ),
+            ),
             Obx(
               () => _buildExpandableList<String>(
                   icon: Icons.group,
@@ -198,53 +177,99 @@ class TrainerEditProfile extends StatelessWidget {
                       (trainer) => trainer.priceList, item),
                 )),
             AppStyle.h(10.h),
-            Divider(
-              thickness: 2,
-              color: AppStyle.backGrey2,
-            ),
-            TextButton.icon(
-              onPressed: () => controller.logout(),
-              icon: const Icon(Icons.logout, color: Colors.redAccent),
-              label: const Text(
-                'Logout',
-                style: TextStyle(
-                  color: Colors.redAccent,
-                ),
-              ),
-            ),
+            _buildDivider(),
+            _buildLogoutButton(),
           ],
         ),
       );
     });
   }
 
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: TextStyle(
+        color: AppStyle.deepBlackOrange,
+        fontWeight: FontWeight.bold,
+        fontSize: 18.sp,
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required IconData icon,
+    required String hintText,
+    required String initialValue,
+    required Function(String) onChanged,
+    required String? Function(String?)? validator,
+    int maxLines = 1,
+  }) {
+    return CustomTextField(
+      icon: Icon(icon, color: AppStyle.softOrange),
+      initialValue: initialValue,
+      hintText: hintText,
+      hintColor: AppStyle.softBrown.withOpacity(0.6),
+      fill: true,
+      color: AppStyle.softOrange.withOpacity(0.1),
+      onChanged: onChanged,
+      validator: validator,
+      maxLines: maxLines,
+      textStyle: TextStyle(fontSize: 16.sp, color: AppStyle.softBrown),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Divider(
+      thickness: 1,
+      color: AppStyle.backGrey2,
+    );
+  }
+
+  Widget _buildLogoutButton() {
+    return TextButton.icon(
+      onPressed: () => controller.logout(),
+      icon: Icon(Icons.logout, color: Colors.redAccent, size: 24.sp),
+      label: Text(
+        'Logout',
+        style: TextStyle(
+          color: Colors.redAccent,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
   Widget _buildExpandableList<T>({
     IconData? icon,
     required String title,
     required List<T> list,
-    required Widget Function(T item) itemBuilder, // generic item builder
+    required Widget Function(T item) itemBuilder,
     required Function(T newItem) onAddItem,
     required Function(T item) onRemoveItem,
   }) {
-    return ExpandableList<T>(
-      iconData: icon,
-      title: title,
-      list: list,
-      itemBuilder: itemBuilder,
-      onAddItem: () async {
-        if (T == String) {
-          _showAddItemBottomSheet('string', (newItem) {
-            onAddItem(newItem);
-          });
-        } else if (T == PriceTier) {
-          _showAddItemBottomSheet('prices', (newItem) {
-            onAddItem(newItem);
-          });
-        }
-      },
-      onRemoveItem: (item) {
-        onRemoveItem(item);
-      },
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.h),
+      child: ExpandableList<T>(
+        iconData: icon,
+        title: title,
+        list: list,
+        itemBuilder: itemBuilder,
+        onAddItem: () async {
+          if (T == String) {
+            _showAddItemBottomSheet('string', (newItem) {
+              onAddItem(newItem as T);
+            });
+          } else if (T == PriceTier) {
+            _showAddItemBottomSheet('prices', (newItem) {
+              onAddItem(newItem as T);
+            });
+          }
+        },
+        onRemoveItem: (item) {
+          onRemoveItem(item);
+        },
+      ),
     );
   }
 

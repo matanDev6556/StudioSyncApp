@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 
 class CustomDropDown<T> extends StatelessWidget {
@@ -27,12 +28,19 @@ class CustomDropDown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.06,
-      width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
         color: color ?? AppStyle.backGrey2,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(15.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
       ),
+      height: MediaQuery.of(context).size.height * 0.06,
+      width: MediaQuery.of(context).size.width * 0.85,
       child: DropdownButtonFormField<T>(
         decoration: InputDecoration(
           border: InputBorder.none,

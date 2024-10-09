@@ -4,17 +4,24 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
-import 'package:studiosync/modules/trainee_profile.dart/controllers/trainee_workout_controller.dart';
-import 'package:studiosync/modules/trainee_profile.dart/widgets/app_bar_trainee.dart';
-import 'package:studiosync/modules/trainee_profile.dart/widgets/data_workout_container.dart';
-import 'package:studiosync/modules/trainee_profile.dart/widgets/msg_statistic.dart';
-import 'package:studiosync/modules/trainee_profile.dart/widgets/workouts_list.dart';
+import 'package:studiosync/modules/trainee/models/workout_model.dart';
+import 'package:studiosync/modules/trainer/contollers/trainee_workout_controller.dart';
+import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/app_bar_trainee.dart';
+import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/data_workout_container.dart';
+import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/msg_statistic.dart';
+import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/workouts_list.dart';
 
 class TraineeProfileView extends GetView<TraineeWorkoutController> {
   final TraineeModel trainee;
 
   TraineeProfileView({Key? key, required this.trainee}) : super(key: key) {
-    Get.put(TraineeWorkoutController(initialTrainee: trainee));
+    // create controller for this view
+    Get.put(
+      TraineeWorkoutController(
+        initialTrainee: trainee,
+        traineeProfileService: Get.find(),
+      ),
+    );
   }
 
   @override
@@ -26,7 +33,7 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
         resizeToAvoidBottomInset: true,
         backgroundColor: AppStyle.backGrey2,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () => controller.showAddWorkoutBottomSheet(),
           backgroundColor: AppStyle.softOrange,
           child: Icon(Icons.add, color: AppStyle.darkOrange),
         ),
@@ -62,11 +69,11 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
                       _sectionTitle('Subscription'),
                       _buildSubscriptionSection(trainee),
                       SizedBox(height: 25.h),
-                      _buildStatisticsSection(trainee),
+                      _buildStatisticsSection(controller.workouts),
                       SizedBox(height: 20.h),
                       _buildStartAtSection(),
                       SizedBox(height: 20.h),
-                      _buildWorkoutSection(trainee),
+                      _buildWorkoutSection(controller.workouts),
                     ],
                   ),
                 ),
@@ -114,14 +121,15 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
           );
   }
 
-  Widget _buildStatisticsSection(TraineeModel trainee) {
-    if (trainee.workouts!.length < 2) return const SizedBox();
+  Widget _buildStatisticsSection(List<WorkoutModel> workouts) {
+    if (workouts.length < 2) return const SizedBox();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _sectionTitle('Statistics'),
         SizedBox(height: 5.h),
-        WeightTrendMessageWidget(trainee.getWeightTrendMessage()),
+        WeightTrendMessageWidget(
+            controller.getWeightTrendMessage(controller.workouts)),
       ],
     );
   }
@@ -141,7 +149,7 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
     );
   }
 
-  Widget _buildWorkoutSection(TraineeModel trainee) {
+  Widget _buildWorkoutSection(List<WorkoutModel> workouts) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -150,8 +158,8 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
             _sectionTitle('Workout'),
             const Spacer(),
             InkWell(
-              onTap: () => Get.toNamed(Routes.AllTraineeWorkouts,
-                  arguments: trainee.workouts),
+              onTap: () =>
+                  Get.toNamed(Routes.AllTraineeWorkouts, arguments: workouts),
               child: Container(
                 width: 100.w,
                 height: 30.h,
@@ -173,7 +181,7 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
           ],
         ),
         SizedBox(height: 10.h),
-        WorkoutListCard(workouts: trainee.workouts!),
+        WorkoutListCard(workouts: workouts),
       ],
     );
   }

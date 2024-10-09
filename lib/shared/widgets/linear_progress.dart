@@ -28,16 +28,12 @@ class LinearProgressWorkOuts extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15.w),
       decoration: BoxDecoration(
-        color: AppStyle.backGrey2,
         borderRadius: BorderRadius.circular(15.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, AppStyle.backGrey2.withOpacity(0.8)],
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
