@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/auth/widgets/app_bar.dart';
 import 'package:studiosync/modules/auth/widgets/shared_fields.dart';
-import 'package:studiosync/core/shared/widgets/custome_bttn.dart';
+import 'package:studiosync/shared/widgets/custome_bttn.dart';
 
 class GeneralSignUpForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
