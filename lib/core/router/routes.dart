@@ -4,7 +4,7 @@ class Routes {
   static const widgetTree = '/widget-tree';
   static const login = '/login';
   static const signUpAs = '/sign-up-as';
-  static const AllTraineeWorkouts = '/trainee-workouts';
+  static const allTraineeWorkouts = '/trainee-workouts';
 
   //trainer routes
   static const signUpTrainer = '/sign-up-trainer';

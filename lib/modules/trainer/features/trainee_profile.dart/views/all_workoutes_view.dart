@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
-import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/single_workout_card.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/single_workout_card.dart';
+import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class AllWorkoutsView extends StatelessWidget {
   final List<WorkoutModel> workouts;
@@ -42,18 +44,35 @@ class AllWorkoutsView extends StatelessWidget {
       body: Column(
         children: [
           _buildSummaryCard(),
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.all(16.w),
-              itemCount: workouts.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 16.h),
-                  child: SingleWorkoutWidget(workout: workouts[index]),
-                );
-              },
-            ),
-          ),
+          workouts.isEmpty
+              ? Column(
+                  children: [
+                    SizedBox(
+                      height: Get.height * 0.5,
+                      child: SvgPicture.asset(
+                        'assets/images/workout.svg',
+                        width: 250.w,
+                      ),
+                    ),
+                    const Center(
+                      child: CustomContainer(
+                        text: 'No workouts yet!',
+                      ),
+                    ),
+                  ],
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.all(16.w),
+                    itemCount: workouts.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 16.h),
+                        child: SingleWorkoutWidget(workout: workouts[index]),
+                      );
+                    },
+                  ),
+                ),
         ],
       ),
     );

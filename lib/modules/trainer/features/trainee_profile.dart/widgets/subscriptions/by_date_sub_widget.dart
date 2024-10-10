@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:studiosync/shared/widgets/custom_container.dart';
 import 'package:studiosync/shared/widgets/linear_progress.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/dates.dart';
@@ -56,20 +57,10 @@ class ByDateSubscriptionWidget extends StatelessWidget {
                   color: AppStyle.backGrey3,
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  color: AppStyle.softOrange.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Text(
-                  '$usedMonthlyTraining/$monthlyTrainingLimit at ${DatesUtils.getMonthName(currentMonth)} ',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppStyle.softOrange,
-                  ),
-                ),
+              CustomContainer(
+                textColor: AppStyle.softOrange,
+                text:
+                    '$usedMonthlyTraining/$monthlyTrainingLimit at ${DatesUtils.getMonthName(currentMonth)} ',
               ),
             ],
           ),

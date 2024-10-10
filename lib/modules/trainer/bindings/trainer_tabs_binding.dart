@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
-import 'package:studiosync/modules/trainer/views/trainees/services/trainees_service.dart';
-import 'package:studiosync/modules/trainer/views/trainees/services/trainess_filter_service.dart';
+import 'package:studiosync/modules/trainer/features/trainees/services/trainees_service.dart';
+import 'package:studiosync/modules/trainer/features/trainees/services/trainess_filter_service.dart';
 
 class TrainerTabsBinding extends Bindings {
   @override

@@ -3,10 +3,10 @@ import 'package:studiosync/modules/trainee/models/scope_model.dart';
 class WorkoutModel {
   final List<ScopeModel> listScopes;
   final double weight;
-  final DateTime ?dateScope;
+  final DateTime dateScope;
 
   const WorkoutModel({
-     this.dateScope,
+    required this.dateScope,
     required this.weight,
     required this.listScopes,
   });
@@ -16,7 +16,7 @@ class WorkoutModel {
         listScopes.map((scope) => scope.toMap()).toList();
 
     return {
-      'dateScope': dateScope!.toIso8601String(),
+      'dateScope': dateScope.toIso8601String(),
       'weight': weight,
       'listScopes': scopesListMap,
     };

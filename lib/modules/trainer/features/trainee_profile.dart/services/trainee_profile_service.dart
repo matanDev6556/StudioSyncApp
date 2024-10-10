@@ -30,7 +30,7 @@ class TraineeProfileService {
         .add(workout.toMap());
   }
 
-   Future<List<WorkoutModel>> fetchWorkouts(String traineeId) async {
+  Future<List<WorkoutModel>> fetchWorkouts(String traineeId) async {
     try {
       final workoutCollection = await firestoreService.firestore
           .collection('users')
@@ -48,7 +48,6 @@ class TraineeProfileService {
   }
 
   Stream<List<WorkoutModel>> getWorkoutChanges(String userId) {
-   
     return firestoreService.firestore
         .collection('users')
         .doc(userId)
@@ -59,4 +58,3 @@ class TraineeProfileService {
             .toList());
   }
 }
-

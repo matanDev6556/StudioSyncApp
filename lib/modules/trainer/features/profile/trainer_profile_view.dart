@@ -10,7 +10,7 @@ import 'package:studiosync/core/utils/const.dart';
 import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
 import 'package:studiosync/modules/trainer/models/price_tier_model.dart';
-import 'package:studiosync/modules/trainer/views/profile/widgets/expanded_list.dart';
+import 'package:studiosync/modules/trainer/features/profile/widgets/expanded_list.dart';
 
 class TrainerEditProfile extends StatelessWidget {
   TrainerEditProfile({Key? key}) : super(key: key);

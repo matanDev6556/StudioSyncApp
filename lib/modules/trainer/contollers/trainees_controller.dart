@@ -3,8 +3,8 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_rx/src/rx_workers/rx_workers.dart';
 import 'package:studiosync/core/services/firebase/auth_service.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/views/trainees/services/trainees_service.dart';
-import 'package:studiosync/modules/trainer/views/trainees/services/trainess_filter_service.dart';
+import 'package:studiosync/modules/trainer/features/trainees/services/trainees_service.dart';
+import 'package:studiosync/modules/trainer/features/trainees/services/trainess_filter_service.dart';
 
 class TraineesController extends GetxController {
   final TraineeListService traineeService;

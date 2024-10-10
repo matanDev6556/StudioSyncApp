@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:studiosync/modules/trainer/views/trainee_profile.dart/services/trainee_profile_service.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/services/trainee_profile_service.dart';
 
 
 class TraineeProfileBinding extends Bindings {

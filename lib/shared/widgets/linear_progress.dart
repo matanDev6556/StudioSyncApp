@@ -42,7 +42,7 @@ class LinearProgressWorkOuts extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Workout Progress',
+                'Plan Progress',
                 style: TextStyle(
                   fontSize: 16.sp,
                   color: AppStyle.softBrown,

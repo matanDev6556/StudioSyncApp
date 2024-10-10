@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class TraineesHeaderWidget extends StatelessWidget {
   final int totalTrainees;
@@ -34,21 +35,10 @@ class TraineesHeaderWidget extends StatelessWidget {
               color: AppStyle.softBrown,
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-            decoration: BoxDecoration(
-              color: AppStyle.softOrange.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(15.r),
-            ),
-            child: Text(
-              totalTrainees.toString(),
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-                color: AppStyle.softOrange,
-              ),
-            ),
-          ),
+          CustomContainer(
+            text: totalTrainees.toString(),
+            textColor: AppStyle.softOrange,
+          )
         ],
       ),
     );

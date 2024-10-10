@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/modules/auth/controllers/login_controller.dart';
-import 'package:studiosync/modules/trainee/views/profile/trainee_profile_view.dart';
+import 'package:studiosync/modules/trainee/features/profile/trainee_profile_view.dart';
 
 class TraineeTabsView extends StatelessWidget {
   const TraineeTabsView({Key? key}) : super(key: key);

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
+import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class SingleWorkoutWidget extends StatelessWidget {
   final WorkoutModel workout;
@@ -44,23 +45,10 @@ class SingleWorkoutWidget extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                    decoration: BoxDecoration(
-                      color: AppStyle.softOrange.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Text(
-                      DateFormat('MMM d, y')
-                          .format(workout.dateScope ?? DateTime.now()),
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: AppStyle.softOrange,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                  CustomContainer(
+                    textColor: AppStyle.softOrange,
+                    text: DateFormat('MMM d, y').format(workout.dateScope),
+                  )
                 ],
               ),
               SizedBox(height: 20.h),
@@ -117,50 +105,51 @@ class SingleWorkoutWidget extends StatelessWidget {
   }
 }
 
+class InfoRowWidget extends StatelessWidget {
+  final String icon;
+  final String label;
+  final String value;
 
-  class InfoRowWidget extends StatelessWidget {
-    final String icon;
-    final String label;
-    final String value;
+  const InfoRowWidget(
+      {Key? key, required this.icon, required this.label, required this.value})
+      : super(key: key);
 
-    const InfoRowWidget({Key? key, required this.icon, required this.label, required this.value}) : super(key: key);
-
-    @override
-    Widget build(BuildContext context) {
-      return Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(8.w),
-            decoration: BoxDecoration(
-              color: AppStyle.softOrange.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Image.asset(
-              icon,
-              height: 24.h,
-              color: AppStyle.softOrange,
-            ),
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          padding: EdgeInsets.all(8.w),
+          decoration: BoxDecoration(
+            color: AppStyle.softOrange.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(10),
           ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: AppStyle.softBrown,
-                fontWeight: FontWeight.w500,
-                fontSize: 16.sp,
-              ),
-            ),
+          child: Image.asset(
+            icon,
+            height: 24.h,
+            color: AppStyle.softOrange,
           ),
-          Text(
-            value,
+        ),
+        SizedBox(width: 12.w),
+        Expanded(
+          child: Text(
+            label,
             style: TextStyle(
-              color: AppStyle.backGrey3,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w600,
+              color: AppStyle.softBrown,
+              fontWeight: FontWeight.w500,
+              fontSize: 16.sp,
             ),
           ),
-        ],
-      );
-    }
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            color: AppStyle.backGrey3,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
   }
+}

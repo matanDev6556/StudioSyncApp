@@ -6,10 +6,11 @@ import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainee_workout_controller.dart';
-import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/app_bar_trainee.dart';
-import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/data_workout_container.dart';
-import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/msg_statistic.dart';
-import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/workouts_list.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/app_bar_trainee.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/data_workout_container.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/msg_statistic.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/workouts_list.dart';
+import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class TraineeProfileView extends GetView<TraineeWorkoutController> {
   final TraineeModel trainee;
@@ -155,11 +156,11 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
       children: [
         Row(
           children: [
-            _sectionTitle('Workout'),
+            _sectionTitle('Workouts'),
             const Spacer(),
             InkWell(
               onTap: () =>
-                  Get.toNamed(Routes.AllTraineeWorkouts, arguments: workouts),
+                  Get.toNamed(Routes.allTraineeWorkouts, arguments: workouts),
               child: Container(
                 width: 100.w,
                 height: 30.h,
@@ -181,7 +182,16 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
           ],
         ),
         SizedBox(height: 10.h),
-        WorkoutListCard(workouts: workouts),
+        workouts.isEmpty
+            ? const Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 30),
+                  child: CustomContainer(
+                    text: 'No workouts yet!',
+                  ),
+                ),
+              )
+            : WorkoutListCard(workouts: workouts),
       ],
     );
   }

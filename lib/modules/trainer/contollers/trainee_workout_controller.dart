@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:studiosync/modules/trainee/models/scope_model.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
-import 'package:studiosync/modules/trainer/views/trainee_profile.dart/services/trainee_profile_service.dart';
-import 'package:studiosync/modules/trainer/views/trainee_profile.dart/widgets/add_workout_buttom.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/services/trainee_profile_service.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/add_workout_buttom.dart';
 
 class TraineeWorkoutController extends GetxController {
   final TraineeProfileService traineeProfileService;
@@ -53,7 +53,7 @@ class TraineeWorkoutController extends GetxController {
     }
   }
 
-    void deleteTrainee() {
+  void deleteTrainee() {
     // Implement delete logic here
   }
 
@@ -62,8 +62,7 @@ class TraineeWorkoutController extends GetxController {
     trainee.refresh();
   }
 
-
-    //-----------WORKOUTS------------
+  //-----------WORKOUTS------------
   void listenToWorkoutChanges() {
     if (trainee.value != null) {
       workoutsDocSubscription = traineeProfileService
@@ -78,14 +77,27 @@ class TraineeWorkoutController extends GetxController {
 
   Future<void> fetchWorkouts() async {
     if (trainee.value != null) {
-      workouts.value =
+      final workoutsList =
           await traineeProfileService.fetchWorkouts(trainee.value!.userId);
+
+      // Convert date strings to DateTime objects and sort by date in descending order (latest first)
+      workouts.value = workoutsList
+        ..sort((a, b) {
+          DateTime dateA = DateTime.parse(a.dateScope.toString());
+          DateTime dateB = DateTime.parse(b.dateScope.toString());
+          return dateB.compareTo(dateA); // Descending order
+        });
     }
   }
 
   void addWorkout() {
     if (weightController.text.isEmpty) {
-      Get.snackbar('Error', 'Please enter the weight');
+      Get.snackbar(
+        'Error',
+        'Please enter the weight',
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
       return;
     }
 
@@ -168,7 +180,6 @@ class TraineeWorkoutController extends GetxController {
       return "Your weight remains unchanged.";
     }
   }
-
 
   @override
   void onClose() {
