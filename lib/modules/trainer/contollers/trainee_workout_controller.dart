@@ -10,6 +10,7 @@ import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets
 
 class TraineeWorkoutController extends GetxController {
   final TraineeProfileService traineeProfileService;
+  
 
   TraineeWorkoutController({
     required TraineeModel initialTrainee,
@@ -40,6 +41,7 @@ class TraineeWorkoutController extends GetxController {
     super.onReady();
     fetchWorkouts();
   }
+
 
   //-----------TRAINEE------------
   void listenToTraineeChanges() {
@@ -166,7 +168,7 @@ class TraineeWorkoutController extends GetxController {
     }
 
     // סדר את רשימת האימונים לפי התאריך
-    workouts.sort((a, b) => a.dateScope!.compareTo(b.dateScope!));
+    workouts.sort((a, b) => a.dateScope.compareTo(b.dateScope));
 
     double initialWeight = workouts.first.weight; // משקל התחלתי
     double latestWeight = workouts.last.weight; // משקל עדכני
@@ -180,6 +182,10 @@ class TraineeWorkoutController extends GetxController {
       return "Your weight remains unchanged.";
     }
   }
+
+  //-----------SUBSCRIPTION------------
+
+
 
   @override
   void onClose() {

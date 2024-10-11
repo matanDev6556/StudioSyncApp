@@ -15,7 +15,7 @@ class TraineeListService {
 
       // Fetch the trainees
       final traineesDocs =
-          await firestoreService.getCollectionWithFilters('trainees', filters);
+          await firestoreService.getCollectionWithFilters('users', filters);
 
       // Return the trainees list
       return traineesDocs.map((doc) => TraineeModel.fromJson(doc)).toList();
@@ -26,7 +26,7 @@ class TraineeListService {
 
   Stream<TraineeModel?> getTraineeStream(String userId) {
     return firestoreService.firestore
-        .collection('trainees')
+        .collection('users')
         .doc(userId)
         .snapshots()
         .map((snapshot) {

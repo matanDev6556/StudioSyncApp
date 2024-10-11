@@ -6,7 +6,7 @@ import 'package:studiosync/modules/trainer/features/trainees/widgets/trainee_car
 
 class TraineesListWidget extends StatelessWidget {
   final List<TraineeModel> traineesList;
- // final int? workoutsLength;
+  // final int? workoutsLength;
   final bool isLoading;
 
   const TraineesListWidget({
@@ -34,6 +34,7 @@ class TraineesListWidget extends StatelessWidget {
       itemCount: traineesList.length,
       itemBuilder: (context, index) {
         final trainee = traineesList[index];
+        print('trainee $index sub : ${trainee.subscription}');
         return TraineeCardWidget(
           //workoutsLength: workoutsLength,
           trainee: trainee,

@@ -157,6 +157,6 @@ class AllWorkoutsView extends StatelessWidget {
   String _getLastWorkoutDate() {
     if (workouts.isEmpty) return 'N/A';
 
-    return DateFormat('dd/MM/yyyy').format(workouts.last.dateScope!);
+    return DateFormat('dd/MM/yyyy').format(workouts.last.dateScope);
   }
 }

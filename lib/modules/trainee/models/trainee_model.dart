@@ -112,8 +112,7 @@ class TraineeModel extends UserModel {
 
     traineeModelData['startWorOutDate'] = startWorOutDate?.toIso8601String();
 
-    traineeModelData['subscription'] =
-        subscription == null ? null : subscription?.toMap();
+    traineeModelData['subscription'] = subscription?.toMap();
 
     /*
     if (workouts != null) {
@@ -137,11 +136,12 @@ class TraineeModel extends UserModel {
     return traineeModel;
   }
 
- 
-
   bool isActive() {
     // if subscription null the trainee not avtice,
+    if (subscription == null) {
+      return false;
+    }
     // and if subscription != null check the isActive of the spetsific subscription
-    return subscription?.isActive() ?? false;
+    return subscription!.isActive();
   }
 }
