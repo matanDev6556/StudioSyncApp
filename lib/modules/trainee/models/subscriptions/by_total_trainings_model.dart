@@ -106,4 +106,4 @@ class SubscriptionByTotalTrainings extends Subscription {
   }
 }
 
-class SubscriptionContainer {}
+

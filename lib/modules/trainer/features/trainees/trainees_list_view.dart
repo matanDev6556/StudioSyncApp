@@ -30,10 +30,10 @@ class TraineesListView extends GetView<TraineesController> {
                   color: AppStyle.softOrange,
                   backgroundColor: Colors.white,
                   showChildOpacityTransition: false,
-                  child: TraineesListWidget(
-                    traineesList: controller.filteredTraineesList,
-                    isLoading: controller.isLoading.value,
-                  ),
+                  child: Obx(() => TraineesListWidget(
+                        traineesList: controller.filteredTraineesList,
+                        isLoading: controller.isLoading.value,
+                      )),
                 ),
               ),
             ],

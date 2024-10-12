@@ -7,12 +7,10 @@ import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 class TraineeCardWidget extends StatelessWidget {
   final TraineeModel trainee;
   final VoidCallback onTap;
-  //final int? workoutsLength;
 
   const TraineeCardWidget({
     required this.trainee,
     required this.onTap,
-    //required this.workoutsLength,
     Key? key,
   }) : super(key: key);
 
@@ -33,7 +31,7 @@ class TraineeCardWidget extends StatelessWidget {
             children: [
               CustomImageWidget(
                 imageUrl: trainee.imgUrl,
-                width: 70.w,
+                width: 72.w,
                 height: 70.h,
                 borderColor: trainee.isActive()
                     ? Colors.greenAccent.withOpacity(0.6)
@@ -64,6 +62,14 @@ class TraineeCardWidget extends StatelessWidget {
                     Row(
                       children: [
                         SizedBox(width: 8.w),
+                        _buildInfoChip(
+                          icon: Icons.subscriptions_outlined,
+                          label: trainee.subscription != null
+                              ? (trainee.subscription!.isActive()
+                                  ? 'Active'
+                                  : 'Inactive')
+                              : 'No active!',
+                        ),
                         _buildInfoChip(
                           icon: Icons.calendar_today,
                           label: 'Since ${trainee.startWorOutDate!.year}',

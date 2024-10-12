@@ -3,12 +3,14 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_rx/src/rx_workers/rx_workers.dart';
 import 'package:studiosync/core/services/firebase/auth_service.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+
 import 'package:studiosync/modules/trainer/features/trainees/services/trainees_service.dart';
 import 'package:studiosync/modules/trainer/features/trainees/services/trainess_filter_service.dart';
 
 class TraineesController extends GetxController {
   final TraineeListService traineeService;
   final TraineeFilterService filterService;
+
   final AuthService authService;
 
   RxList<TraineeModel> traineesList = <TraineeModel>[].obs;
@@ -19,14 +21,16 @@ class TraineesController extends GetxController {
   RxString searchQuery = ''.obs;
   RxString activeStatusFilter = 'All'.obs;
 
-  TraineesController(this.authService, this.traineeService, this.filterService);
+  TraineesController(
+    this.authService,
+    this.traineeService,
+    this.filterService,
+  );
 
   @override
   void onInit() {
     super.onInit();
-
     fetchTrainees();
-
     // Set up a listener to filter the list whenever searchQuery or activeStatusFilter changes
     debounce(searchQuery, (_) => applyFilters(),
         time: const Duration(milliseconds: 300));
@@ -35,6 +39,7 @@ class TraineesController extends GetxController {
 
   Future<void> fetchTrainees() async {
     try {
+      print('fetch trainees');
       final uid = authService.currentUser?.uid;
       isLoading.value = true;
 
@@ -43,6 +48,7 @@ class TraineesController extends GetxController {
 
       // Update the trainees list
       traineesList.value = trainees;
+      traineesList.refresh();
 
       // Apply filters after fetching the data
       applyFilters();

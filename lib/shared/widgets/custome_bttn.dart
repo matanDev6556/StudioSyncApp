@@ -10,17 +10,19 @@ class CustomButton extends StatelessWidget {
   final double? height;
   final VoidCallback? onTap;
   final bool isLoading; // New isLoading flag
+  final double? fontSize;
 
-  const CustomButton({
-    Key? key,
-    required this.text,
-    required this.fill,
-    required this.color,
-    required this.width,
-    this.height,
-    this.onTap,
-    this.isLoading = false, // Set isLoading default to false
-  }) : super(key: key);
+  const CustomButton(
+      {Key? key,
+      required this.text,
+      required this.fill,
+      required this.color,
+      required this.width,
+      this.height,
+      this.onTap,
+      this.isLoading = false,
+      this.fontSize})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class CustomButton extends StatelessWidget {
                     text,
                     style: TextStyle(
                       color: fill ? Colors.white : color,
-                      fontSize: 25.sp,
+                      fontSize: fontSize ?? 25.sp,
                       fontWeight: fill ? FontWeight.bold : FontWeight.normal,
                     ),
                   ),
