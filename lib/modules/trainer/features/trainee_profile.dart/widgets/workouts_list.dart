@@ -5,16 +5,23 @@ import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/dots_inticator.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/single_workout_card.dart';
 
-class WorkoutListCard extends StatefulWidget {
+class WorkoutHorizontalListCard extends StatefulWidget {
   final List<WorkoutModel> workouts;
+  final Function(WorkoutModel workout)? onDelete;
+  final Function(WorkoutModel workout)? onEdit;
 
-  const WorkoutListCard({Key? key, required this.workouts}) : super(key: key);
+  const WorkoutHorizontalListCard({
+    Key? key,
+    required this.workouts,
+    this.onDelete,
+    this.onEdit,
+  }) : super(key: key);
 
   @override
   _WorkoutListCardState createState() => _WorkoutListCardState();
 }
 
-class _WorkoutListCardState extends State<WorkoutListCard> {
+class _WorkoutListCardState extends State<WorkoutHorizontalListCard> {
   late PageController _pageController;
   int _currentPage = 0;
 
@@ -56,6 +63,12 @@ class _WorkoutListCardState extends State<WorkoutListCard> {
               return SingleWorkoutWidget(
                 workout: workout,
                 isExpanded: true,
+                onDelete: widget.onDelete != null
+                    ? (workout) => widget.onDelete!(workout)
+                    : null,
+                onEdit: widget.onEdit != null
+                    ? (workout) => widget.onEdit!(workout)
+                    : null,
               );
             },
           ),

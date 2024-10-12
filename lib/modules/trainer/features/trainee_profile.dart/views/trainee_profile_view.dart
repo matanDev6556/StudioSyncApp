@@ -14,8 +14,6 @@ import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets
 import 'package:studiosync/shared/widgets/custom_container.dart';
 import 'package:studiosync/shared/widgets/custome_bttn.dart';
 
-
-
 class TraineeProfileView extends GetView<TraineeWorkoutController> {
   final TraineeModel trainee;
 
@@ -31,8 +29,6 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
 
   @override
   Widget build(BuildContext context) {
-  
-
     return Obx(() {
       final trainee = controller.trainee.value!;
 
@@ -40,7 +36,7 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
         resizeToAvoidBottomInset: true,
         backgroundColor: AppStyle.backGrey2,
         floatingActionButton: FloatingActionButton(
-          onPressed: () => controller.showAddWorkoutBottomSheet(),
+          onPressed: () => controller.showAddWorkoutBottomSheet(null),
           backgroundColor: AppStyle.softOrange,
           child: Icon(Icons.add, color: AppStyle.darkOrange),
         ),
@@ -175,8 +171,7 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
             _sectionTitle('Workouts'),
             const Spacer(),
             InkWell(
-              onTap: () =>
-                  Get.toNamed(Routes.allTraineeWorkouts, arguments: workouts),
+              onTap: () => Get.toNamed(Routes.allTraineeWorkouts),
               child: Container(
                 width: 100.w,
                 height: 30.h,
@@ -207,7 +202,14 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
                   ),
                 ),
               )
-            : WorkoutListCard(workouts: workouts),
+            : WorkoutHorizontalListCard(
+                workouts: workouts,
+                onDelete: (workout) {
+                  controller.deleteWorkout(workout);
+                },
+                onEdit: (workout) =>
+                    controller.showAddWorkoutBottomSheet(workout),
+              ),
       ],
     );
   }

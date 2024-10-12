@@ -7,8 +7,6 @@ import 'package:studiosync/shared/views/widget_tree.dart';
 import 'package:studiosync/modules/auth/views/login_view.dart';
 import 'package:studiosync/modules/auth/bindings/login_binding.dart';
 import 'package:studiosync/modules/auth/views/signup_as_view.dart';
-import 'package:studiosync/modules/trainee/models/workout_model.dart';
-
 
 class SharedRoutes {
   static final sharedRoutes = [
@@ -33,10 +31,7 @@ class SharedRoutes {
     GetPage(
       name: Routes.allTraineeWorkouts,
       page: () {
-        final workouts = Get.arguments as List<WorkoutModel>;
-        return AllWorkoutsView(
-          workouts: workouts,
-        );
+        return AllWorkoutsView();
       },
     ),
     // Add other shared routes here

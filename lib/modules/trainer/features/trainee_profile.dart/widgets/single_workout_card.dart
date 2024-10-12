@@ -8,10 +8,16 @@ import 'package:studiosync/shared/widgets/custom_container.dart';
 class SingleWorkoutWidget extends StatelessWidget {
   final WorkoutModel workout;
   final bool isExpanded;
+  final Function(WorkoutModel workout)? onDelete; 
+  final Function(WorkoutModel workout)? onEdit; 
 
-  const SingleWorkoutWidget(
-      {Key? key, required this.workout, this.isExpanded = false})
-      : super(key: key);
+  const SingleWorkoutWidget({
+    Key? key,
+    required this.workout,
+    this.isExpanded = false,
+    this.onDelete,
+    this.onEdit,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +43,24 @@ class SingleWorkoutWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Date',
-                    style: TextStyle(
-                      color: AppStyle.softBrown,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
+                  if (onDelete != null)
+                    Row(
+                      children: [
+                        IconButton(
+                          icon:
+                              const Icon(Icons.delete, color: Colors.redAccent),
+                          onPressed: () => onDelete!(workout),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.edit, color: AppStyle.backGrey3),
+                          onPressed: () => onEdit!(workout),
+                        ),
+                      ],
                     ),
-                  ),
                   CustomContainer(
                     textColor: AppStyle.softOrange,
                     text: DateFormat('MMM d, y').format(workout.dateScope),
-                  )
+                  ),
                 ],
               ),
               SizedBox(height: 20.h),

@@ -2,15 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainee_workout_controller.dart';
 
 class AddWorkoutBottomSheet extends GetView<TraineeWorkoutController> {
   final List<String> bodyParts = ['Chest', 'Arms', 'Legs', 'Buttocks', 'Abs'];
+  final WorkoutModel? workout;
+  final TraineeModel? trainee;
 
-  AddWorkoutBottomSheet({Key? key}) : super(key: key);
+  AddWorkoutBottomSheet({
+    Key? key,
+    this.workout,
+    this.trainee,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // אם אנחנו במצב עריכה, נטען את הנתונים הקיימים לאימונים
+    if (workout != null) {
+      controller.weightController.text = workout!.weight.toString();
+      for (int i = 0; i < workout!.listScopes.length; i++) {
+        controller.scopeControllers[i].text =
+            workout!.listScopes[i].size.toString();
+      }
+    }
+
     return Container(
       height: Get.height * 0.85,
       padding: EdgeInsets.all(24.w),
@@ -42,7 +59,9 @@ class AddWorkoutBottomSheet extends GetView<TraineeWorkoutController> {
           ),
           Center(
             child: Text(
-              'Add Workout',
+              workout != null
+                  ? 'Edit Workout'
+                  : 'Add Workout', // שינוי הכותרת בהתאם למצב
               style: TextStyle(
                 fontSize: 23.sp,
                 fontWeight: FontWeight.bold,
@@ -143,7 +162,13 @@ class AddWorkoutBottomSheet extends GetView<TraineeWorkoutController> {
           ),
           SizedBox(height: 24.h),
           ElevatedButton(
-            onPressed: () => controller.addWorkout(),
+            onPressed: () {
+              if (workout != null) {
+                controller.updateWorkout( workout);
+              } else {
+                controller.addWorkout();
+              }
+            },
             style: ElevatedButton.styleFrom(
               primary: AppStyle.softOrange,
               onPrimary: Colors.white,
@@ -154,7 +179,9 @@ class AddWorkoutBottomSheet extends GetView<TraineeWorkoutController> {
               elevation: 2,
             ),
             child: Text(
-              'Add Workout',
+              workout != null
+                  ? 'Save Changes'
+                  : 'Add Workout', // שינוי הכפתור בהתאם למצב
               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
             ),
           ),
