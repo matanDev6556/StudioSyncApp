@@ -52,6 +52,7 @@ dependencies:
   dots_indicator: ^3.0.0
   flutter_svg: ^2.0.10+1
   animated_toggle_switch: ^0.8.3
+  fl_chart: ^0.69.0
 
 dev_dependencies:
   flutter_test:

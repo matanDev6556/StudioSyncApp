@@ -63,12 +63,16 @@ class TraineeCardWidget extends StatelessWidget {
                       children: [
                         SizedBox(width: 8.w),
                         _buildInfoChip(
-                          icon: Icons.subscriptions_outlined,
+                          icon: trainee.subscription != null
+                              ? (trainee.subscription!.isActive()
+                                  ? Icons.done_rounded
+                                  : Icons.close_rounded)
+                              : Icons.close_rounded,
                           label: trainee.subscription != null
                               ? (trainee.subscription!.isActive()
                                   ? 'Active'
                                   : 'Inactive')
-                              : 'No active!',
+                              : 'No subscription!',
                         ),
                         _buildInfoChip(
                           icon: Icons.calendar_today,

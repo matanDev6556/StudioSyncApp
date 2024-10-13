@@ -2,12 +2,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:studiosync/modules/trainee/models/scope_model.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
+import 'package:studiosync/modules/trainer/contollers/wokout_form_handler.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/services/trainee_profile_service.dart';
+import 'package:studiosync/shared/services/workouts_analytics_service.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/add_edit_workout_buttom.dart';
-import 'package:uuid/uuid.dart';
+import 'package:studiosync/shared/models/workout_summary.dart';
+
+// handle the spetsific trainee profile for add\edit\delete workouts
 
 class TraineeWorkoutController extends GetxController {
   final TraineeProfileService traineeProfileService;
@@ -23,19 +26,7 @@ class TraineeWorkoutController extends GetxController {
   RxList<WorkoutModel> workouts = <WorkoutModel>[].obs;
   late StreamSubscription<TraineeModel> traineeDocSubscription;
   late StreamSubscription<List<WorkoutModel>> workoutsDocSubscription;
-
-  // Controllers for the new workout form
-  final TextEditingController weightController = TextEditingController();
-  final List<TextEditingController> scopeControllers =
-      List.generate(5, (_) => TextEditingController());
-
-  static const List<String> bodyParts = [
-    'Chest',
-    'Arms',
-    'Legs',
-    'Buttocks',
-    'Abs'
-  ];
+  final WorkoutFormHandler workoutFormHandler = WorkoutFormHandler();
 
   @override
   void onInit() {
@@ -79,8 +70,6 @@ class TraineeWorkoutController extends GetxController {
           .listen((updatedWorkouts) {
         workouts.value = updatedWorkouts; // עדכן את הרשימה המקומית
       });
-
-     
     }
   }
 
@@ -100,9 +89,9 @@ class TraineeWorkoutController extends GetxController {
   }
 
   void addWorkout() {
-    if (!_validateWorkoutInput()) return;
+    if (!workoutFormHandler.validateWorkoutInput()) return;
 
-    final newWorkout = _createWorkoutFromInput();
+    final newWorkout = workoutFormHandler.createWorkoutFromInput();
     workouts.add(newWorkout);
     traineeProfileService.addWorkoutToTrainee(
         trainee.value!.userId, newWorkout);
@@ -111,7 +100,7 @@ class TraineeWorkoutController extends GetxController {
     Get.snackbar('Success', 'Workout added successfully',
         backgroundColor: Colors.greenAccent, colorText: Colors.white);
 
-    resetControllers();
+    workoutFormHandler.resetControllers();
   }
 
   void deleteWorkout(WorkoutModel workout) async {
@@ -120,76 +109,26 @@ class TraineeWorkoutController extends GetxController {
     workouts.refresh();
   }
 
-  void updateWorkout( WorkoutModel? workout) async {
-    List<ScopeModel> scopes = scopeControllers
-        .map((controller) => ScopeModel(
-              name: bodyParts[scopeControllers.indexOf(controller)],
-              size: double.parse(controller.text),
-            ))
-        .toList();
-
+  void updateWorkout(WorkoutModel? workout) async {
     final updatedWorkout = workout?.copyWith(
-      weight: double.parse(weightController.text),
-      listScopes: scopes,
+      weight: double.parse(workoutFormHandler.weightController.text),
+      listScopes: workoutFormHandler.createScopesFromInput(),
     );
 
     await traineeProfileService.editWorkoutToFirestore(
-        trainee.value!, updatedWorkout!);
+      trainee.value!,
+      updatedWorkout!,
+    );
 
     Get.back();
   }
 
-  WorkoutModel _createWorkoutFromInput() {
-    List<ScopeModel> scopes = _createScopesFromInput();
-    return WorkoutModel(
-      id: const Uuid().v4(),
-      weight: double.parse(weightController.text),
-      listScopes: scopes,
-      dateScope: DateTime.now(),
-    );
-  }
-
-  List<ScopeModel> _createScopesFromInput() {
-    return scopeControllers
-        .asMap()
-        .entries
-        .where((entry) => entry.value.text.isNotEmpty)
-        .map((entry) => ScopeModel(
-              name: bodyParts[entry.key],
-              size: double.parse(entry.value.text),
-            ))
-        .toList();
-  }
-
-  bool _validateWorkoutInput() {
-    if (weightController.text.isEmpty) {
-      Get.snackbar('Error', 'Please enter the weight',
-          backgroundColor: Colors.redAccent, colorText: Colors.white);
-      return false;
-    }
-
-    if (scopeControllers.every((controller) => controller.text.isEmpty)) {
-      Get.snackbar('Error', 'Please enter at least one scope',
-          backgroundColor: Colors.redAccent, colorText: Colors.white);
-      return false;
-    }
-
-    return true;
-  }
-
-  void showAddWorkoutBottomSheet( WorkoutModel? workout) {
+  void showAddWorkoutBottomSheet(WorkoutModel? workout) {
     Get.bottomSheet(
       AddEditWorkoutBottomSheet(workout: workout, trainee: trainee.value),
       isScrollControlled: true,
     );
-    resetControllers();
-  }
-
-  void resetControllers() {
-    weightController.clear();
-    for (var scopeController in scopeControllers) {
-      scopeController.clear();
-    }
+    workoutFormHandler.resetControllers();
   }
 
   String getFormattedStartDate() {
@@ -198,26 +137,10 @@ class TraineeWorkoutController extends GetxController {
         : 'Not start yet';
   }
 
-  String getWeightTrendMessage(List<WorkoutModel> workouts) {
-    if (workouts.length < 2) {
-      return "Not enough data";
-    }
+  //----Statistics----
 
-    // סדר את רשימת האימונים לפי התאריך
-    workouts.sort((a, b) => a.dateScope.compareTo(b.dateScope));
-
-    double initialWeight = workouts.first.weight; // משקל התחלתי
-    double latestWeight = workouts.last.weight; // משקל עדכני
-    double weightDifference = latestWeight - initialWeight;
-
-    if (latestWeight > initialWeight) {
-      return "You've gained ${weightDifference.toStringAsFixed(2)} kg.";
-    } else if (latestWeight < initialWeight) {
-      return "You've lost ${(-weightDifference).toStringAsFixed(2)} kg.";
-    } else {
-      return "Your weight remains unchanged.";
-    }
-  }
+  Rx<WorkoutSummary> get workoutSummary =>
+      Rx<WorkoutSummary>(WorkoutAnalytics.computeWorkoutSummary(workouts));
 
   @override
   void onClose() {
