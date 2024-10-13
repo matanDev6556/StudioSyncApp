@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
-import 'package:studiosync/modules/trainer/contollers/wokout_form_handler.dart';
+import 'package:studiosync/modules/trainer/contollers/workout_form_handler.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/services/trainee_profile_service.dart';
 import 'package:studiosync/shared/services/workouts_analytics_service.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/add_edit_workout_buttom.dart';
