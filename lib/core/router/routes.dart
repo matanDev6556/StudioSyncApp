@@ -5,6 +5,7 @@ class Routes {
   static const login = '/login';
   static const signUpAs = '/sign-up-as';
   static const allTraineeWorkouts = '/trainee-workouts';
+  static const workoutsAnalytic = '/analytic-workouts';
 
   //trainer routes
   static const signUpTrainer = '/sign-up-trainer';

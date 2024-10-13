@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainee_workout_controller.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/single_workout_card.dart';
+
 import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class AllWorkoutsView extends GetView<TraineeWorkoutController> {
@@ -14,77 +14,81 @@ class AllWorkoutsView extends GetView<TraineeWorkoutController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Scaffold(
-        backgroundColor: AppStyle.backGrey2,
-        appBar: AppBar(
-          title: Text(
-            'Workout History',
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-              color: AppStyle.deepBlackOrange,
-            ),
+    return Scaffold(
+      backgroundColor: AppStyle.backGrey2,
+      appBar: AppBar(
+        title: Text(
+          'Workout History',
+          style: TextStyle(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.bold,
+            color: AppStyle.deepBlackOrange,
           ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: AppStyle.softOrange),
-            onPressed: () => Get.back(),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: AppStyle.softOrange),
+          onPressed: () => Get.back(),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.filter_list, color: AppStyle.softOrange),
+            onPressed: () {},
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.filter_list, color: AppStyle.softOrange),
-              onPressed: () {
-                // TODO: Implement filter functionality
+        ],
+      ),
+      body: Column(
+        children: [
+          Obx(() => _buildSummaryCard(controller.workouts)),
+          Obx(() => _buildWorkoutList()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWorkoutList() {
+    return controller.workouts.isEmpty
+        ? _buildEmptyState()
+        : Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.all(16.w),
+              itemCount: controller.workouts.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 16.h),
+                  child: SingleWorkoutWidget(
+                    workout: controller.workouts[index],
+                    onDelete: (workout) {
+                      controller.deleteWorkout(workout);
+                    },
+                    onEdit: (workout) {
+                      controller.showAddWorkoutBottomSheet(workout);
+                    },
+                  ),
+                );
               },
             ),
-          ],
+          );
+  }
+
+  Widget _buildEmptyState() {
+    return Column(
+      children: [
+        SizedBox(
+          height: Get.height * 0.5,
+          child: SvgPicture.asset(
+            'assets/images/workout.svg',
+            width: 250.w,
+          ),
         ),
-        body: Column(
-          children: [
-            _buildSummaryCard(controller.workouts),
-            controller.workouts.isEmpty
-                ? Column(
-                    children: [
-                      SizedBox(
-                        height: Get.height * 0.5,
-                        child: SvgPicture.asset(
-                          'assets/images/workout.svg',
-                          width: 250.w,
-                        ),
-                      ),
-                      const Center(
-                        child: CustomContainer(
-                          text: 'No workouts yet!',
-                        ),
-                      ),
-                    ],
-                  )
-                : Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.all(16.w),
-                      itemCount: controller.workouts.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 16.h),
-                          child: SingleWorkoutWidget(
-                            workout: controller.workouts[index],
-                            onDelete: (workout) {
-                              controller.deleteWorkout(workout);
-                            },
-                            onEdit: (workout) {
-                              controller.showAddWorkoutBottomSheet(workout);
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-          ],
+        const Center(
+          child: CustomContainer(
+            text: 'No workouts yet!',
+          ),
         ),
-      );
-    });
+      ],
+    );
   }
 
   Widget _buildSummaryCard(List<WorkoutModel> workouts) {
@@ -110,7 +114,7 @@ class AllWorkoutsView extends GetView<TraineeWorkoutController> {
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,
-              color: AppStyle.deepBlackOrange,
+              color: AppStyle.softBrown,
             ),
           ),
           SizedBox(height: 12.h),
@@ -118,8 +122,14 @@ class AllWorkoutsView extends GetView<TraineeWorkoutController> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildSummaryItem('Total Workouts', workouts.length.toString()),
-              _buildSummaryItem('Min weight', _calculateAvgDuration(workouts)),
-              _buildSummaryItem('Last Workout', _getLastWorkoutDate(workouts)),
+              _buildSummaryItem(
+                'Min weight',
+                controller.workoutSummary.value.minWeight.toString(),
+              ),
+              _buildSummaryItem(
+                'Last Workout',
+                controller.workoutSummary.value.daysSinceLastWorkout.toString(),
+              ),
             ],
           ),
         ],
@@ -148,24 +158,5 @@ class AllWorkoutsView extends GetView<TraineeWorkoutController> {
         ),
       ],
     );
-  }
-
-  String _calculateAvgDuration(List<WorkoutModel> workouts) {
-    if (workouts.isEmpty) return 'N/A';
-
-    double minDuration = workouts.first.weight;
-    for (var workout in workouts) {
-      if (workout.weight < minDuration) {
-        minDuration = workout.weight;
-      }
-    }
-
-    return '${minDuration.toStringAsFixed(0)} Kg';
-  }
-
-  String _getLastWorkoutDate(List<WorkoutModel> workouts) {
-    if (workouts.isEmpty) return 'N/A';
-
-    return DateFormat('dd/MM/yyyy').format(workouts.last.dateScope);
   }
 }

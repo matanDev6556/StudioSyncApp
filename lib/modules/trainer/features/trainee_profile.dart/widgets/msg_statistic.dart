@@ -19,7 +19,7 @@ class WeightTrendMessageWidget extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.white, AppStyle.softOrange.withOpacity(0.3)],
+          colors:  [Colors.white, AppStyle.backGrey2],
         ),
         borderRadius: BorderRadius.circular(10),
       ),
@@ -42,9 +42,8 @@ class WeightTrendMessageWidget extends StatelessWidget {
             child: Text(
               message,
               style: TextStyle(
-                color: AppStyle.softBrown,
-                fontWeight: FontWeight.w600,
-                fontSize: 16.sp,
+                color: AppStyle.softBrown.withOpacity(0.6),
+                fontSize: 17.sp,
               ),
             ),
           ),

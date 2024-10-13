@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/views/all_workoutes_view.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/views/workout_analytic_view.dart';
 import 'package:studiosync/shared/bindings/widget_tree_binding.dart';
 import 'package:studiosync/shared/views/splash_view.dart';
 import 'package:studiosync/shared/views/widget_tree.dart';
@@ -30,9 +31,12 @@ class SharedRoutes {
     ),
     GetPage(
       name: Routes.allTraineeWorkouts,
-      page: () {
-        return AllWorkoutsView();
-      },
+      page: () => const AllWorkoutsView(),
+    ),
+
+      GetPage(
+      name: Routes.workoutsAnalytic,
+      page: () => const WorkoutAnalyticView(),
     ),
     // Add other shared routes here
   ];

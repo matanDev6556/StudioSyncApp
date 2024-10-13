@@ -21,9 +21,10 @@ class AddEditWorkoutBottomSheet extends GetView<TraineeWorkoutController> {
   Widget build(BuildContext context) {
     // אם אנחנו במצב עריכה, נטען את הנתונים הקיימים לאימונים
     if (workout != null) {
-      controller.weightController.text = workout!.weight.toString();
+      controller.workoutFormHandler.weightController.text =
+          workout!.weight.toString();
       for (int i = 0; i < workout!.listScopes.length; i++) {
-        controller.scopeControllers[i].text =
+        controller.workoutFormHandler.scopeControllers[i].text =
             workout!.listScopes[i].size.toString();
       }
     }
@@ -97,7 +98,7 @@ class AddEditWorkoutBottomSheet extends GetView<TraineeWorkoutController> {
           ),
           SizedBox(height: 24.h),
           _buildTextField(
-            controller: controller.weightController,
+            controller: controller.workoutFormHandler.weightController,
             labelText: 'Weight (kg)',
             keyboardType: TextInputType.number,
           ),
@@ -150,7 +151,8 @@ class AddEditWorkoutBottomSheet extends GetView<TraineeWorkoutController> {
                     Expanded(
                       flex: 3,
                       child: _buildTextField(
-                        controller: controller.scopeControllers[index],
+                        controller: controller
+                            .workoutFormHandler.scopeControllers[index],
                         labelText: 'Size',
                         keyboardType: TextInputType.number,
                       ),
@@ -164,7 +166,8 @@ class AddEditWorkoutBottomSheet extends GetView<TraineeWorkoutController> {
           ElevatedButton(
             onPressed: () {
               if (workout != null) {
-                controller.updateWorkout( workout);
+                print('updated!!');
+                controller.updateWorkout(workout!);
               } else {
                 controller.addWorkout();
               }

@@ -139,10 +139,30 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionTitle('Statistics'),
+        Row(
+          children: [
+            _sectionTitle('Statistics'),
+            const Spacer(),
+            CustomContainer(
+              backgroundColor: AppStyle.softOrange.withOpacity(0.4),
+              padding: EdgeInsets.symmetric(
+                horizontal: 1.w,
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20.h,
+                  color: AppStyle.deepBlackOrange,
+                ),
+                onPressed: () => Get.toNamed(Routes.workoutsAnalytic),
+              ),
+            ),
+          ],
+        ),
         SizedBox(height: 5.h),
         WeightTrendMessageWidget(
-            controller.getWeightTrendMessage(controller.workouts)),
+          controller.workoutSummary.value.weightTrend,
+        ),
       ],
     );
   }
@@ -170,24 +190,18 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
           children: [
             _sectionTitle('Workouts'),
             const Spacer(),
-            InkWell(
-              onTap: () => Get.toNamed(Routes.allTraineeWorkouts),
-              child: Container(
-                width: 100.w,
-                height: 30.h,
-                decoration: BoxDecoration(
-                  color: AppStyle.softOrange,
-                  borderRadius: BorderRadius.circular(5),
+            CustomContainer(
+              backgroundColor: AppStyle.softOrange.withOpacity(0.4),
+              padding: EdgeInsets.symmetric(
+                horizontal: 1.w,
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20.h,
+                  color: AppStyle.deepBlackOrange,
                 ),
-                child: Center(
-                  child: Text(
-                    'View All',
-                    style: TextStyle(
-                      color: AppStyle.deepBlackOrange,
-                      fontSize: 13.sp,
-                    ),
-                  ),
-                ),
+                onPressed: () => Get.toNamed(Routes.allTraineeWorkouts),
               ),
             ),
           ],

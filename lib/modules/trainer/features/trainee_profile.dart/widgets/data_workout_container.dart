@@ -23,7 +23,7 @@ class WorkOutDataContainer extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.white, AppStyle.backGrey2.withOpacity(0.8)],
+          colors: [Colors.white, AppStyle.backGrey2],
         ),
       ),
       child: Row(
@@ -47,9 +47,8 @@ class WorkOutDataContainer extends StatelessWidget {
             child: Text(
               traineeDataWorkout ?? emptyDataReplace,
               style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
-                color: AppStyle.backGrey3,
+                fontSize: 17.sp,
+                color: AppStyle.softBrown.withOpacity(0.6),
               ),
             ),
           ),
