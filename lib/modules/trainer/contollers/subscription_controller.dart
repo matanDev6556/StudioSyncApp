@@ -6,7 +6,7 @@ import 'package:studiosync/modules/trainee/models/subscriptions/by_date_model.da
 import 'package:studiosync/modules/trainee/models/subscriptions/by_total_trainings_model.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
-
+import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
 
 enum SubscriptionType { byDate, byTotalTrainings }
 
@@ -15,13 +15,12 @@ class SubscriptionController extends GetxController {
 
   SubscriptionController(this.firestoreService);
 
-  
-
   // init deafult subs
   var subscriptionByTotal = SubscriptionByTotalTrainings(
     totalTrainings: 0,
     usedTrainings: 0,
   ).obs;
+
   var subscriptionByDate = SubscriptionByDate(
     startDate: DateTime.now(),
     endDate: DateTime.now().add(const Duration(days: 30)),
@@ -29,9 +28,11 @@ class SubscriptionController extends GetxController {
     usedMonthlyTraining: 0,
     currentMonth: DateTime.now().month,
   ).obs;
+
   var selectedType = SubscriptionType.byDate.obs;
 
   var isLoading = false.obs;
+
   //---Shared functions--
 
   void initSub(
@@ -77,29 +78,45 @@ class SubscriptionController extends GetxController {
     subscriptionByDate.value = newSubscription;
     subscriptionByDate.refresh();
   }
-
+  // פונקציה לשמור שינויים במידע המנוי של המתאמן
   void save(TraineeModel trainee) async {
     try {
+      // מציאת הקונטרולר של המתאמנים כדי לעדכן את הרשימה שלהם
+      final traineesController = Get.find<TraineesController>();
+      // הפעלת מצב טעינה
       isLoading.value = true;
+      // יצירת מודל מתאמן מעודכן עם המידע החדש
+      TraineeModel updatedTrainee;
+      // בדיקה איזה סוג מנוי נבחר ועדכון המודל בהתאם
       if (selectedType.value == SubscriptionType.byDate) {
-        await firestoreService.updateDocument(
-          'users',
-          trainee.userId,
-          trainee.copyWith(subscription: subscriptionByDate.value).toMap(),
-        );
+        updatedTrainee =
+            trainee.copyWith(subscription: subscriptionByDate.value);
       } else {
-        await firestoreService.updateDocument(
-          'users',
-          trainee.userId,
-          trainee.copyWith(subscription: subscriptionByTotal.value).toMap(),
-        );
+        updatedTrainee =
+            trainee.copyWith(subscription: subscriptionByTotal.value);
       }
+      // עדכון המסמך של המתאמן בשירות הפיירבייס
+      await firestoreService.updateDocument(
+        'users',
+        trainee.userId,
+        updatedTrainee.toMap(),
+      );
+      // עדכון הרשימה המסוננת של המתאמנים עם המידע החדש
+      traineesController.filteredTraineesList.value = traineesController
+          .filteredTraineesList
+          .map((t) => t.userId == trainee.userId ? updatedTrainee : t)
+          .toList();
+      // רענון הרשימה המלאה של המתאמנים
+      traineesController.traineesList.refresh();
     } catch (e) {
+      // הצגת הודעת שגיאה במקרה של שגיאה
       Validations.showValidationSnackBar(e.toString(), Colors.red);
     } finally {
+      // הסרת מצב הטעינה
       isLoading.value = false;
     }
 
+    // סגירת המסך הנוכחי
     Get.back();
   }
 

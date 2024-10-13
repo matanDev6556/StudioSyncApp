@@ -1,6 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppStyle {
+  // Text styles
+
+  static final TextStyle titleStyle = TextStyle(
+    fontSize: 20.sp, // גודל טקסט לכותרת
+    fontWeight: FontWeight.bold,
+    color: const Color(0xFF3A2F2F), // צבע מותאם לכותרת
+  );
+  static final TextStyle bodyTextStyle = TextStyle(
+    fontSize: 16.sp,
+    color: Colors.grey[800],
+  );
+
+  static final TextStyle summaryLabelStyle = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.grey[600],
+  );
+
+  static final TextStyle summaryValueStyle = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.bold,
+    color: AppStyle.backGrey2, // צבע כהה מותאם לערכי הסיכום
+  );
+
+  static final TextStyle sectionTitleStyle = TextStyle(
+    fontSize: 18.sp,
+    fontWeight: FontWeight.bold,
+    color: AppStyle.softBrown,
+  );
+
+  // Box shadows
+  static final List<BoxShadow> boxShadow = [
+    BoxShadow(
+      color: Colors.grey.withOpacity(0.1),
+      spreadRadius: 1,
+      blurRadius: 5,
+      offset: const Offset(0, 2),
+    ),
+  ];
+
   static Color deepOrange = const Color(0xffEDA400);
   static Color softOrange = const Color.fromARGB(255, 238, 204, 133);
   static Color deepBlackOrange = const Color(0xffB77F00);
