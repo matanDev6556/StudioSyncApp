@@ -6,12 +6,12 @@ import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainee_workout_controller.dart';
 
-class AddWorkoutBottomSheet extends GetView<TraineeWorkoutController> {
+class AddEditWorkoutBottomSheet extends GetView<TraineeWorkoutController> {
   final List<String> bodyParts = ['Chest', 'Arms', 'Legs', 'Buttocks', 'Abs'];
   final WorkoutModel? workout;
   final TraineeModel? trainee;
 
-  AddWorkoutBottomSheet({
+  AddEditWorkoutBottomSheet({
     Key? key,
     this.workout,
     this.trainee,

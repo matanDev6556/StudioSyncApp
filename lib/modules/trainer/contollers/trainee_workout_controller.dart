@@ -6,7 +6,7 @@ import 'package:studiosync/modules/trainee/models/scope_model.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/services/trainee_profile_service.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/add_workout_buttom.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/add_edit_workout_buttom.dart';
 import 'package:uuid/uuid.dart';
 
 class TraineeWorkoutController extends GetxController {
@@ -179,7 +179,7 @@ class TraineeWorkoutController extends GetxController {
 
   void showAddWorkoutBottomSheet( WorkoutModel? workout) {
     Get.bottomSheet(
-      AddWorkoutBottomSheet(workout: workout, trainee: trainee.value),
+      AddEditWorkoutBottomSheet(workout: workout, trainee: trainee.value),
       isScrollControlled: true,
     );
     resetControllers();
