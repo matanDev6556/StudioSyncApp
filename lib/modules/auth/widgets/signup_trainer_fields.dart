@@ -6,7 +6,7 @@ import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/auth/const_auth.dart';
 import 'package:studiosync/modules/auth/controllers/signup_trainer_controller.dart';
 import 'package:studiosync/shared/widgets/custom_text_field.dart';
-import 'package:studiosync/shared/widgets/custome_dropdown.dart';
+import 'package:studiosync/shared/widgets/custom_dropdown.dart';
 import 'package:studiosync/shared/widgets/list_of_strings.dart';
 import 'package:studiosync/shared/widgets/title_with_bttn.dart';
 import 'package:studiosync/modules/trainer/models/price_tier_model.dart';
