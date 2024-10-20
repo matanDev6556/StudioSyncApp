@@ -6,27 +6,32 @@ import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/services/filter_lessons_service.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/services/trainer_lessons_service.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/add_edit_lesson_buttom.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/registred_trainees_list.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/widgets/settings_buttom.dart';
 import 'package:uuid/uuid.dart';
 
 class TrainerLessonsController extends GetxController {
   final TrainerController trainerController;
+  final LessonFilterService filterService;
+
   final TrainerLessonsService trainerLessonsService;
 
   TrainerLessonsController({
     required this.trainerLessonsService,
     required this.trainerController,
+    required this.filterService,
   });
 
-  var isLoading = false.obs;
-  // List to store lessons
   RxList<LessonModel> lessons = <LessonModel>[].obs;
-  // Filtered lessons based on selected day
   RxList<LessonModel> filteredLessons = <LessonModel>[].obs;
-  // Selected day index (default to -1 meaning no day selected)
-  RxInt selectedDayIndex = (-1).obs;
+  RxInt selectedDayIndex = (DateTime.now().weekday % 7).obs;
+  var filterOption = 'Active'.obs;
+  var isLoading = false.obs;
+
+  Rx<bool> showLessons = false.obs;
 
   // Subscriptions to listen for changes
   late StreamSubscription<List<LessonModel>> lessonsSubscription;
@@ -36,8 +41,8 @@ class TrainerLessonsController extends GetxController {
     super.onInit();
 
     _listenToLessonChanges();
-    ever(selectedDayIndex,
-        (_) => filterLessonsByDay()); // Trigger filter when day changes
+    ever(selectedDayIndex, (_) => _applyFilters());
+    ever(filterOption, (_) => _applyFilters());
   }
 
   @override
@@ -54,7 +59,7 @@ class TrainerLessonsController extends GetxController {
         .listen((updatedLessons) {
       lessons.value = updatedLessons;
       lessons.refresh();
-      filterLessonsByDay();
+      _applyFilters();
     });
   }
 
@@ -125,28 +130,17 @@ class TrainerLessonsController extends GetxController {
     }
   }
 
-  // Filter lessons by the selected day
-  void filterLessonsByDay() {
-    if (selectedDayIndex.value == -1) {
-      // אם לא נבחר יום, הצג את כל השיעורים
-      filteredLessons.value = lessons;
-    } else {
-      // סנן את השיעורים לפי היום הנבחר
-      filteredLessons.value = lessons.where((lesson) {
-        if (selectedDayIndex.value == 0) {
-          // אם נבחר יום שבת (7)
-          return lesson.startDateTime.weekday == 7;
-        }
-        // אם נבחר יום אחר
-        return lesson.startDateTime.weekday == selectedDayIndex.value;
-      }).toList();
-    }
+  void _applyFilters() {
+    filteredLessons.value = filterService.filterLessons(
+      lessons,
+      selectedDayIndex.value,
+      filterOption.value,
+    );
+    filteredLessons.refresh();
+  }
 
-    // מיין את השיעורים כך שהשיעור הקרוב ביותר יהיה בראש הרשימה
-    filteredLessons.sort((a, b) {
-      // השוואה לפי תאריך ושעה
-      return a.startDateTime.compareTo(b.startDateTime);
-    });
+  void setFilter(String filter) {
+    filterOption.value = filter;
   }
 
   bool validateForEmptyFields(LessonModel? lesson) {
@@ -170,6 +164,14 @@ class TrainerLessonsController extends GetxController {
       return false;
     }
     return true;
+  }
+
+  void showLessonSettingsBottomSheet() {
+    Get.bottomSheet(
+      LessonSettingsBottomSheet(),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+    );
   }
 
   void showLessonBottomSheet({

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
-
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/days_selector.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
@@ -29,11 +28,11 @@ class LessonsView extends StatelessWidget {
                   Obx(
                     () => Text(
                       controller.filteredLessons.length < 2
-                          ? 'Lessons'
-                          : '${controller.filteredLessons.length} Lessons',
+                          ? 'Lessons (${controller.filterOption})'
+                          : '${controller.filteredLessons.length} Lessons (${controller.filterOption})',
                       style: TextStyle(
                         fontSize: 18.sp,
-                        color: AppStyle.deepBlackOrange,
+                        color: AppStyle.softBrown,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -43,7 +42,7 @@ class LessonsView extends StatelessWidget {
                       Icons.settings,
                       color: AppStyle.backGrey3.withOpacity(0.6),
                     ),
-                    onPressed: () {},
+                    onPressed: () => controller.showLessonSettingsBottomSheet(),
                   )
                 ],
               ),
@@ -52,9 +51,7 @@ class LessonsView extends StatelessWidget {
             Expanded(
               child: Obx(
                 () {
-                  final lessons = controller.selectedDayIndex.value == -1
-                      ? controller.lessons
-                      : controller.filteredLessons;
+                  final lessons = controller.filteredLessons;
 
                   if (lessons.isEmpty) {
                     return const Center(
@@ -109,7 +106,7 @@ class LessonsView extends StatelessWidget {
                 onSave: (newLesson) => controller.addLesson(newLesson),
               );
             },
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           ),
         ),
       ],
