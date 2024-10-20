@@ -42,6 +42,8 @@ class TraineeWorkoutController extends GetxController {
   }
 
   //-----------TRAINEE------------
+  
+
   void _listenToTraineeChanges() {
     if (trainee.value != null) {
       traineeDocSubscription = traineeProfileService
@@ -52,7 +54,7 @@ class TraineeWorkoutController extends GetxController {
       });
     }
   }
-
+  
   void deleteTrainee() {
     // Implement delete logic here
   }

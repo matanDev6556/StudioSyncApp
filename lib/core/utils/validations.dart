@@ -39,6 +39,11 @@ class Validations {
     String msg,
     Color clr,
   ) {
-    Get.snackbar('Validation Error', msg, backgroundColor: clr);
+    Get.snackbar(
+      '',
+      msg,
+      backgroundColor: clr,
+      colorText: Colors.white,
+    );
   }
 }

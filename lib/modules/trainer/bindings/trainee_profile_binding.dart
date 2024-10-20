@@ -7,5 +7,6 @@ class TraineeProfileBinding extends Bindings {
   void dependencies() {
     Get.lazyPut(() => TraineeProfileService(Get.find()));
     Get.lazyPut(() => SubscriptionController(Get.find()));
+    //Get.lazyPut(() => TraineeWorkoutController(Get.find()));
   }
 }

@@ -55,7 +55,7 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         textAlign: isHinttextCenter ? TextAlign.center : TextAlign.start,
         initialValue: initialValue ?? '',
-        style: textStyle ?? TextStyle(fontSize: 16.sp),
+        style: textStyle ?? TextStyle(fontSize: 15.sp),
         validator: validator,
         onChanged: onChanged,
         autovalidateMode: AutovalidateMode.onUserInteraction,

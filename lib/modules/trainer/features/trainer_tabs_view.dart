@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/view/lessons_view.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/widgets/app_bar.dart';
 import 'package:studiosync/core/theme/app_style.dart';
@@ -84,6 +85,6 @@ class SessionsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Upcoming Sessions Here'));
+    return LessonsView();
   }
 }

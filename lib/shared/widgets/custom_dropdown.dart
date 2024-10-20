@@ -7,10 +7,9 @@ class CustomDropDown<T> extends StatelessWidget {
   final T? initialValue;
   final Function(T?) onChanged;
   final List<T> items;
-  final String Function(T)
-      itemLabelBuilder; // פונקציה לבניית התווית עבור כל פריט
+  final String Function(T) itemLabelBuilder;
   final Color? color;
-  final Color? textColor; // צבע הטקסט
+  final Color? textColor;
   final Icon? icon;
 
   const CustomDropDown({
@@ -21,7 +20,7 @@ class CustomDropDown<T> extends StatelessWidget {
     this.initialValue,
     this.hintText,
     this.color,
-    this.textColor, // צבע הטקסט
+    this.textColor,
     this.icon,
   });
 
@@ -47,27 +46,40 @@ class CustomDropDown<T> extends StatelessWidget {
           prefixIcon: icon,
           hintText: hintText ?? 'Select an option',
           hintStyle: TextStyle(
-            color: textColor ?? AppStyle.backGrey3, // צבע הטקסט
+            color: textColor ?? AppStyle.backGrey3,
           ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
         ),
         value: initialValue,
         onChanged: onChanged,
-        items: items.map((item) {
-          return DropdownMenuItem<T>(
-            value: item,
-            child: Text(
-              itemLabelBuilder(item),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: textColor ?? AppStyle.backGrey3, // צבע הטקסט
-              ),
-            ),
-          );
-        }).toList(),
-        isExpanded: true, // כדי שה-dropdown יהיה ברוחב מלא
-        alignment: Alignment.centerRight, // מיקום הטקסט המרכזי
+        items: items.isNotEmpty
+            ? items.map((item) {
+                return DropdownMenuItem<T>(
+                  value: item,
+                  child: Text(
+                    itemLabelBuilder(item),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: textColor ?? AppStyle.backGrey3,
+                    ),
+                  ),
+                );
+              }).toList()
+            : [
+                // Provide an empty item if there are no items
+                DropdownMenuItem<T>(
+                  enabled: false,
+                  child: Text(
+                    hintText ?? 'No options available',
+                    style: TextStyle(
+                      color: textColor ?? AppStyle.backGrey3,
+                    ),
+                  ),
+                ),
+              ],
+        isExpanded: true,
+        alignment: Alignment.centerRight,
       ),
     );
   }

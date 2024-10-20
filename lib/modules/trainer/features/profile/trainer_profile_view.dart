@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:studiosync/shared/widgets/custom_image.dart';
 import 'package:studiosync/shared/widgets/custom_text_field.dart';
 import 'package:studiosync/shared/widgets/custome_bttn.dart';
-import 'package:studiosync/shared/widgets/custome_dropdown.dart';
+import 'package:studiosync/shared/widgets/custom_dropdown.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/const.dart';
 import 'package:studiosync/core/utils/validations.dart';
