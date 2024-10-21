@@ -24,14 +24,29 @@ class TrainerLessonsController extends GetxController {
     required this.trainerController,
     required this.filterService,
   });
+  var isLoading = false.obs;
 
   RxList<LessonModel> lessons = <LessonModel>[].obs;
   RxList<LessonModel> filteredLessons = <LessonModel>[].obs;
+
   RxInt selectedDayIndex = (DateTime.now().weekday % 7).obs;
-  var filterOption = 'Active'.obs;
-  var isLoading = false.obs;
+
+  var statusFilter = 'Active'.obs;
+
+  late RxString trainerFilter = 'All'.obs;
+
+  late RxString typeFilter = 'All'.obs;
+
+  late RxString locationFilter = 'All'.obs;
 
   Rx<bool> showLessons = false.obs;
+
+  List<String> statusFilterOptions = [
+    'All',
+    'Active',
+    'Past',
+    'Upcoming',
+  ];
 
   // Subscriptions to listen for changes
   late StreamSubscription<List<LessonModel>> lessonsSubscription;
@@ -42,7 +57,10 @@ class TrainerLessonsController extends GetxController {
 
     _listenToLessonChanges();
     ever(selectedDayIndex, (_) => _applyFilters());
-    ever(filterOption, (_) => _applyFilters());
+    ever(statusFilter, (_) => _applyFilters());
+    ever(trainerFilter, (_) => _applyFilters());
+    ever(typeFilter, (_) => _applyFilters());
+    ever(locationFilter, (_) => _applyFilters());
   }
 
   @override
@@ -134,13 +152,12 @@ class TrainerLessonsController extends GetxController {
     filteredLessons.value = filterService.filterLessons(
       lessons,
       selectedDayIndex.value,
-      filterOption.value,
+      statusFilter.value,
+      trainerFilter.value,
+      typeFilter.value,
+      locationFilter.value,
     );
     filteredLessons.refresh();
-  }
-
-  void setFilter(String filter) {
-    filterOption.value = filter;
   }
 
   bool validateForEmptyFields(LessonModel? lesson) {

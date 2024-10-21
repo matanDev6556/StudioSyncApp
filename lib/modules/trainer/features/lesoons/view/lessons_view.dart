@@ -28,8 +28,8 @@ class LessonsView extends StatelessWidget {
                   Obx(
                     () => Text(
                       controller.filteredLessons.length < 2
-                          ? 'Lessons (${controller.filterOption})'
-                          : '${controller.filteredLessons.length} Lessons (${controller.filterOption})',
+                          ? 'Lessons (${controller.statusFilter})'
+                          : '${controller.filteredLessons.length} Lessons (${controller.statusFilter})',
                       style: TextStyle(
                         fontSize: 18.sp,
                         color: AppStyle.softBrown,
