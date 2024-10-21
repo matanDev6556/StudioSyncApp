@@ -41,7 +41,7 @@ class _LessonEditBottomSheetState extends State<LessonEditBottomSheet> {
   Widget build(BuildContext context) {
     return Container(
       height: Get.height * 0.85,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Form(
         key: _formKey,
         child: ListView(

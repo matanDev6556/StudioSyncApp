@@ -7,12 +7,14 @@ class CustomContainer extends StatelessWidget {
   final EdgeInsetsGeometry? padding; // Optional padding
   final Color? backgroundColor; // Optional background color
   final Color? textColor;
+  final double? fontSize;
   final Widget? child;
 
   const CustomContainer({
     Key? key,
     this.text,
     this.padding,
+    this.fontSize,
     this.backgroundColor,
     this.textColor,
     this.child,
@@ -26,14 +28,15 @@ class CustomContainer extends StatelessWidget {
         color: backgroundColor ?? AppStyle.softOrange.withOpacity(0.2),
         borderRadius: BorderRadius.circular(15),
       ),
-
-      child: text != null ? Text(
-        text ?? '',
-        style: TextStyle(
-          color: textColor ?? AppStyle.softBrown,
-          fontSize: 16.sp,
-        ),
-      ) : child,
+      child: text != null
+          ? Text(
+              text ?? '',
+              style: TextStyle(
+                color: textColor ?? AppStyle.softBrown,
+                fontSize: fontSize ?? 16.sp,
+              ),
+            )
+          : child,
     );
   }
 }

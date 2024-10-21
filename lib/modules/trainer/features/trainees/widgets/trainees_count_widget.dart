@@ -30,14 +30,15 @@ class TraineesHeaderWidget extends StatelessWidget {
           Text(
             'Total Trainees',
             style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w600,
               color: AppStyle.softBrown,
             ),
           ),
           CustomContainer(
             text: totalTrainees.toString(),
             textColor: AppStyle.softOrange,
+            fontSize: 18.sp,
           )
         ],
       ),
