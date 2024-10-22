@@ -11,7 +11,7 @@ class Routes {
   static const signUpTrainer = '/sign-up-trainer';
   static const homeTrainee = '/home-trainee';
   static const profileTrainee = '/profile-trainee';
-  
+
   //trainee routes
   static const signUpTrainee = '/sign-up-trainee';
   static const homeTrainer = '/home-trainer';

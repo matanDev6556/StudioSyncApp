@@ -75,4 +75,6 @@ class TrainerLessonsService {
       throw Exception('Failed to delete lesson: $e');
     }
   }
+
+  
 }

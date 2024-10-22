@@ -26,6 +26,12 @@ class AppStyle {
     color: AppStyle.backGrey2, // צבע כהה מותאם לערכי הסיכום
   );
 
+  static final TextStyle softValueStyle = TextStyle(
+    fontSize: 15.sp,
+
+    color: AppStyle.softBrown.withOpacity(0.5), // צבע כהה מותאם לערכי הסיכום
+  );
+
   static final TextStyle sectionTitleStyle = TextStyle(
     fontSize: 18.sp,
     fontWeight: FontWeight.bold,

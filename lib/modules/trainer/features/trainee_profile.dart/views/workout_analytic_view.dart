@@ -118,7 +118,7 @@ class WorkoutAnalyticView extends GetView<TraineeWorkoutController> {
         SizedBox(height: 8.h),
         Text(label, style: AppStyle.summaryLabelStyle),
         SizedBox(height: 4.h),
-        Text(value, style: AppStyle.summaryValueStyle),
+        Text(value, style: AppStyle.softValueStyle),
       ],
     );
   }
