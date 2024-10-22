@@ -8,7 +8,6 @@ import 'package:studiosync/modules/auth/views/signup_trainer_view.dart';
 import 'package:studiosync/modules/auth/bindings/signup_trainer_binding.dart';
 import 'package:studiosync/core/router/routes.dart';
 
-
 class TrainerRouter {
   static final trainerRoutes = [
     GetPage(
@@ -29,6 +28,5 @@ class TrainerRouter {
       },
       binding: TraineeProfileBinding(),
     ),
-    // Add other trainer-specific routes here
   ];
 }

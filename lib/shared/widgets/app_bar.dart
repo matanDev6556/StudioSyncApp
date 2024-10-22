@@ -8,6 +8,7 @@ import 'package:studiosync/core/theme/app_style.dart';
 class CustomAppBarTabs extends StatelessWidget implements PreferredSizeWidget {
   final UserModel userModel;
   final VoidCallback onEditPressed;
+  final VoidCallback? onStatisticPressed;
   final VoidCallback onNotificationPressed;
   final bool thereIsNotifications;
   final bool isLoading;
@@ -16,6 +17,7 @@ class CustomAppBarTabs extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     this.isLoading = false,
     required this.userModel,
+    this.onStatisticPressed,
     required this.onEditPressed,
     required this.onNotificationPressed,
     required this.thereIsNotifications,
@@ -64,6 +66,15 @@ class CustomAppBarTabs extends StatelessWidget implements PreferredSizeWidget {
                           thereIsNotifications: thereIsNotifications,
                           onPressed: onNotificationPressed,
                         ),
+                        onStatisticPressed != null
+                            ? IconButton(
+                                onPressed: onStatisticPressed,
+                                icon: const Icon(
+                                  Icons.auto_graph,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const SizedBox()
                       ],
                     ),
                   ),

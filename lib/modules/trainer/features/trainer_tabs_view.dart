@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/view/lessons_view.dart';
+import 'package:studiosync/modules/trainer/features/statistics/view/statistic_view.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/widgets/app_bar.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
 import 'package:studiosync/modules/trainer/features/profile/trainer_profile_view.dart';
-import 'package:studiosync/modules/trainer/features/trainees/trainees_list_view.dart';
+import 'package:studiosync/modules/trainer/features/trainees-list/trainees_list_view.dart';
 
 class TrainerTabsView extends StatelessWidget {
   const TrainerTabsView({Key? key}) : super(key: key);
@@ -27,14 +28,21 @@ class TrainerTabsView extends StatelessWidget {
       final trainer = controller.trainer.value; // trainer is reactive
       return Scaffold(
         appBar: CustomAppBarTabs(
-          userModel: trainer!, // use trainer inside Obx
+          userModel: trainer!,
           onEditPressed: () => controller.setNewProfileImg(),
+          onStatisticPressed: () {
+            Get.bottomSheet(
+              StatisticsView(),
+              isScrollControlled: true,
+            );
+          },
           onNotificationPressed: () {},
           thereIsNotifications: false,
           isLoading: controller.isLoading.value,
         ),
         body: _pages[tabController.selectedIndex.value],
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
           currentIndex: tabController.selectedIndex.value,
           onTap: (index) => tabController.updateIndex(index),
           items: <BottomNavigationBarItem>[

@@ -23,7 +23,6 @@ class LessonsView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Obx(
                     () => Text(
@@ -37,13 +36,18 @@ class LessonsView extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const Spacer(),
                   IconButton(
                     icon: Icon(
                       Icons.settings,
                       color: AppStyle.backGrey3.withOpacity(0.6),
                     ),
                     onPressed: () => controller.showLessonSettingsBottomSheet(),
-                  )
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.filter_list, color: AppStyle.softOrange),
+                    onPressed: () => controller.showLessonFilterBottomSheet(),
+                  ),
                 ],
               ),
             ),

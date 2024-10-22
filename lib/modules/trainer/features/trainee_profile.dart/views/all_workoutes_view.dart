@@ -31,12 +31,6 @@ class AllWorkoutsView extends GetView<TraineeWorkoutController> {
           icon: Icon(Icons.arrow_back_ios, color: AppStyle.softOrange),
           onPressed: () => Get.back(),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.filter_list, color: AppStyle.softOrange),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: Column(
         children: [

@@ -93,13 +93,6 @@ class LessonWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              isLoading
-                  ? const CircularProgressIndicator()
-                  : _buildActionButton(
-                      onTap: detailsOnTap ?? () {},
-                      label: 'Details',
-                    ),
-              // הצגת כפתורי העריכה רק אם המשתמש הוא מאמן
               if (isTrainer)
                 Row(
                   children: [
@@ -122,6 +115,13 @@ class LessonWidget extends StatelessWidget {
                     ),
                   ],
                 ),
+              isLoading
+                  ? const CircularProgressIndicator()
+                  : _buildActionButton(
+                      onTap: detailsOnTap ?? () {},
+                      label: 'Details',
+                    ),
+              // הצגת כפתורי העריכה רק אם המשתמש הוא מאמן
             ],
           ),
         ],
