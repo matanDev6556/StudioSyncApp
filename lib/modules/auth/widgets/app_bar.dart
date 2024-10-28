@@ -2,6 +2,8 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/auth/widgets/logo.dart';
 
 class AppBarAuth extends StatelessWidget {
@@ -31,7 +33,7 @@ class AppBarAuth extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
         ),
@@ -49,8 +51,16 @@ class AppBarAuth extends StatelessWidget {
           bottomRight: Radius.circular(65),
         ),
         child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                AppStyle.softOrange.withOpacity(0.1),
+                Colors.white,
+              ],
+            ),
+            image: const DecorationImage(
               image: AssetImage('assets/images/image_login.png'),
               fit: BoxFit.fill,
             ),

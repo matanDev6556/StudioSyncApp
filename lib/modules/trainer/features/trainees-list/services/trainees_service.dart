@@ -6,28 +6,33 @@ class TraineeListService {
 
   TraineeListService(this.firestoreService);
 
-  Future<List<TraineeModel>> fetchTrainees(String trainerId) async {
+  Future<List<TraineeModel>> getTraineesForTrainer(String trainerId) async {
     try {
-      // Define the filters
-      Map<String, dynamic> filters = {
-        'trainerID': trainerId,
-      };
+      // Fetch all trainees under the trainer's sub-collection "trainees"
+      var querySnapshot = await firestoreService.firestore
+          .collection('trainers')
+          .doc(trainerId)
+          .collection('trainees')
+          .get();
 
-      // Fetch the trainees
-      final traineesDocs =
-          await firestoreService.getCollectionWithFilters('users', filters);
+      // Map the query results to a list of TraineeModel objects
+      List<TraineeModel> traineesList = querySnapshot.docs.map((doc) {
+        return TraineeModel.fromJson(doc.data());
+      }).toList();
 
-      // Return the trainees list
-      return traineesDocs.map((doc) => TraineeModel.fromJson(doc)).toList();
+      return traineesList;
     } catch (e) {
-      throw Exception('Error fetching trainees: $e');
+      print('Error fetching trainees: $e');
+      return [];
     }
   }
 
-  Stream<TraineeModel?> getTraineeStream(String userId) {
+  Stream<TraineeModel?> getTraineeStream(String trainerId, String traineeId) {
     return firestoreService.firestore
-        .collection('users')
-        .doc(userId)
+        .collection('trainers') // מאמנים
+        .doc(trainerId) // מזהה המאמן
+        .collection('trainees') // אוסף המתאמנים בתוך מסמך המאמן
+        .doc(traineeId) // מזהה המתאמן
         .snapshots()
         .map((snapshot) {
       if (snapshot.exists) {

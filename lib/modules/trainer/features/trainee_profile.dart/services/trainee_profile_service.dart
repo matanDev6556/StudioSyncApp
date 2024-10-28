@@ -8,87 +8,98 @@ class TraineeProfileService {
 
   TraineeProfileService(this.firestoreService);
 
-  Stream<TraineeModel> getTraineeChanges(String userId) {
+  Stream<TraineeModel> getTraineeChanges(String trainerId, String traineeId) {
     return firestoreService.firestore
-        .collection('users')
-        .doc(userId)
+        .collection('trainers') // מאמנים
+        .doc(trainerId) // מזהה המאמן
+        .collection('trainees') // אוסף המתאמנים בתוך מסמך המאמן
+        .doc(traineeId) // מזהה המתאמן
         .snapshots()
         .map((snapshot) {
       if (snapshot.exists) {
         return TraineeModel.fromJson(snapshot.data() as Map<String, dynamic>);
       } else {
-        throw Exception('Trainee not found');
+        throw Exception('no found');
       }
     });
   }
 
-  Future<void> addWorkoutToTrainee(
-      String traineeId, WorkoutModel workout) async {
-    await firestoreService.firestore
-        .collection('users')
-        .doc(traineeId)
-        .collection('workouts')
-        .add(workout.toMap());
+Future<void> addWorkoutToTrainee(
+    String trainerId, String traineeId, WorkoutModel workout) async {
+  await firestoreService.firestore
+      .collection('trainers')
+      .doc(trainerId) 
+      .collection('trainees') 
+      .doc(traineeId) 
+      .collection('workouts') 
+      .add(workout.toMap()); 
+}
+
+  Future<List<WorkoutModel>> fetchWorkouts(String trainerId, String traineeId) async {
+  try {
+    final workoutCollection = await firestoreService.firestore
+        .collection('trainers') 
+        .doc(trainerId) 
+        .collection('trainees')
+        .doc(traineeId) 
+        .collection('workouts') 
+        .get();
+
+    return workoutCollection.docs
+        .map((doc) => WorkoutModel.fromJson(doc.data()))
+        .toList();
+  } catch (e) {
+    print('Failed to fetch workouts: $e');
+    return [];
   }
+}
 
-  Future<List<WorkoutModel>> fetchWorkouts(String traineeId) async {
-    try {
-      final workoutCollection = await firestoreService.firestore
-          .collection('users')
-          .doc(traineeId)
-          .collection('workouts')
-          .get();
-
-      return workoutCollection.docs
+ Stream<List<WorkoutModel>> getWorkoutChanges(String trainerId, String traineeId) {
+  return firestoreService.firestore
+      .collection('trainers') // אוסף המאמנים
+      .doc(trainerId) // מזהה המאמן
+      .collection('trainees') // אוסף המתאמנים של המאמן
+      .doc(traineeId) // מזהה המתאמן
+      .collection('workouts') // אוסף האימונים של המתאמן
+      .snapshots()
+      .map((snapshot) => snapshot.docs
           .map((doc) => WorkoutModel.fromJson(doc.data()))
-          .toList();
-    } catch (e) {
-      print('Failed to fetch workouts: $e');
-      return [];
+          .toList());
+}
+
+ Future<void> deleteWorkout(String trainerId, TraineeModel trainee, WorkoutModel workout) async {
+  await firestoreService.firestore
+      .collection('trainers') // אוסף המאמנים
+      .doc(trainerId) // מזהה המאמן
+      .collection('trainees') // אוסף המתאמנים של המאמן
+      .doc(trainee.userId) // מזהה המתאמן
+      .collection('workouts') // אוסף האימונים של המתאמן
+      .where('id', isEqualTo: workout.id) // מציאת האימון על פי מזהה
+      .get()
+      .then((snapshot) {
+    for (DocumentSnapshot doc in snapshot.docs) {
+      doc.reference.delete(); // מחיקת כל מסמך שנמצא
     }
-  }
+  });
+}
 
-  Stream<List<WorkoutModel>> getWorkoutChanges(String userId) {
-    return firestoreService.firestore
-        .collection('users')
-        .doc(userId)
-        .collection('workouts')
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => WorkoutModel.fromJson(doc.data()))
-            .toList());
-  }
-
-  Future<void> deleteWorkout(TraineeModel trainee, WorkoutModel workout) async {
+Future<void> editWorkoutToFirestore(String trainerId, TraineeModel trainee, WorkoutModel updatedWorkout) async {
+  try {
     await firestoreService.firestore
-        .collection('users')
-        .doc(trainee.userId)
-        .collection('workouts')
-        .where('id', isEqualTo: workout.id)
+        .collection('trainers') // אוסף המאמנים
+        .doc(trainerId) // מזהה המאמן
+        .collection('trainees') // אוסף המתאמנים של המאמן
+        .doc(trainee.userId) // מזהה המתאמן
+        .collection('workouts') // אוסף האימונים של המתאמן
+        .where('id', isEqualTo: updatedWorkout.id) // מציאת האימון על פי מזהה
         .get()
         .then((snapshot) {
       for (DocumentSnapshot doc in snapshot.docs) {
-        doc.reference.delete();
+        doc.reference.set(updatedWorkout.toMap(), SetOptions(merge: true)); // עדכון האימון
       }
     });
+  } catch (e) {
+    throw e; // טיפול בשגיאה במקרה של כישלון
   }
-
-  Future<void> editWorkoutToFirestore(
-      TraineeModel trainee, WorkoutModel updatedWorkout) async {
-    try {
-      await firestoreService.firestore
-          .collection('users')
-          .doc(trainee.userId)
-          .collection('workouts')
-          .where('id', isEqualTo: updatedWorkout.id)
-          .get()
-          .then((snapshot) {
-        for (DocumentSnapshot doc in snapshot.docs) {
-          doc.reference.set(updatedWorkout.toMap(), SetOptions(merge: true));
-        }
-      });
-    } catch (e) {
-      throw e;
-    }
-  }
+}
 }

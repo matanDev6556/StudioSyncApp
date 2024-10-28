@@ -15,16 +15,20 @@ class LoginController extends GetxController {
   var password = ''.obs;
   var loginStatus = LoginStatus.idle.obs;
 
+
   void setEmail(String newEmail) => email.value = newEmail;
   void setPassword(String newPassword) => password.value = newPassword;
 
   void login() async {
     loginStatus.value = LoginStatus.submitting;
+  
     try {
       if (_validate()) {
         await authService.signInWithEmailAndPassword(
             email.value, password.value);
+
         loginStatus.value = LoginStatus.success;
+        Get.toNamed(Routes.widgetTree);
       }
     } catch (e) {
       loginStatus.value = LoginStatus.failure;

@@ -36,6 +36,49 @@ class FirestoreService {
     }
   }
 
+  Future<Map<String, dynamic>?> getNestedDocument(
+    String parentCollectionPath,
+    String parentDocumentId,
+    String childCollectionPath,
+    String childDocumentId,
+  ) async {
+    try {
+      DocumentSnapshot documentSnapshot = await _firestore
+          .collection(parentCollectionPath)
+          .doc(parentDocumentId)
+          .collection(childCollectionPath)
+          .doc(childDocumentId)
+          .get();
+
+      return documentSnapshot.data() as Map<String, dynamic>?;
+    } catch (e) {
+      print("Error fetching nested document: $e");
+      return null;
+    }
+  }
+
+  Future<void> addNastedDocument(
+    String parentCollectionPath,
+    String parentDocumentId,
+    String childCollectionPath,
+    String childDocumentId,
+    Map<String, dynamic> mapData,
+  ) async {
+    try {
+      // הוספה של מסמך מתאמן לתוך הקולקציה של המאמן
+      await _firestore
+          .collection(parentCollectionPath)
+          .doc(parentDocumentId)
+          .collection(childCollectionPath)
+          .doc(childDocumentId)
+          .set(mapData);
+
+      print("Added nasted doc");
+    } catch (e) {
+      print("Failed to add trainee: $e");
+    }
+  }
+
   // פונקציה לקבלת כל המסמכים מקולקציה
   Future<List<Map<String, dynamic>>> getCollection(
       String collectionPath) async {

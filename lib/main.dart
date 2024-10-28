@@ -6,7 +6,7 @@ import 'package:studiosync/core/config/firebase_options.dart';
 import 'package:studiosync/core/services/service_locator.dart';
 import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/router/routes.dart';
-import 'package:studiosync/shared/controllers/user_controller.dart';
+import 'package:studiosync/shared/controllers/widget_tree_controller.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/auth/controllers/login_controller.dart';
 

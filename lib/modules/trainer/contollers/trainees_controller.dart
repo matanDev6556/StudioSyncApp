@@ -41,10 +41,11 @@ class TraineesController extends GetxController {
     try {
       print('fetch trainees');
       final uid = authService.currentUser?.uid;
+     
       isLoading.value = true;
 
       // Fetch the trainees from the service
-      final trainees = await traineeService.fetchTrainees(uid!);
+      final trainees = await traineeService.getTraineesForTrainer(uid!);
 
       // Update the trainees list
       traineesList.value = trainees;

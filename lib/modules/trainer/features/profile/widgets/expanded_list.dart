@@ -36,8 +36,7 @@ class ExpandableList<T> extends StatelessWidget {
           title: Text(
             title,
             style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
+              fontSize: 17.sp,
               color: AppStyle.deepBlackOrange,
             ),
           ),
@@ -48,7 +47,7 @@ class ExpandableList<T> extends StatelessWidget {
                 icon: Icon(
                   Icons.add_circle_outline,
                   color: AppStyle.softOrange,
-                  size: 24.sp,
+                  size: 22.sp,
                 ),
                 onPressed: onAddItem,
               ),
@@ -88,7 +87,8 @@ class ExpandableList<T> extends StatelessWidget {
                     contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
                     title: itemBuilder(item),
                     trailing: IconButton(
-                      icon: Icon(Icons.delete_outline, color: Colors.red, size: 24.sp),
+                      icon: Icon(Icons.delete_outline,
+                          color: Colors.red, size: 24.sp),
                       onPressed: () => onRemoveItem(item),
                     ),
                   ),

@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
 
 class TraineeProfileTab extends StatelessWidget {
-  const TraineeProfileTab({Key? key}) : super(key: key);
+  final TraineeController traineeController = Get.find();
+  TraineeProfileTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('פרופיל כאן'));
+    return Center(
+        child: Column(
+      children: [
+        IconButton(
+          onPressed: () => traineeController.logout(),
+          icon: Icon(Icons.logout),
+        ),
+      ],
+    ));
   }
 }

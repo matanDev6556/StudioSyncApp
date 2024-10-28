@@ -28,108 +28,154 @@ class LoginView extends GetView<LoginController> {
           back: false,
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top,
-          left: 20.w,
-          right: 20.w,
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: SingleChildScrollView(
-          child: Form(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppStyle.h(20.h),
-                Center(
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 30.sp,
-                      color: AppStyle.deepBlackOrange,
-                    ),
-                  ),
-                ),
-                AppStyle.h(20.h),
-                CustomTextField(
-                  icon: Icon(
-                    Icons.email,
-                    color: AppStyle.backGrey3,
-                  ),
-                  hintText: "Email",
-                  hintColor: AppStyle.backGrey3,
-                  fill: false,
-                  color: AppStyle.deepOrange,
-                  maxLines: 1,
-                  onChanged: (newVal) {
-                    controller.setEmail(newVal);
-                  },
-                  validator: (valid) {
-                    return Validations.validateEmail(valid);
-                  },
-                ),
-                AppStyle.h(15.h),
-                CustomTextField(
-                  icon: Icon(
-                    Icons.password,
-                    color: AppStyle.backGrey3,
-                  ),
-                  hintText: "Password",
-                  hintColor: AppStyle.backGrey3,
-                  fill: false,
-                  color: AppStyle.deepOrange,
-                  maxLines: 1,
-                  onChanged: (newVal) {
-                    controller.setPassword(newVal);
-                  },
-                  validator: (valid) {
-                    return Validations.validateEmptey(valid, 'Password');
-                  },
-                ),
-                AppStyle.h(15.h),
-                Obx(() {
-                  if (controller.loginStatus.value == LoginStatus.submitting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  return CustomButton(
-                    text: 'Login',
-                    fill: true,
-                    color: AppStyle.deepOrange,
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    onTap: () {
-                      controller.login();
-                    },
-                  );
-                }),
-                AppStyle.h(15.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
+        children: [
+          _buildBackground(),
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "New user? ",
-                      style: TextStyle(
-                        color: AppStyle.backGrey3,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => Get.toNamed(Routes.signUpAs),
+                    AppStyle.h(20.h),
+                    Center(
                       child: Text(
-                        "Sign Up.",
+                        'Login ',
                         style: TextStyle(
+                          fontSize: 28.sp,
                           fontWeight: FontWeight.bold,
                           color: AppStyle.deepBlackOrange,
                         ),
                       ),
                     ),
+                    AppStyle.h(30.h),
+                    _buildLoginForm(),
+                    AppStyle.h(20.h),
+                    _buildLoginButton(),
+                    AppStyle.h(20.h),
+                    _buildSignUpLink(),
                   ],
                 ),
-              ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBackground() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppStyle.softOrange.withOpacity(0.1),
+            Colors.white,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoginForm() {
+    return Column(
+      children: [
+        _buildTextField(
+          icon: Icons.email,
+          hintText: "Email",
+          onChanged: controller.setEmail,
+          validator: Validations.validateEmail,
+        ),
+        AppStyle.h(20.h),
+        _buildTextField(
+          icon: Icons.lock,
+          hintText: "Password",
+          onChanged: controller.setPassword,
+          validator: (valid) => Validations.validateEmptey(valid, 'Password'),
+          isPassword: true,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTextField({
+    required IconData icon,
+    required String hintText,
+    required Function(String) onChanged,
+    required String? Function(String?) validator,
+    bool isPassword = false,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: CustomTextField(
+        icon: Icon(icon, color: AppStyle.softOrange),
+        hintText: hintText,
+        hintColor: AppStyle.backGrey3,
+        fill: true,
+        color: Colors.white,
+        maxLines: 1,
+        onChanged: onChanged,
+        validator: validator,
+      ),
+    );
+  }
+
+  Widget _buildLoginButton() {
+    return Obx(() {
+      if (controller.loginStatus.value == LoginStatus.submitting) {
+        return Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppStyle.softOrange),
+          ),
+        );
+      }
+      return CustomButton(
+        text: 'Login',
+        fill: true,
+        color: AppStyle.deepBlackOrange,
+        width: double.infinity,
+        onTap: () {
+          controller.login();
+        },
+      );
+    });
+  }
+
+  Widget _buildSignUpLink() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "New user? ",
+          style: TextStyle(
+            color: AppStyle.backGrey3,
+          ),
+        ),
+        GestureDetector(
+          onTap: () => Get.toNamed(Routes.signUpAs),
+          child: Text(
+            "Sign Up",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppStyle.deepBlackOrange,
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
