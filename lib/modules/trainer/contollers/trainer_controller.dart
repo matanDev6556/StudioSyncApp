@@ -11,11 +11,14 @@ class TrainerController extends GetxController {
   final AuthService authService;
   final FirestoreService userFirestoreService;
 
+  TrainerController(
+    this.imageService,
+    this.userFirestoreService,
+    this.authService,
+  );
+
   Rx<TrainerModel?> trainer = Rx<TrainerModel?>(null);
   final isLoading = false.obs;
-
-  TrainerController(
-      this.imageService, this.userFirestoreService, this.authService);
 
   void addItemToList<T>(List<T> Function(TrainerModel) getList, T newItem) {
     final list = getList(trainer.value!);

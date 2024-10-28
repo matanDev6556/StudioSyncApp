@@ -4,7 +4,7 @@ import 'package:studiosync/modules/trainee/models/subscriptions/subscription_mod
 import 'package:studiosync/shared/models/user_model.dart';
 
 class TraineeModel extends UserModel {
-  String? trainerID;
+  String trainerID;
   DateTime? startWorOutDate;
   //List<WorkoutModel>? workouts;
   Subscription? subscription;
