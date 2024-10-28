@@ -87,7 +87,19 @@ class SignUpController extends GetxController {
       );
       if (user != null) {
         await firestoreService.createDocument(
-            'users', user.uid, newTrainee.toMap());
+          'trainees',
+          user.uid,
+          newTrainee.copyWith(id: user.uid).toMap(),
+        );
+
+        await firestoreService.createDocument(
+          'AllTrainees',
+          user.uid,
+          {
+            'id': user.uid,
+            'trainerID': newTrainee.trainerID,
+          },
+        );
       }
     }
   }

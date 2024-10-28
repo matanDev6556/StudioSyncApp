@@ -78,11 +78,13 @@ class SubscriptionController extends GetxController {
     subscriptionByDate.value = newSubscription;
     subscriptionByDate.refresh();
   }
+
   // פונקציה לשמור שינויים במידע המנוי של המתאמן
   void save(TraineeModel trainee) async {
     try {
       // מציאת הקונטרולר של המתאמנים כדי לעדכן את הרשימה שלהם
       final traineesController = Get.find<TraineesController>();
+
       // הפעלת מצב טעינה
       isLoading.value = true;
       // יצירת מודל מתאמן מעודכן עם המידע החדש
@@ -96,11 +98,15 @@ class SubscriptionController extends GetxController {
             trainee.copyWith(subscription: subscriptionByTotal.value);
       }
       // עדכון המסמך של המתאמן בשירות הפיירבייס
-      await firestoreService.updateDocument(
-        'users',
-        trainee.userId,
+      await firestoreService.addNastedDocument(
+        'trainers',
+        updatedTrainee.trainerID ?? '',
+        'trainees',
+        updatedTrainee.userId,
         updatedTrainee.toMap(),
       );
+
+     
       // עדכון הרשימה המסוננת של המתאמנים עם המידע החדש
       traineesController.filteredTraineesList.value = traineesController
           .filteredTraineesList
@@ -124,11 +130,13 @@ class SubscriptionController extends GetxController {
     final TraineeModel updatetrainee = trainee;
     updatetrainee.subscription = null;
     isLoading.value = true;
-    await firestoreService.updateDocument(
-      'users',
-      trainee.userId,
-      updatetrainee.toMap(),
-    );
+   await firestoreService.addNastedDocument(
+        'trainers',
+        updatetrainee.trainerID ?? '',
+        'trainees',
+        updatetrainee.userId,
+        updatetrainee.toMap(),
+      );
     isLoading.value = false;
   }
 

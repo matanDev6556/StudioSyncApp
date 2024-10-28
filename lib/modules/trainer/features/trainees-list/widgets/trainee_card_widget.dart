@@ -74,10 +74,11 @@ class TraineeCardWidget extends StatelessWidget {
                                   : 'Inactive')
                               : 'No subscription!',
                         ),
-                        _buildInfoChip(
-                          icon: Icons.calendar_today,
-                          label: 'Since ${trainee.startWorOutDate!.year}',
-                        ),
+                        if (trainee.startWorOutDate != null)
+                          _buildInfoChip(
+                            icon: Icons.calendar_today,
+                            label: 'Since ${trainee.startWorOutDate!.year}',
+                          ),
                       ],
                     ),
                   ],

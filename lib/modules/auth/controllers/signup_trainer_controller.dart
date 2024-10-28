@@ -5,7 +5,9 @@ import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 
 class SignUpTrainerController extends SignUpController {
   SignUpTrainerController(
-      {required super.authService, required super.firestoreService,required super.storageServices});
+      {required super.authService,
+      required super.firestoreService,
+      required super.storageServices});
   // Trainer-specific fields
   RxList<String> imageUrls = <String>[].obs;
   RxList<PriceTier> priceList = <PriceTier>[].obs;
@@ -107,8 +109,6 @@ class SignUpTrainerController extends SignUpController {
     return formKey.currentState?.validate() ?? false;
   }
 
-
-
   // Submit logic
   @override
   void submit() async {
@@ -139,9 +139,9 @@ class SignUpTrainerController extends SignUpController {
       // save in the db
       if (user != null) {
         await firestoreService.createDocument(
-          'users',
+          'trainers',
           user.uid,
-          newTrainer.toMap(),
+          newTrainer.copyWith(id: user.uid).toMap(),
         );
       }
     } else {

@@ -22,41 +22,83 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
   final StorageServices storageServices;
 
   WidgetTreeController(
-      this.authService, this.firestoreService, this.storageServices);
+    this.authService,
+    this.firestoreService,
+    this.storageServices,
+  );
 
   var userModel = Rxn<UserModel>();
   GeneralTabController? tabController;
   final isLoading = false.obs;
-
-  bool get isTrainer => userModel.value?.isTrainerUser ?? false;
 
   RxInt selectedIndex = 0.obs;
   void updateIndex(int index) {
     selectedIndex.value = index;
   }
 
-  Future<void> checkUserRoleAndRedirect() async {
+  Future<void> checkUserRoleAndRedirect1() async {
     final currentUser = authService.currentUser;
-    if (currentUser != null) {
-      final uid = currentUser.uid;
-      try {
-        isLoading.value = true;
-        final mapUser = await firestoreService.getDocument('users', uid);
-        if (mapUser == null) {
-          Get.offAllNamed(Routes.signUpAs);
-        } else if (mapUser['isTrainer']) {
-          await _handleTrainerLogin(mapUser);
-        } else {
-          await _handleTraineeLogin(mapUser);
-        }
-      } catch (e) {
-        print("Error: $e");
-        Get.offAllNamed('/error');
-      } finally {
-        isLoading.value = false;
-      }
-    } else {
+
+    if (currentUser == null) {
       Get.offAllNamed(Routes.login);
+      return;
+    }
+
+    final uid = currentUser.uid;
+    try {
+      if (await _tryHandleTrainerLogin(uid)) return;
+
+      final traineeMap = await firestoreService.getDocument('AllTrainees', uid);
+      if (traineeMap == null) {
+        Get.offAllNamed(Routes.signUpAs);
+        return;
+      }
+
+      final isConnectedToTrainer = traineeMap['trainerID']?.isNotEmpty ?? false;
+      if (!isConnectedToTrainer) {
+        await _tryHandleDirectTraineeLogin(uid);
+      } else {
+        await _tryHandleNestedTraineeLogin(traineeMap['trainerID'], uid);
+      }
+    } catch (e) {
+      print("Error: $e");
+      Get.offAllNamed('/error');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<bool> _tryHandleTrainerLogin(String uid) async {
+    final trainerMap = await firestoreService.getDocument('trainers', uid);
+    if (trainerMap != null) {
+      await _handleTrainerLogin(trainerMap);
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> _tryHandleDirectTraineeLogin(String uid) async {
+    final directTraineeMap =
+        await firestoreService.getDocument('trainees', uid);
+    if (directTraineeMap != null) {
+      await _handleTraineeLogin(directTraineeMap);
+    } else {
+      Get.offAllNamed(Routes.signUpAs);
+    }
+  }
+
+  Future<void> _tryHandleNestedTraineeLogin(
+      String trainerId, String uid) async {
+    final traineeInTrainerMap = await firestoreService.getNestedDocument(
+      'trainers',
+      trainerId,
+      'trainees',
+      uid,
+    );
+    if (traineeInTrainerMap != null) {
+      await _handleTraineeLogin(traineeInTrainerMap);
+    } else {
+      Get.offAllNamed(Routes.signUpAs);
     }
   }
 
@@ -71,7 +113,7 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
   }
 
   Future<void> _handleTraineeLogin(Map<String, dynamic> mapUser) async {
-    Get.put(TraineeController(), permanent: true);
+    Get.put(TraineeController(authService: Get.find()), permanent: true);
     final controller = Get.find<TraineeController>();
     TraineeModel traineeModel = TraineeModel.fromJson(mapUser);
     controller.trainee.value = traineeModel;

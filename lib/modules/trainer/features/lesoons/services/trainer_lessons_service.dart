@@ -11,7 +11,7 @@ class TrainerLessonsService {
   // Listen to changes in the lessons collection for a specific trainer
   Stream<List<LessonModel>> getLessonChanges(String trainerID) {
     return firestoreService.firestore
-        .collection('users')
+        .collection('trainers')
         .doc(trainerID)
         .collection('lessons')
         .snapshots()
@@ -25,7 +25,7 @@ class TrainerLessonsService {
   Future<List<TraineeModel>> getTraineesByIds(List<String> traineeIds) async {
     // כאן תבצע שאילתא על Firestore כדי להביא את המתאמנים לפי ה־IDs שלהם
     final snapshots = await firestoreService.firestore
-        .collection('users')
+        .collection('trainers')
         .where(FieldPath.documentId, whereIn: traineeIds)
         .get();
 
@@ -37,7 +37,7 @@ class TrainerLessonsService {
   Future<void> addLesson(String trainerId, LessonModel lesson) async {
     try {
       final lessonsRef = firestoreService.firestore
-          .collection('users')
+          .collection('trainers')
           .doc(trainerId)
           .collection('lessons')
           .doc(lesson.id);
@@ -52,7 +52,7 @@ class TrainerLessonsService {
     try {
       // גישה ל-subcollection של השיעורים עבור המאמן
       final lessonsRef = firestoreService.firestore
-          .collection('users')
+          .collection('trainers')
           .doc(trainerId)
           .collection('lessons')
           .doc(lesson.id);
@@ -66,7 +66,7 @@ class TrainerLessonsService {
   Future<void> deleteLesson(String trainerId, String lessonId) async {
     try {
       await firestoreService.firestore
-          .collection('users')
+          .collection('trainers')
           .doc(trainerId)
           .collection('lessons')
           .doc(lessonId)
@@ -75,6 +75,4 @@ class TrainerLessonsService {
       throw Exception('Failed to delete lesson: $e');
     }
   }
-
-  
 }

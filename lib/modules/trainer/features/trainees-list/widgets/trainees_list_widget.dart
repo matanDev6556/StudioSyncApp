@@ -34,7 +34,7 @@ class TraineesListWidget extends StatelessWidget {
       itemCount: traineesList.length,
       itemBuilder: (context, index) {
         final trainee = traineesList[index];
-        print('trainee $index sub : ${trainee.subscription}');
+        
         return TraineeCardWidget(
           //workoutsLength: workoutsLength,
           trainee: trainee,
