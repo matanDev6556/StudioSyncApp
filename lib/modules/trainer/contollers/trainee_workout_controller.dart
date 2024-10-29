@@ -46,8 +46,7 @@ class TraineeWorkoutController extends GetxController {
   void _listenToTraineeChanges() {
     if (trainee.value != null) {
       traineeDocSubscription = traineeProfileService
-          .getTraineeChanges(
-              trainee.value!.trainerID ?? '', trainee.value!.userId)
+          .getTraineeChanges(trainee.value!.trainerID, trainee.value!.userId)
           .listen((updatedTrainee) {
         trainee.value = updatedTrainee;
         updateLocalTrainee(updatedTrainee);
@@ -68,17 +67,17 @@ class TraineeWorkoutController extends GetxController {
   void _listenToWorkoutChanges() {
     if (trainee.value != null) {
       workoutsDocSubscription = traineeProfileService
-          .getWorkoutChanges(trainee.value!.trainerID ?? '',trainee.value!.userId) 
+          .getWorkoutChanges(trainee.value!.trainerID, trainee.value!.userId)
           .listen((updatedWorkouts) {
-        workouts.value = updatedWorkouts; 
+        workouts.value = updatedWorkouts;
       });
     }
   }
 
   Future<void> fetchWorkouts() async {
     if (trainee.value != null) {
-      final workoutsList =
-          await traineeProfileService.fetchWorkouts(trainee.value!.trainerID ?? '',trainee.value!.userId);
+      final workoutsList = await traineeProfileService.fetchWorkouts(
+          trainee.value!.trainerID, trainee.value!.userId);
 
       // Convert date strings to DateTime objects and sort by date in descending order (latest first)
       workouts.value = workoutsList
@@ -96,7 +95,7 @@ class TraineeWorkoutController extends GetxController {
     final newWorkout = workoutFormHandler.createWorkoutFromInput();
     workouts.add(newWorkout);
     traineeProfileService.addWorkoutToTrainee(
-      trainee.value!.trainerID ?? '',
+      trainee.value!.trainerID,
       trainee.value!.userId,
       newWorkout,
     );
@@ -109,7 +108,8 @@ class TraineeWorkoutController extends GetxController {
   }
 
   void deleteWorkout(WorkoutModel workout) async {
-    await traineeProfileService.deleteWorkout(trainee.value!.trainerID ?? '',trainee.value!, workout);
+    await traineeProfileService.deleteWorkout(
+        trainee.value!.trainerID, trainee.value!, workout);
     workouts.value = List.from(workouts)..remove(workout);
     workouts.refresh();
   }
@@ -121,7 +121,7 @@ class TraineeWorkoutController extends GetxController {
     );
 
     await traineeProfileService.editWorkoutToFirestore(
-      trainee.value!.trainerID ?? '',
+      trainee.value!.trainerID,
       trainee.value!,
       updatedWorkout!,
     );

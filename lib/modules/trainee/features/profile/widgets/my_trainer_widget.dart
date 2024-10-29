@@ -7,7 +7,8 @@ import 'package:studiosync/shared/widgets/custom_image.dart';
 
 class MyTrainerWidget extends StatelessWidget {
   final TrainerModel? trainerModel;
-  const MyTrainerWidget({Key? key, this.trainerModel}) : super(key: key);
+  final VoidCallback onClick; 
+  const MyTrainerWidget({Key? key, this.trainerModel, required this.onClick}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class MyTrainerWidget extends StatelessWidget {
               ],
             ),
           ),
-          _buildContactButton(),
+          _buildContactButton(onClick: onClick), // הוספת הפונקציה לקליק לתוך החץ
         ],
       ),
     );
@@ -83,7 +84,7 @@ class MyTrainerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildContactButton() {
+  Widget _buildContactButton({required VoidCallback onClick}) {
     return CustomContainer(
       child: IconButton(
         icon: Icon(
@@ -91,9 +92,7 @@ class MyTrainerWidget extends StatelessWidget {
           color: AppStyle.softOrange,
           size: 22.sp,
         ),
-        onPressed: () {
-          // TODO: Implement contact functionality
-        },
+        onPressed: onClick, // הוספת הפונקציה לקליק
       ),
     );
   }

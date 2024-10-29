@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/features/profile/trainee_profile_view.dart';
+import 'package:studiosync/modules/trainee/features/profile/views/trainee_profile_view.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/widgets/app_bar.dart';
 
@@ -44,9 +44,10 @@ class TraineeTabsView extends StatelessWidget {
               label: 'Profile',
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.group),
+              icon: const Icon(Icons.fitness_center),
               label: 'Workouts',
-              activeIcon: Icon(Icons.group, color: AppStyle.deepBlackOrange),
+              activeIcon:
+                  Icon(Icons.fitness_center, color: AppStyle.deepBlackOrange),
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.schedule),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/const.dart';
 import 'package:studiosync/core/utils/validations.dart';
@@ -95,7 +96,10 @@ class TraineeProfileView extends StatelessWidget {
             controller.trainee.value!.trainerID.isNotEmpty
                 ? MyTrainerWidget(
                     trainerModel: controller.myTrainer.value,
-                    onClick: () {},
+                    onClick: () => Get.toNamed(
+                      Routes.myTrainerProfile,
+                      arguments: controller.myTrainer.value,
+                    ),
                   )
                 : const CustomContainer(
                     padding: EdgeInsets.all(10),

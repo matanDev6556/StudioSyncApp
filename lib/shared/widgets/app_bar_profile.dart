@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/shared/widgets/custom_image.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 
-class AppBarTraineeWidget extends StatelessWidget {
-  final TraineeModel trainee;
+
+class AppBarProfileWidget extends StatelessWidget {
+  final String imageUrl;
+  final Color borderColor;
   final double rectangleHeight;
 
-  const AppBarTraineeWidget({
+  const AppBarProfileWidget({
     Key? key,
-    required this.trainee,
+    required this.imageUrl,
+    required this.borderColor,
     this.rectangleHeight = 100.0,
   }) : super(key: key);
 
@@ -28,13 +30,10 @@ class AppBarTraineeWidget extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                AppStyle.softOrange
-                    .withOpacity(0.8), // Lighter shade of softOrange
-                AppStyle.softOrange, // Original softOrange
-                AppStyle.softOrange.withRed(255), // Warmer orange
-                AppStyle.softOrange
-                    .withRed(255)
-                    .withBlue(50), // Slightly cooler orange
+                AppStyle.softOrange.withOpacity(0.8),
+                AppStyle.softOrange,
+                AppStyle.softOrange.withRed(255),
+                AppStyle.softOrange.withRed(255).withBlue(50),
               ],
               stops: const [0.0, 0.3, 0.7, 1.0],
             ),
@@ -50,27 +49,25 @@ class AppBarTraineeWidget extends StatelessWidget {
         // User Image
         Positioned(
           left: (MediaQuery.of(context).size.width - 100) / 2,
-          top: rectangleHeight - 60, // מקם את התמונה מחוץ ל-container
+          top: rectangleHeight - 60,
           child: CustomImageWidget(
             height: 100,
             width: 100,
-            imageUrl: trainee.imgUrl,
-            borderColor: trainee.isActive()
-                ? Colors.greenAccent.withOpacity(0.5)
-                : Colors.redAccent.withOpacity(0.5),
+            imageUrl: imageUrl,
+            borderColor: borderColor, // מעביר את הצבע מבחוץ
           ),
         ),
-
         Positioned(
-            left: 15,
-            top: 50,
-            child: IconButton(
-              onPressed: () => Get.back(),
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-            )),
+          left: 15,
+          top: 50,
+          child: IconButton(
+            onPressed: () => Get.back(),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ],
     );
   }

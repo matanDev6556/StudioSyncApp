@@ -6,7 +6,7 @@ import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainee_workout_controller.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/app_bar_trainee.dart';
+import 'package:studiosync/shared/widgets/app_bar_profile.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/data_workout_container.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/msg_statistic.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/subscriptions/subscription_buttom.dart';
@@ -42,9 +42,10 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
         ),
         body: Column(
           children: [
-            AppBarTraineeWidget(
+            AppBarProfileWidget(
               rectangleHeight: 120.h,
-              trainee: trainee,
+              imageUrl: trainee.imgUrl ?? '',
+             borderColor: trainee.isActive() ? Colors.green : Colors.red,
             ),
             _buildTraineeHeader(trainee),
             Expanded(

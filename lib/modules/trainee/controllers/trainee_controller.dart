@@ -24,7 +24,6 @@ class TraineeController extends GetxController {
 
   @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
     fetchMyTrainer();
   }
@@ -43,7 +42,7 @@ class TraineeController extends GetxController {
     isLoading.value = true;
     await firestoreService.addNastedDocument(
         'trainers',
-        trainee.value!.trainerID ?? '',
+        trainee.value!.trainerID ,
         'trainees',
         trainee.value!.userId,
         trainee.value!.toMap());
