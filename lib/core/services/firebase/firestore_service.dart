@@ -22,6 +22,23 @@ class FirestoreService {
     await _firestore.collection(collectionPath).doc(documentId).delete();
   }
 
+  Future<void> deleteDocumentAndSubcollections(String collectionPath,
+      String docId, List<String> subcollectionNames) async {
+    final documentRef = firestore.collection(collectionPath).doc(docId);
+
+    for (String subcollectionName in subcollectionNames) {
+      final subcollectionRef = documentRef.collection(subcollectionName);
+
+      final subcollectionDocs = await subcollectionRef.get();
+      for (var doc in subcollectionDocs.docs) {
+        await doc.reference.delete();
+      }
+    }
+
+    // Finally, delete the main document
+    await documentRef.delete();
+  }
+
   // פונקציה לקבלת מסמך לפי מזהה
   Future<Map<String, dynamic>?> getDocument(
     String collectionPath,
@@ -87,6 +104,19 @@ class FirestoreService {
     return querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
+  }
+
+  Future<int> countDocumentsInCollection(String collectionPath) async {
+    try {
+      // שליפת כל המסמכים מתוך הנתיב שניתן
+      final querySnapshot = await firestore.collection(collectionPath).get();
+
+      // חישוב כמות המסמכים שנמצאו
+      return querySnapshot.size;
+    } catch (e) {
+      print("Error counting documents: $e");
+      return 0;
+    }
   }
 
   // פונקציה לקבלת מסמכים עם תנאים (פילטרים)

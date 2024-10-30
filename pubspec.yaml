@@ -53,6 +53,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   animated_toggle_switch: ^0.8.3
   fl_chart: ^0.69.0
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:
