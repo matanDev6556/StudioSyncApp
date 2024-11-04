@@ -74,7 +74,8 @@ class TrainersListView extends GetView<TrainersListController> {
           ),
         ),
         onChanged: (value) {
-          // TODO: Implement search functionality
+          controller.searchQuery.value = value;
+          controller.applyFilters();
         },
       ),
     );

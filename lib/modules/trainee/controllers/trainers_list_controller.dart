@@ -18,6 +18,7 @@ class TrainersListController extends GetxController {
   RxList<String> lessonsFilter = <String>[].obs;
   RxBool inMyCity = false.obs;
   RxBool markedFilters = false.obs;
+  RxString searchQuery = ''.obs;
 
   @override
   void onInit() async {
@@ -64,15 +65,23 @@ class TrainersListController extends GetxController {
   }
 
   void applyFilters() {
-    if (lessonsFilter.isEmpty) {
-      filteredTrainers.value = trainers;
-    } else {
-      filteredTrainers.value = trainers.where((trainer) {
+    var filtered = trainers;
+    if (lessonsFilter.isNotEmpty) {
+      filtered = RxList<TrainerModel>.from(filtered.where((trainer) {
         return lessonsFilter
             .any((lesson) => trainer.lessonsTypeList.contains(lesson));
-      }).toList();
+      }).toList());
     }
 
+    if (searchQuery.value.isNotEmpty) {
+      filtered = RxList<TrainerModel>.from(filtered.where((trainer) {
+        return trainer.userFullName
+            .toLowerCase()
+            .contains(searchQuery.value.toLowerCase());
+      }).toList());
+    }
+
+    filteredTrainers.value = filtered;
     filteredTrainers.refresh();
   }
 
