@@ -1,6 +1,6 @@
 class ScopeModel {
   String name;
-  double size;
+  num size;
 
   ScopeModel({
     required this.name,

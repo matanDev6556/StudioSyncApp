@@ -6,13 +6,15 @@ import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/const.dart';
 import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
+import 'package:studiosync/modules/trainee/controllers/trainer_profile_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/widgets/my_trainer_widget.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
 import 'package:studiosync/shared/widgets/custom_dropdown.dart';
 import 'package:studiosync/shared/widgets/custom_text_field.dart';
 import 'package:studiosync/shared/widgets/custome_bttn.dart';
 
-class TraineeProfileView extends StatelessWidget {
+class TraineeProfileeView extends StatelessWidget {
+  final TrainerProfileController trainerProfileController = Get.find();
   final TraineeController controller = Get.find();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -25,7 +27,7 @@ class TraineeProfileView extends StatelessWidget {
     }
   }
 
-  TraineeProfileView({Key? key}) : super(key: key);
+  TraineeProfileeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,22 +91,50 @@ class TraineeProfileView extends StatelessWidget {
               onTap: _handleSave,
               isLoading: controller.isLoading.value,
             ),
-            AppStyle.h(10.h),
+            AppStyle.h(15.h),
             _buildDivider(),
-            _buildSectionTitle('My trainer'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildSectionTitle('My trainer'),
+                GestureDetector(
+                  onTap: () => Get.toNamed(Routes.trainersList),
+                  child: CustomContainer(
+                    backgroundColor: AppStyle.softOrange.withOpacity(0.6),
+                    child: Row(
+                      children: [
+                        Text(
+                          'All',
+                          style: TextStyle(
+                            color: AppStyle.softBrown,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                        AppStyle.w(5.w),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 19.h,
+                          color: AppStyle.softBrown,
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
             AppStyle.h(10.h),
-            controller.trainee.value!.trainerID.isNotEmpty
+            Obx(() => trainerProfileController.myTrainer.value != null
                 ? MyTrainerWidget(
-                    trainerModel: controller.myTrainer.value,
+                    trainerModel: trainerProfileController.myTrainer.value,
                     onClick: () => Get.toNamed(
                       Routes.myTrainerProfile,
-                      arguments: controller.myTrainer.value,
+                      arguments: trainerProfileController.myTrainer.value,
                     ),
                   )
                 : const CustomContainer(
                     padding: EdgeInsets.all(10),
                     text: 'You didnt connected with trainer yet!',
-                  ),
+                  )),
             _buildDivider(),
             _buildLogoutButton(),
           ],

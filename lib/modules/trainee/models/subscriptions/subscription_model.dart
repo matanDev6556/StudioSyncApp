@@ -14,7 +14,7 @@ abstract class Subscription {
   Map<String, dynamic> toMap();
 
   Widget getSubscriptionContainer(
-      {required Function editButton, bool isTrainer = true});
+      { Function? editButton, bool isTrainer = true});
 
 
   void cancleLesson();

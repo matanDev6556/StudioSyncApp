@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/core/utils/dates.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainee_workout_controller.dart';
@@ -14,10 +15,10 @@ import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets
 import 'package:studiosync/shared/widgets/custom_container.dart';
 import 'package:studiosync/shared/widgets/custome_bttn.dart';
 
-class TraineeProfileView extends GetView<TraineeWorkoutController> {
+class TraineeWorkoutView extends GetView<TraineeWorkoutController> {
   final TraineeModel trainee;
 
-  TraineeProfileView({Key? key, required this.trainee}) : super(key: key) {
+  TraineeWorkoutView({Key? key, required this.trainee}) : super(key: key) {
     // create controller for this view
     Get.put(
       TraineeWorkoutController(
@@ -45,7 +46,7 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
             AppBarProfileWidget(
               rectangleHeight: 120.h,
               imageUrl: trainee.imgUrl ?? '',
-             borderColor: trainee.isActive() ? Colors.green : Colors.red,
+              borderColor: trainee.isActive() ? Colors.green : Colors.red,
             ),
             _buildTraineeHeader(trainee),
             Expanded(
@@ -156,7 +157,8 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
                   size: 20.h,
                   color: AppStyle.deepBlackOrange,
                 ),
-                onPressed: () => Get.toNamed(Routes.workoutsAnalytic),
+                onPressed: () => Get.toNamed(Routes.workoutsAnalytic,
+                    arguments: controller.workoutSummary.value),
               ),
             ),
           ],
@@ -176,7 +178,8 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
         _sectionTitle('Start At'),
         SizedBox(height: 5.h),
         WorkOutDataContainer(
-          traineeDataWorkout: controller.getFormattedStartDate(),
+          traineeDataWorkout: DatesUtils.getFormattedStartDate(
+              controller.trainee.value?.startWorOutDate),
           emptyDataReplace: 'Not started yet',
           iconPath: 'assets/icons/clock_icon.png',
         ),
@@ -203,7 +206,19 @@ class TraineeProfileView extends GetView<TraineeWorkoutController> {
                   size: 20.h,
                   color: AppStyle.deepBlackOrange,
                 ),
-                onPressed: () => Get.toNamed(Routes.allTraineeWorkouts),
+                onPressed: () => Get.toNamed(
+                  Routes.allTraineeWorkouts,
+                  arguments: {
+                    'workouts': controller.workouts,
+                    'onEdit': (WorkoutModel workout) {
+                      controller.showAddWorkoutBottomSheet(workout);
+                    },
+                    'onDelete': (WorkoutModel workout) {
+                      controller.deleteWorkout(workout);
+                    },
+                    'summary': controller.workoutSummary.value
+                  },
+                ),
               ),
             ),
           ],

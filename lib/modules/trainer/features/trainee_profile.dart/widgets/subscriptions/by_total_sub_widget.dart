@@ -8,7 +8,7 @@ class ByTotalSubscriptionContainer extends StatelessWidget {
   final DateTime? expiredDate;
   final int usedTrainings;
   final int totalTrainings;
-  final Function editButton;
+  final Function? editButton;
   final bool isActive;
   final bool isTrainer;
 
@@ -47,7 +47,7 @@ class ByTotalSubscriptionContainer extends StatelessWidget {
             isTrainer: isTrainer,
             howWorkOutsDid: usedTrainings,
             totalWorkouts: totalTrainings,
-            editButton: () => editButton(),
+            editButton: () => editButton,
           ),
           AppStyle.h(10),
           Row(

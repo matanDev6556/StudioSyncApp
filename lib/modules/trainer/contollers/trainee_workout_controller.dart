@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
-import 'package:studiosync/modules/trainer/contollers/workout_form_handler.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/services/trainee_profile_service.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/services/workout_form_handler.dart';
 import 'package:studiosync/shared/services/workouts_analytics_service.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/add_edit_workout_buttom.dart';
 import 'package:studiosync/shared/models/workout_summary.dart';
@@ -69,7 +69,7 @@ class TraineeWorkoutController extends GetxController {
       workoutsDocSubscription = traineeProfileService
           .getWorkoutChanges(trainee.value!.trainerID, trainee.value!.userId)
           .listen((updatedWorkouts) {
-        workouts.value = updatedWorkouts;
+        workouts.assignAll(_filterAndSortWorkoutsByDate(updatedWorkouts));
       });
     }
   }
@@ -80,13 +80,18 @@ class TraineeWorkoutController extends GetxController {
           trainee.value!.trainerID, trainee.value!.userId);
 
       // Convert date strings to DateTime objects and sort by date in descending order (latest first)
-      workouts.value = workoutsList
-        ..sort((a, b) {
-          DateTime dateA = DateTime.parse(a.dateScope.toString());
-          DateTime dateB = DateTime.parse(b.dateScope.toString());
-          return dateB.compareTo(dateA); // Descending order
-        });
+      workouts.assignAll(_filterAndSortWorkoutsByDate(workoutsList));
     }
+  }
+
+  List<WorkoutModel> _filterAndSortWorkoutsByDate(
+      List<WorkoutModel> workoutsList) {
+    return workoutsList
+      ..sort((a, b) {
+        DateTime dateA = DateTime.parse(a.dateScope.toString());
+        DateTime dateB = DateTime.parse(b.dateScope.toString());
+        return dateB.compareTo(dateA);
+      });
   }
 
   void addWorkout() {
@@ -137,10 +142,8 @@ class TraineeWorkoutController extends GetxController {
     workoutFormHandler.resetControllers();
   }
 
-  String getFormattedStartDate() {
-    return trainee.value?.startWorOutDate != null
-        ? DateFormat('yMMMMd').format(trainee.value!.startWorOutDate!)
-        : 'Not start yet';
+  String getFormattedStartDate(DateTime? date) {
+    return date != null ? DateFormat('yMMMMd').format(date) : 'Not start yet';
   }
 
   //----Statistics----
@@ -151,6 +154,7 @@ class TraineeWorkoutController extends GetxController {
   @override
   void onClose() {
     traineeDocSubscription.cancel();
+    workoutsDocSubscription.cancel();
     super.onClose();
   }
 }

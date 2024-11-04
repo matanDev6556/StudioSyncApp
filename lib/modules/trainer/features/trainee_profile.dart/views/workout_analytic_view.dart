@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainer/contollers/trainee_workout_controller.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/msg_statistic.dart';
+import 'package:studiosync/shared/models/workout_summary.dart';
 
-class WorkoutAnalyticView extends GetView<TraineeWorkoutController> {
-  const WorkoutAnalyticView({Key? key}) : super(key: key);
+class WorkoutAnalyticView extends StatelessWidget {
+  final WorkoutSummary workoutSummary;
+
+  const WorkoutAnalyticView({
+    Key? key,
+    required this.workoutSummary,
+  }) : super(key: key);
 
   static EdgeInsets get commonPadding =>
       EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h);
@@ -16,23 +21,20 @@ class WorkoutAnalyticView extends GetView<TraineeWorkoutController> {
     return Scaffold(
       backgroundColor: AppStyle.backGrey2,
       appBar: _buildAppBar(),
-      body: Obx(() => SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildSectionTitle('Weight Process'),
-                WeightTrendMessageWidget(
-                  controller.workoutSummary.value.weightTrend,
-                ),
-                _buildSectionTitle('Workouts Summary'),
-                _buildSummaryCard(),
-                _buildSectionTitle('Body scopes'),
-                _buildBodyPartChangeSummary(controller
-                    .workoutSummary.value.bodyPartChanges
-                    .map((key, value) => MapEntry(key, value.toDouble()))),
-              ],
-            ),
-          )),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionTitle('Weight Process'),
+            WeightTrendMessageWidget(workoutSummary.weightTrend),
+            _buildSectionTitle('Workouts Summary'),
+            _buildSummaryCard(),
+            _buildSectionTitle('Body scopes'),
+            _buildBodyPartChangeSummary(workoutSummary.bodyPartChanges
+                .map((key, value) => MapEntry(key, value.toDouble()))),
+          ],
+        ),
+      ),
     );
   }
 
@@ -63,7 +65,7 @@ class WorkoutAnalyticView extends GetView<TraineeWorkoutController> {
   }
 
   Widget _buildSummaryCard() {
-    final summary = controller.workoutSummary.value;
+    final summary = workoutSummary;
     return _buildCard(
       child: Column(
         children: [

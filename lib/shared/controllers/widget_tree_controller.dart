@@ -114,11 +114,12 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
 
   Future<void> _handleTraineeLogin(Map<String, dynamic> mapUser) async {
     Get.put(
-        TraineeController(
-            authService: Get.find(),
-            firestoreService: Get.find(),
-            imageService: Get.find()),
-        permanent: true);
+      TraineeController(
+          authService: Get.find(),
+          firestoreService: Get.find(),
+          imageService: Get.find()),
+      permanent: true,
+    );
     final controller = Get.find<TraineeController>();
     TraineeModel traineeModel = TraineeModel.fromJson(mapUser);
     controller.trainee.value = traineeModel;

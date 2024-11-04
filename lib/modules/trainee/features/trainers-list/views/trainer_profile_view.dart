@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
+import 'package:studiosync/modules/trainee/controllers/trainer_profile_controller.dart';
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 import 'package:studiosync/shared/widgets/app_bar_profile.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
@@ -13,10 +14,11 @@ class TrainerProfileView extends StatelessWidget {
   final TrainerModel trainerModel;
 
   final bool isMytrainer;
+  final controller = Get.find<TrainerProfileController>();
 
   TrainerProfileView({Key? key, required this.trainerModel})
-      : isMytrainer =
-            Get.find<TraineeController>().isMyTrainer(trainerModel.userId),
+      : isMytrainer = Get.find<TrainerProfileController>()
+            .isMyTrainer(trainerModel.userId),
         super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -55,13 +57,12 @@ class TrainerProfileView extends StatelessWidget {
                   width: Get.width,
                   onTap: () {
                     if (isMytrainer) {
-                      Get.find<TraineeController>().disconnectFromTrainer();
+                      controller.disconnectTrainer(trainerModel.userId);
                     } else {
-                      Get.find<TraineeController>()
-                          .sendRequestToTrainer(trainerModel.userId);
+                      controller.sendRequest(trainerModel.userId);
                     }
                   },
-                  isLoading: Get.find<TraineeController>().isLoading.value,
+                  isLoading: controller.isLoading.value,
                 ),
               );
             }),
@@ -146,8 +147,8 @@ class TrainerProfileView extends StatelessWidget {
                 ),
                 const Spacer(),
                 IconButton(
-                  onPressed: () => Get.find<TraineeController>()
-                      .openUrl(trainerModel.instagramLink),
+                  onPressed: () =>
+                      controller.openUrl(trainerModel.instagramLink),
                   icon: Icon(
                     Icons.facebook,
                     color: AppStyle.deepBlackOrange.withOpacity(0.7),
@@ -174,8 +175,8 @@ class TrainerProfileView extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 width: Get.width,
                 child: FutureBuilder<int>(
-                  future: Get.find<TraineeController>()
-                      .countTraineesOfTrainer(trainerModel.userId),
+                  future:
+                      controller.countTraineesOfTrainer(trainerModel.userId),
                   builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       // הצגת Loader בזמן שממתינים לתוצאה
@@ -234,10 +235,9 @@ class TrainerProfileView extends StatelessWidget {
                 width: Get.width,
                 onTap: () {
                   if (isMytrainer) {
-                    Get.find<TraineeController>().disconnectFromTrainer();
+                    controller.disconnectTrainer(trainerModel.userId);
                   } else {
-                    Get.find<TraineeController>()
-                        .sendRequestToTrainer(trainerModel.userId);
+                    controller.sendRequest(trainerModel.userId);
                   }
                 },
                 isLoading: Get.find<TraineeController>().isLoading.value,

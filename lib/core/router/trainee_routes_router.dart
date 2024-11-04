@@ -5,6 +5,7 @@ import 'package:studiosync/modules/trainee/features/trainers-list/views/trainer_
 import 'package:studiosync/modules/trainee/features/tabs_trainee_view.dart';
 import 'package:studiosync/modules/auth/bindings/signup_trainee_binding.dart';
 import 'package:studiosync/core/router/routes.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/views/trainers_list_view.dart';
 
 class TraineeRouter {
   static final traineeRoutes = [
@@ -15,7 +16,7 @@ class TraineeRouter {
     ),
     GetPage(
       name: Routes.homeTrainee,
-      page: () => const TraineeTabsView(),
+      page: () => TraineeTabsView(),
       binding: TraineeTabsBinding(),
     ),
     GetPage(
@@ -23,6 +24,10 @@ class TraineeRouter {
       page: () => TrainerProfileView(
         trainerModel: Get.arguments,
       ),
+    ),
+    GetPage(
+      name: Routes.trainersList,
+      page: () => TrainersListView(),
     ),
 
     // Add other trainee-specific routes here

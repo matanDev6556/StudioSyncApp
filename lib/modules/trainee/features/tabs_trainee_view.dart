@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/views/trainee_profile_view.dart';
+import 'package:studiosync/modules/trainee/features/workouts/view/workouts_view.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/widgets/app_bar.dart';
+import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class TraineeTabsView extends StatelessWidget {
   const TraineeTabsView({Key? key}) : super(key: key);
@@ -13,6 +16,7 @@ class TraineeTabsView extends StatelessWidget {
     const TraineeProfileTab(),
     const TraineeWorkoutsTab(),
     const TraineeSessionsTab(),
+    const TraineeTrainersListTab(),
   ];
 
   @override
@@ -66,7 +70,7 @@ class TraineeProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TraineeProfileView();
+    return TraineeProfileeView();
   }
 }
 
@@ -75,7 +79,32 @@ class TraineeWorkoutsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Workout Plans Here'));
+    final controler = Get.find<TraineeController>();
+    return controler.trainee.value?.trainerID.isNotEmpty ?? false
+        ? const WorkoutsView()
+        : Center(
+            child: CustomContainer(
+              padding: EdgeInsets.all(16.h),
+              text: 'You didnt connected to trainer yet!',
+            ),
+          );
+  }
+}
+
+class TraineeTrainersListTab extends StatelessWidget {
+  const TraineeTrainersListTab({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final controler = Get.find<TraineeController>();
+    return controler.trainee.value?.trainerID.isNotEmpty ?? false
+        ? Center(child: Text('trainers list Here'))
+        : Center(
+            child: CustomContainer(
+              padding: EdgeInsets.all(16.h),
+              text: 'You didnt connected to trainer yet!',
+            ),
+          );
   }
 }
 
@@ -84,6 +113,14 @@ class TraineeSessionsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Progress Tracking Here'));
+    final controler = Get.find<TraineeController>();
+    return controler.trainee.value?.trainerID.isNotEmpty ?? false
+        ? Center(child: Text('Progress Tracking Here'))
+        : Center(
+            child: CustomContainer(
+              padding: EdgeInsets.all(16.h),
+              text: 'You didnt connected to trainer yet!',
+            ),
+          );
   }
 }

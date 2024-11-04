@@ -4,13 +4,24 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
-import 'package:studiosync/modules/trainer/contollers/trainee_workout_controller.dart';
+import 'package:studiosync/shared/models/workout_summary.dart';
+import 'package:studiosync/shared/widgets/custom_container.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/single_workout_card.dart';
 
-import 'package:studiosync/shared/widgets/custom_container.dart';
+class AllWorkoutsView extends StatelessWidget {
+  final List<WorkoutModel> workouts;
+  final WorkoutSummary workoutSummary;
+  final void Function(WorkoutModel)? onDelete;
+  final void Function(WorkoutModel)? onEdit;
 
-class AllWorkoutsView extends GetView<TraineeWorkoutController> {
-  const AllWorkoutsView({Key? key}) : super(key: key);
+  const AllWorkoutsView({
+    Key? key,
+    required this.workouts,
+    required this.workoutSummary,
+    this.onDelete,
+    this.onEdit,
+    
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,31 +45,31 @@ class AllWorkoutsView extends GetView<TraineeWorkoutController> {
       ),
       body: Column(
         children: [
-          Obx(() => _buildSummaryCard(controller.workouts)),
-          Obx(() => _buildWorkoutList()),
+          _buildSummaryCard(),
+          _buildWorkoutList(),
         ],
       ),
     );
   }
 
   Widget _buildWorkoutList() {
-    return controller.workouts.isEmpty
+    return workouts.isEmpty
         ? _buildEmptyState()
         : Expanded(
             child: ListView.builder(
               padding: EdgeInsets.all(16.w),
-              itemCount: controller.workouts.length,
+              itemCount: workouts.length,
               itemBuilder: (context, index) {
+                final workout = workouts[index];
                 return Padding(
                   padding: EdgeInsets.only(bottom: 16.h),
                   child: SingleWorkoutWidget(
-                    workout: controller.workouts[index],
-                    onDelete: (workout) {
-                      controller.deleteWorkout(workout);
-                    },
-                    onEdit: (workout) {
-                      controller.showAddWorkoutBottomSheet(workout);
-                    },
+                    workout: workout,
+                    onDelete: onDelete != null
+                        ? (workout) => onDelete!(workout)
+                        : null,
+                    onEdit:
+                        onEdit != null ? (workout) => onEdit!(workout) : null,
                   ),
                 );
               },
@@ -85,7 +96,7 @@ class AllWorkoutsView extends GetView<TraineeWorkoutController> {
     );
   }
 
-  Widget _buildSummaryCard(List<WorkoutModel> workouts) {
+  Widget _buildSummaryCard() {
     return Container(
       margin: EdgeInsets.all(16.w),
       padding: EdgeInsets.all(16.w),
@@ -118,11 +129,11 @@ class AllWorkoutsView extends GetView<TraineeWorkoutController> {
               _buildSummaryItem('Total Workouts', workouts.length.toString()),
               _buildSummaryItem(
                 'Min weight',
-                controller.workoutSummary.value.minWeight.toString(),
+                workoutSummary.minWeight.toString(),
               ),
               _buildSummaryItem(
                 'Last Workout',
-                controller.workoutSummary.value.daysSinceLastWorkout.toString(),
+                workoutSummary.daysSinceLastWorkout.toString(),
               ),
             ],
           ),
