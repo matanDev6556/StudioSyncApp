@@ -41,18 +41,22 @@ dependencies:
   get: ^4.6.6
   intl: ^0.19.0
   uuid: ^4.5.0
+  dots_indicator: ^3.0.0
+  flutter_svg: ^2.0.10+1
+  animated_toggle_switch: ^0.8.3
+  fl_chart: ^0.69.0
 
   cloud_firestore: ^4.15.8
   firebase_auth: ^4.17.8
   firebase_storage: ^11.6.9
   firebase_core: ^2.27.0
+ 
+ 
   flutter_screenutil: ^5.9.3
   cached_network_image: ^3.3.1
   liquid_pull_to_refresh: ^3.0.1
-  dots_indicator: ^3.0.0
-  flutter_svg: ^2.0.10+1
-  animated_toggle_switch: ^0.8.3
-  fl_chart: ^0.69.0
+  url_launcher: ^6.3.0
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:

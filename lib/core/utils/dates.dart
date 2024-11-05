@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DatesUtils {
   // function for when user pick dateTime i check that the date he choose is in the samee day he choosed
- static String getDayFromIndex(int index) {
+  static String getDayFromIndex(int index) {
     switch (index) {
       case 0:
         return 'Sunday';
@@ -57,5 +58,9 @@ class DatesUtils {
 
   static String getHourFormat(TimeOfDay startTime, TimeOfDay endTime) {
     return '${startTime.hour.toString().padLeft(2, "0")}:${startTime.minute.toString().padLeft(2, "0")} - ${endTime.hour.toString().padLeft(2, "0")}:${endTime.minute.toString().padLeft(2, "0")}';
+  }
+
+  static String getFormattedStartDate(DateTime? date) {
+    return date != null ? DateFormat('yMMMMd').format(date) : 'Not start yet';
   }
 }

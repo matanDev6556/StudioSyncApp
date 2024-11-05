@@ -100,7 +100,7 @@ class SubscriptionController extends GetxController {
       // עדכון המסמך של המתאמן בשירות הפיירבייס
       await firestoreService.addNastedDocument(
         'trainers',
-        updatedTrainee.trainerID ?? '',
+        updatedTrainee.trainerID ,
         'trainees',
         updatedTrainee.userId,
         updatedTrainee.toMap(),
@@ -132,7 +132,7 @@ class SubscriptionController extends GetxController {
     isLoading.value = true;
    await firestoreService.addNastedDocument(
         'trainers',
-        updatetrainee.trainerID ?? '',
+        updatetrainee.trainerID ,
         'trainees',
         updatetrainee.userId,
         updatetrainee.toMap(),

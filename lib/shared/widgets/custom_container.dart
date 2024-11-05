@@ -3,11 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studiosync/core/theme/app_style.dart'; // If you're using this for responsive sizing
 
 class CustomContainer extends StatelessWidget {
-  final String? text; // Text to display
-  final EdgeInsetsGeometry? padding; // Optional padding
-  final Color? backgroundColor; // Optional background color
+  final String? text;
+  final EdgeInsetsGeometry? padding;
+  final Color? backgroundColor;
   final Color? textColor;
   final double? fontSize;
+  final double? width;
+  final double? height;
   final Widget? child;
 
   const CustomContainer({
@@ -17,6 +19,8 @@ class CustomContainer extends StatelessWidget {
     this.fontSize,
     this.backgroundColor,
     this.textColor,
+    this.width,
+    this.height,
     this.child,
   }) : super(key: key);
 
@@ -24,9 +28,11 @@ class CustomContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: padding ?? EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: backgroundColor ?? AppStyle.softOrange.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: text != null
           ? Text(

@@ -70,7 +70,7 @@ class SubscriptionByDate extends Subscription {
 
   @override
   Widget getSubscriptionContainer({
-    required Function editButton,
+    Function? editButton,
     bool isTrainer = true,
   }) {
     return ByDateSubscriptionWidget(
@@ -81,6 +81,7 @@ class SubscriptionByDate extends Subscription {
       endDate: endDate,
       editButton: editButton,
       isActive: isActive,
+      isTrainer: isTrainer,
     );
   }
 

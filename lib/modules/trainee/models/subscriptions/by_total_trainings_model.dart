@@ -62,7 +62,7 @@ class SubscriptionByTotalTrainings extends Subscription {
 
   @override
   Widget getSubscriptionContainer(
-      {required Function editButton, bool isTrainer = true}) {
+      { Function? editButton, bool isTrainer = true}) {
     return ByTotalSubscriptionContainer(
       expiredDate: expiredDate,
       usedTrainings: usedTrainings,

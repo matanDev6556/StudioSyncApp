@@ -34,52 +34,53 @@ class CustomDropDown<T> extends StatelessWidget {
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       height: MediaQuery.of(context).size.height * 0.06,
       width: MediaQuery.of(context).size.width * 0.85,
-      child: DropdownButtonFormField<T>(
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          prefixIcon: icon,
-          hintText: hintText ?? 'Select an option',
-          hintStyle: TextStyle(
-            color: textColor ?? AppStyle.backGrey3,
+      child: Center(
+        child: DropdownButtonFormField<T>(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            prefixIcon: icon,
+            hintText: hintText ?? 'Select an option',
+            hintStyle: TextStyle(
+              color: textColor ?? AppStyle.backGrey3,
+            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          value: initialValue,
+          onChanged: onChanged,
+          items: items.isNotEmpty
+              ? items.map((item) {
+                  return DropdownMenuItem<T>(
+                    value: item,
+                    child: Text(
+                      itemLabelBuilder(item),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: textColor ?? AppStyle.backGrey3,
+                      ),
+                    ),
+                  );
+                }).toList()
+              : [
+                  // Provide an empty item if there are no items
+                  DropdownMenuItem<T>(
+                    enabled: false,
+                    child: Text(
+                      hintText ?? 'No options available',
+                      style: TextStyle(
+                        color: textColor ?? AppStyle.backGrey3,
+                      ),
+                    ),
+                  ),
+                ],
+          isExpanded: true,
+          alignment: Alignment.centerRight,
         ),
-        value: initialValue,
-        onChanged: onChanged,
-        items: items.isNotEmpty
-            ? items.map((item) {
-                return DropdownMenuItem<T>(
-                  value: item,
-                  child: Text(
-                    itemLabelBuilder(item),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: textColor ?? AppStyle.backGrey3,
-                    ),
-                  ),
-                );
-              }).toList()
-            : [
-                // Provide an empty item if there are no items
-                DropdownMenuItem<T>(
-                  enabled: false,
-                  child: Text(
-                    hintText ?? 'No options available',
-                    style: TextStyle(
-                      color: textColor ?? AppStyle.backGrey3,
-                    ),
-                  ),
-                ),
-              ],
-        isExpanded: true,
-        alignment: Alignment.centerRight,
       ),
     );
   }

@@ -31,12 +31,17 @@ class SharedRoutes {
     ),
     GetPage(
       name: Routes.allTraineeWorkouts,
-      page: () => const AllWorkoutsView(),
+      page: () => AllWorkoutsView(
+        workouts: Get.arguments['workouts'],
+        onEdit: Get.arguments['onEdit'],
+        onDelete: Get.arguments['onDelete'],
+        workoutSummary: Get.arguments['summary'],
+      ),
     ),
 
-      GetPage(
+    GetPage(
       name: Routes.workoutsAnalytic,
-      page: () => const WorkoutAnalyticView(),
+      page: () =>  WorkoutAnalyticView(workoutSummary: Get.arguments,),
     ),
     // Add other shared routes here
   ];
