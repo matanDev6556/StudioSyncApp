@@ -54,6 +54,11 @@ class TrainersListController extends GetxController {
     _savePreferences();
   }
 
+  void setIsInMyCity(bool val) {
+    inMyCity.value = val;
+    _savePreferences();
+  }
+
   void showFilterBottomSheet() {
     // Show the BottomSheet to choose preferences
     Get.bottomSheet(

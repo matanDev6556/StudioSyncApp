@@ -59,6 +59,11 @@ class TraineesController extends GetxController {
       isLoading.value = false;
     }
   }
+  void addTraineeToList(TraineeModel trainee) {
+    traineesList.add(trainee);
+    traineesList.refresh();
+    applyFilters();
+  }
 
   // Update the search query
   void updateSearchQuery(String query) {

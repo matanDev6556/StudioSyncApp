@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
 import 'package:studiosync/shared/models/request_model.dart';
 
@@ -9,8 +10,8 @@ class RequestsController extends GetxController {
   RequestsController({required this.firestoreService});
 
   RxList<TraineeModel> traineesRequests = <TraineeModel>[].obs;
-
-  final trainerId = Get.find<TrainerController>().trainer.value?.userId ?? '';
+  final String trainerId = Get.find<TrainerController>().trainer.value?.userId ?? '';
+  final RxBool isLoading = false.obs;
 
   @override
   void onInit() {
@@ -20,24 +21,74 @@ class RequestsController extends GetxController {
 
   Future<void> fetchRequests() async {
     try {
-      final requestsData =
-          await firestoreService.getCollection('trainers/$trainerId/requests');
-      for (var reqData in requestsData) {
-      
-        final req = RequestModel.fromMap(reqData);
-
-        // get the trainee
-        final traineeData =
-            await firestoreService.getDocument('trainees', req.traineeID);
-
-        if (traineeData != null) {
-          final trainee = TraineeModel.fromJson(traineeData);
-          traineesRequests.add(trainee);
-        }
+      final requestsData = await firestoreService.getCollection('trainers/$trainerId/requests');
+      for (var requestData in requestsData) {
+        await _processRequest(requestData);
       }
     } catch (e) {
-      // Handle error (e.g., log error or show message)
       print("Error fetching requests: $e");
     }
+  }
+
+  Future<void> _processRequest(Map<String, dynamic> requestData) async {
+    final request = RequestModel.fromMap(requestData);
+    final traineeData = await firestoreService.getDocument('trainees', request.traineeID);
+    
+    if (traineeData != null) {
+      traineesRequests.add(TraineeModel.fromJson(traineeData));
+    }
+  }
+
+  Future<void> approveTraineeRequest(TraineeModel trainee) async {
+    final traineesController = Get.find<TraineesController>();
+
+    isLoading.value = true;
+    final updatedTrainee = trainee.copyWith(
+      trainerID: trainerId,
+      startWorkOutDate: DateTime.now(),
+    );
+
+    try {
+      await _addTraineeToTrainer(updatedTrainee);
+      await _removeTraineeFromGeneralCollection(trainee.userId);
+      await _updateAllTraineesCollection(trainee.userId);
+      await _removeRequestFromFirebase(trainee.userId);
+
+      traineesRequests.removeWhere((t) => t.userId == trainee.userId);
+      traineesController.addTraineeToList(updatedTrainee);
+    } catch (e) {
+      print("Error approving trainee request: $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> _addTraineeToTrainer(TraineeModel trainee) async {
+    await firestoreService.addNastedDocument(
+      'trainers',
+      trainerId,
+      'trainees',
+      trainee.userId,
+      trainee.toMap(),
+    );
+  }
+
+  Future<void> _removeTraineeFromGeneralCollection(String userId) async {
+    await firestoreService.deleteDocument('trainees', userId);
+  }
+
+  Future<void> _updateAllTraineesCollection(String userId) async {
+    await firestoreService.updateDocument(
+      'AllTrainees',
+      userId,
+      {'id': userId, 'trainerID': trainerId},
+    );
+  }
+
+  Future<void> _removeRequestFromFirebase(String userId) async {
+    await firestoreService.deleteDocumentsWithFilters(
+      'trainers/$trainerId/requests',
+      {'traineeID': userId},
+    );
   }
 }

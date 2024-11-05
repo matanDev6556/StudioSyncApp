@@ -21,7 +21,7 @@ class FilterBottomSheet extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
@@ -37,11 +37,11 @@ class FilterBottomSheet extends StatelessWidget {
               color: AppStyle.softBrown,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           _buildCityToggle(tempInMyCity),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           _buildLessonTypesCheckboxes(tempSelectedLessons),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -50,21 +50,21 @@ class FilterBottomSheet extends StatelessWidget {
                   tempSelectedLessons.clear();
                   tempInMyCity.value = false;
                 },
-                child: Text('Clear All'),
+                child: const Text('Clear All'),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               ElevatedButton(
                 onPressed: () {
                   onFilterSelected(tempInMyCity.value, tempSelectedLessons);
                   Get.back();
                 },
-                child: Text('Apply'),
                 style: ElevatedButton.styleFrom(
                   primary: AppStyle.softOrange,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
+                child: const Text('Apply'),
               ),
             ],
           ),
@@ -81,7 +81,7 @@ class FilterBottomSheet extends StatelessWidget {
           'Lesson Types',
           style: TextStyle(fontSize: 16, color: AppStyle.softBrown),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Wrap(
           spacing: 8,
           children: ConstsLessons.lessonsType.map((lessonType) {

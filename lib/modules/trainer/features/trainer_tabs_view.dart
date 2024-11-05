@@ -25,10 +25,10 @@ class TrainerTabsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<TrainerController>();
     final tabController = Get.find<GeneralTabController>();
-    final reqController = Get.find<RequestsController>();
 
     return Obx(() {
       final trainer = controller.trainer.value;
+      final reqController = Get.find<RequestsController>();
       return Scaffold(
         appBar: CustomAppBarTabs(
           userModel: trainer!,
@@ -41,9 +41,8 @@ class TrainerTabsView extends StatelessWidget {
           },
           onNotificationPressed: () {
             Get.bottomSheet(
-              TabsButtom(
-                reqCount: reqController.traineesRequests.length,
-              ),
+              Obx(() =>
+                  TabsButtom(reqCount: reqController.traineesRequests.length)),
               isScrollControlled: true,
             );
           },

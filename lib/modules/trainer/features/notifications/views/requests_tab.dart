@@ -13,14 +13,30 @@ class RequestsTab extends GetView<RequestsController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      if (controller.isLoading.value) {
+        return Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppStyle.softOrange),
+          ),
+        );
+      }
+
       if (controller.traineesRequests.isEmpty) {
         return Center(
-          child: Text(
-            'No requests yet',
-            style: TextStyle(
-              fontSize: 18.sp,
-              color: AppStyle.softBrown,
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.inbox, size: 60.sp, color: AppStyle.softOrange),
+              SizedBox(height: 16.h),
+              Text(
+                'No requests yet',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  color: AppStyle.softBrown,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         );
       }
@@ -37,47 +53,116 @@ class RequestsTab extends GetView<RequestsController> {
 
   Widget _buildRequestItem(TraineeModel trainee) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 15.h, horizontal: 16.w),
+      margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
       decoration: BoxDecoration(
-        color: AppStyle.softOrange.withOpacity(0.2),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppStyle.softOrange.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 8,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
-      child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        leading: CustomImageWidget(
-          imageUrl: trainee.imgUrl,
-          height: 60.h,
-          width: 60.w,
-        ),
-        title: Text(
-          trainee.userFullName,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-            color: AppStyle.softBrown,
+      child: Column(
+        children: [
+          ListTile(
+            contentPadding: EdgeInsets.all(16.w),
+            leading: Hero(
+              tag: 'trainee_${trainee.userId}',
+              child: CircleAvatar(
+                radius: 30.r,
+                backgroundColor: AppStyle.softOrange.withOpacity(0.2),
+                child: ClipOval(
+                  child: CustomImageWidget(
+                    imageUrl: trainee.imgUrl,
+                    height: 60.h,
+                    width: 60.w,
+                  ),
+                ),
+              ),
+            ),
+            title: Text(
+              trainee.userFullName,
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: AppStyle.softBrown,
+              ),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 4.h),
+                Row(
+                  children: [
+                    Icon(Icons.location_on,
+                        size: 16.sp, color: AppStyle.softOrange),
+                    SizedBox(width: 4.w),
+                    Text(
+                      trainee.userCity,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: AppStyle.softBrown.withOpacity(0.7),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            trailing: CustomContainer(
+              child: IconButton(
+                icon: Icon(Icons.phone, color: AppStyle.softOrange),
+                onPressed: () {
+                  // TODO: Implement call functionality
+                },
+              ),
+            ),
           ),
-        ),
-        subtitle: Text(
-          trainee.userCity,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: AppStyle.softBrown.withOpacity(0.7),
+          Divider(color: AppStyle.softOrange.withOpacity(0.2)),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => controller.aprooveTraineeReq(trainee),
+                    // TODO: Implement approve functionality
+
+                    style: ElevatedButton.styleFrom(
+                      primary: AppStyle.softOrange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
+                    child: Text(
+                      'Approve',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      // TODO: Implement reject functionality
+                    },
+                    style: OutlinedButton.styleFrom(
+                      primary: AppStyle.softBrown,
+                      side: BorderSide(color: AppStyle.softBrown),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
+                    child: Text('Reject'),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        trailing: CustomContainer(
-          child: IconButton(
-            icon: Icon(Icons.phone, color: AppStyle.softBrown),
-            onPressed: () {
-              // TODO: Implement call functionality
-              // You can use url_launcher package to make a phone call
-              // launch("tel:${trainee.phoneNumber}");
-            },
-          ),
-        ),
-        onTap: () {
-          // TODO: Implement action when tapping on a request
-          // For example, show more details or navigate to a detailed view
-        },
+        ],
       ),
     );
   }
