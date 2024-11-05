@@ -23,7 +23,6 @@ class TrainersListController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-
     await _loadPreferences();
   }
 
@@ -59,7 +58,6 @@ class TrainersListController extends GetxController {
   void showFilterBottomSheet() {
     // Show the BottomSheet to choose preferences
     Get.bottomSheet(
-      // Add BottomSheet UI here for filtering options
       FilterBottomSheet(onFilterSelected: _onFilterSelected),
     );
   }

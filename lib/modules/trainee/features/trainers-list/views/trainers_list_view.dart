@@ -15,68 +15,128 @@ class TrainersListView extends GetView<TrainersListController> {
       if (!controller.markedFilters.value) {
         controller.showFilterBottomSheet();
       } else {
+        if (controller.trainers.isNotEmpty) return;
         controller.fetchTrainers();
       }
     });
+
     return Scaffold(
-      appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          _buildSearchBar(),
-          _buildFilterChips(),
-          _buildListCount(),
-          Expanded(
-            child: _buildTrainersList(),
+      body: CustomScrollView(
+        slivers: [
+          _buildSliverAppBar(),
+          SliverToBoxAdapter(child: _buildSearchAndFilters()),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            sliver: _buildTrainersList(),
           ),
         ],
+      ),
+      floatingActionButton: _buildFloatingActionButton(),
+    );
+  }
+
+  Widget _buildSliverAppBar() {
+    return SliverAppBar(
+      expandedHeight: 200.h,
+      floating: false,
+      pinned: true,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(
+              'assets/images/image_login.png',
+              fit: BoxFit.cover,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 16.h,
+              left: 16.w,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Find Your Perfect Trainer',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    'Discover expert trainers tailored to your needs',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.8),
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        onPressed: () => Get.back(),
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text(
-        'Trainers',
-        style: TextStyle(
-          fontSize: 22.sp,
-          fontWeight: FontWeight.bold,
-          color: AppStyle.softBrown,
-        ),
+  Widget _buildSearchAndFilters() {
+    return Container(
+      color: AppStyle.softOrange.withOpacity(0.1),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSearchBar(),
+          _buildFilterChips(),
+          _buildListCount(),
+        ],
       ),
-      backgroundColor: Colors.white,
-      elevation: 2,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios, color: AppStyle.softOrange),
-        onPressed: () => Get.back(),
-      ),
-      actions: [
-        IconButton(
-            icon: Icon(Icons.filter_list, color: AppStyle.softOrange),
-            onPressed: () => controller.showFilterBottomSheet()),
-      ],
     );
   }
 
   Widget _buildSearchBar() {
     return Padding(
       padding: EdgeInsets.all(16.w),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search trainers...',
-          prefixIcon: Icon(Icons.search, color: AppStyle.softOrange),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.r),
-            borderSide: BorderSide(color: AppStyle.softOrange),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.r),
-            borderSide: BorderSide(color: AppStyle.softOrange, width: 2),
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
         ),
-        onChanged: (value) {
-          controller.searchQuery.value = value;
-          controller.applyFilters();
-        },
+        child: TextField(
+          decoration: InputDecoration(
+            hintText: 'Search trainers...',
+            prefixIcon: Icon(Icons.search, color: AppStyle.softOrange),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.r),
+              borderSide: BorderSide.none,
+            ),
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding: EdgeInsets.symmetric(vertical: 12.h),
+          ),
+          onChanged: (value) {
+            controller.searchQuery.value = value;
+            controller.applyFilters();
+          },
+        ),
       ),
     );
   }
@@ -86,11 +146,13 @@ class TrainersListView extends GetView<TrainersListController> {
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              _buildChip("Nearby", controller.inMyCity.value, (selected) {
-                controller.inMyCity.value = selected;
-                controller.fetchTrainers();
-              }),
+              if (controller.inMyCity.value)
+                _buildChip("Nearby", controller.inMyCity.value, (selected) {
+                  controller.inMyCity.value = selected;
+                  controller.fetchTrainers();
+                }),
               ...controller.lessonsFilter
                   .map((filter) => _buildChip(filter, true, (selected) {
                         if (!selected) {
@@ -106,20 +168,26 @@ class TrainersListView extends GetView<TrainersListController> {
   Widget _buildChip(
       String label, bool selected, ValueChanged<bool>? onSelected) {
     return Padding(
-      padding: const EdgeInsets.only(right: 8),
+      padding: EdgeInsets.only(right: 8.w),
       child: FilterChip(
         label: Text(label),
         selected: selected,
         onSelected: onSelected,
-        selectedColor: AppStyle.softOrange.withOpacity(0.2),
-        checkmarkColor: AppStyle.softOrange,
+        selectedColor: AppStyle.softOrange,
+        labelStyle: TextStyle(
+          color: selected ? Colors.white : AppStyle.softBrown,
+          fontWeight: FontWeight.bold,
+        ),
+        shape: StadiumBorder(
+          side: BorderSide(color: AppStyle.softOrange),
+        ),
       ),
     );
   }
 
   Widget _buildListCount() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 8.h),
       child: Obx(() => Text(
             '${controller.filteredTrainers.length} trainers found',
             style: TextStyle(
@@ -134,23 +202,48 @@ class TrainersListView extends GetView<TrainersListController> {
   Widget _buildTrainersList() {
     return Obx(() {
       if (controller.isLoading.value) {
-        return Center(child: CircularProgressIndicator());
+        return SliverFillRemaining(
+          child: Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppStyle.softOrange),
+            ),
+          ),
+        );
       }
 
-      return ListView.builder(
-        itemBuilder: ((context, index) {
-          final trainer = controller.filteredTrainers[index];
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-            child: MyTrainerWidget(
-              trainerModel: trainer,
-              onClick: () =>
-                  Get.toNamed(Routes.myTrainerProfile, arguments: trainer),
-            ),
-          );
-        }),
-        itemCount: controller.filteredTrainers.length,
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            final trainer = controller.filteredTrainers[index];
+            return Padding(
+              padding: EdgeInsets.only(bottom: 16.h),
+              child: MyTrainerWidget(
+                trainerModel: trainer,
+                onClick: () =>
+                    Get.toNamed(Routes.myTrainerProfile, arguments: trainer),
+              ),
+            );
+          },
+          childCount: controller.filteredTrainers.length,
+        ),
       );
     });
+  }
+
+  Widget _buildFloatingActionButton() {
+    return FloatingActionButton.extended(
+      onPressed: () => controller.showFilterBottomSheet(),
+      icon: const Icon(
+        Icons.tune,
+        color: Colors.white,
+      ),
+      label: const Text(
+        'Filters',
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      backgroundColor: AppStyle.softOrange,
+    );
   }
 }

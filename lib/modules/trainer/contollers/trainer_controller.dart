@@ -47,6 +47,7 @@ class TrainerController extends GetxController {
     isLoading.value = false;
     if (imgUrl != null) {
       updateLocalTrainer(trainer.value!.copyWith(imgUrl: imgUrl));
+      saveTrainerToDb();
     }
   }
 

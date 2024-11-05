@@ -51,9 +51,7 @@ class TrainerProfileView extends StatelessWidget {
                 child: CustomButton(
                   text: isMytrainer ? 'Disconnect' : 'Join',
                   fill: true,
-                  color: isMytrainer
-                      ? Colors.red
-                      : AppStyle.deepOrange.withOpacity(0.8),
+                  color: isMytrainer ? Colors.red : AppStyle.deepOrange,
                   width: Get.width,
                   onTap: () {
                     if (isMytrainer) {

@@ -96,7 +96,7 @@ class TrainerEditProfile extends StatelessWidget {
               icon: Icons.email,
               hintText: 'About',
               maxLines: 5,
-              initialValue: controller.trainer.value!.userEmail,
+              initialValue: controller.trainer.value!.about,
               onChanged: (newVal) => controller.updateLocalTrainer(
                   controller.trainer.value!.copyWith(about: newVal)),
               validator: (val) => Validations.validateEmptey(val, 'About'),

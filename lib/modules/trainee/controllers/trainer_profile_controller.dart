@@ -11,7 +11,6 @@ class TrainerProfileController extends GetxController {
 
   TrainerProfileController({
     required this.firestoreService,
-   
   });
 
   Rx<TrainerModel?> myTrainer = Rx<TrainerModel?>(null);
@@ -43,6 +42,7 @@ class TrainerProfileController extends GetxController {
     // if trainee already connected to trainer first he need to disconect
     if (myTrainer.value != null) {
       Get.snackbar('Error', 'First disconnect from your trainer!');
+      isLoading.value = false;
       return;
     }
 
