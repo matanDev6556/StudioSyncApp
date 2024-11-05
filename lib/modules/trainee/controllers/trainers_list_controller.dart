@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/views/widgets/filters_buttom.dart';
