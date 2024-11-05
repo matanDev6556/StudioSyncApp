@@ -150,7 +150,7 @@ class TrainersListView extends GetView<TrainersListController> {
             children: [
               if (controller.inMyCity.value)
                 _buildChip("Nearby", controller.inMyCity.value, (selected) {
-                  controller.inMyCity.value = selected;
+                  controller.setIsInMyCity(selected);
                   controller.fetchTrainers();
                 }),
               ...controller.lessonsFilter

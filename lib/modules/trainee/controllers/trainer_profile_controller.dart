@@ -65,9 +65,9 @@ class TrainerProfileController extends GetxController {
   }
 
   Future<bool> checkIfRequestExists(String traineeID, String trainerID) async {
-    final existingRequest = await firestoreService.getDocument(
-        'trainers/$trainerID/requests', traineeID);
-    return existingRequest != null;
+    final existingRequest = await firestoreService.getCollectionWithFilters(
+        'trainers/$trainerID/requests', {'traineeID': traineeID});
+    return existingRequest.isNotEmpty;
   }
 
   Future<void> disconnectTrainer(String trainerID) async {

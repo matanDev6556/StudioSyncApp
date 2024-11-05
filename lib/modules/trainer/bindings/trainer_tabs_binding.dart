@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:studiosync/modules/trainer/contollers/requests_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_statistic_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/services/filter_lessons_service.dart';
@@ -17,6 +18,7 @@ class TrainerTabsBinding extends Bindings {
       'Clients',
       'Sessions',
     ]));
+    Get.put(RequestsController(firestoreService: Get.find()));
 
     _bindProfileTab();
     _bindClientsTab();

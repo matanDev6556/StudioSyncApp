@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/modules/trainer/contollers/requests_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/view/lessons_view.dart';
+import 'package:studiosync/modules/trainer/features/notifications/widgets/tabs.buttom.dart';
 import 'package:studiosync/modules/trainer/features/statistics/view/statistic_view.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/widgets/app_bar.dart';
@@ -25,7 +27,8 @@ class TrainerTabsView extends StatelessWidget {
     final tabController = Get.find<GeneralTabController>();
 
     return Obx(() {
-      final trainer = controller.trainer.value; // trainer is reactive
+      final trainer = controller.trainer.value;
+      final reqController = Get.find<RequestsController>();
       return Scaffold(
         appBar: CustomAppBarTabs(
           userModel: trainer!,
@@ -36,8 +39,15 @@ class TrainerTabsView extends StatelessWidget {
               isScrollControlled: true,
             );
           },
-          onNotificationPressed: () {},
-          thereIsNotifications: false,
+          //TODO: add notificationCount to TabsButtom (use same as req controller)
+          onNotificationPressed: () {
+            Get.bottomSheet(
+              Obx(() =>
+                  TabsButtom(reqCount: reqController.traineesRequests.length)),
+              isScrollControlled: true,
+            );
+          },
+          thereIsNotifications: reqController.traineesRequests.isNotEmpty,
           isLoading: controller.isLoading.value,
         ),
         body: _pages[tabController.selectedIndex.value],

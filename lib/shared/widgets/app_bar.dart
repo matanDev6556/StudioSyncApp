@@ -178,9 +178,9 @@ class NotificationIcon extends StatelessWidget {
         if (thereIsNotifications)
           Positioned(
             right: 8.w,
-            top: 8.h,
+            top: 0.h,
             child: Container(
-              padding: EdgeInsets.all(4.w),
+              padding: EdgeInsets.all(6.w),
               decoration: const BoxDecoration(
                 color: Colors.red,
                 shape: BoxShape.circle,

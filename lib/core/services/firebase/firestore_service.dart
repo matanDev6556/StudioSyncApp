@@ -133,4 +133,29 @@ class FirestoreService {
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
   }
+
+  Future<void> deleteDocumentsWithFilters(
+    String collectionPath, Map<String, dynamic> filters) async {
+  try {
+    // יצירת השאילתה
+    Query query = _firestore.collection(collectionPath);
+
+    // הוספת תנאים לשאילתה עבור כל פילטר
+    filters.forEach((field, value) {
+      query = query.where(field, isEqualTo: value);
+    });
+
+    // שליפת המסמכים התואמים
+    QuerySnapshot querySnapshot = await query.get();
+
+    // מעבר על המסמכים ומחיקת כל אחד מהם
+    for (var doc in querySnapshot.docs) {
+      await doc.reference.delete();
+    }
+
+    print("Documents matching the filters were deleted successfully.");
+  } catch (e) {
+    print("Error deleting documents: $e");
+  }
+}
 }

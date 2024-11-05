@@ -20,40 +20,7 @@ class TraineeController extends GetxController {
 
   final isLoading = false.obs;
 
-  //TODO : move this function to trainer module because he need to confirm or not this connect
-  void connectToTrainer(String trainerID) async {
-    // add trainne to trainees sub coll
 
-    if (trainee.value != null) {
-      final updatedTrainee = trainee.value!
-          .copyWith(trainerID: trainerID, startWorkOutDate: DateTime.now());
-
-      isLoading.value = true;
-      await firestoreService.addNastedDocument(
-        'trainers',
-        trainerID,
-        'trainees',
-        trainee.value!.userId,
-        updatedTrainee.toMap(),
-      );
-
-      // delete the trainee from general coll trainees
-      await firestoreService.deleteDocument('trainees', trainee.value!.userId);
-
-      // update trainerID in allTrainees coll
-      await firestoreService.updateDocument(
-        'AllTrainees',
-        trainee.value!.userId,
-        {'id': trainee.value!.userId, 'trainerID': trainerID},
-      );
-
-      isLoading.value = false;
-
-      // update localy
-
-      trainee.value = updatedTrainee;
-    }
-  }
 
   Future<void> setNewProfileImg() async {
     isLoading.value = true;
