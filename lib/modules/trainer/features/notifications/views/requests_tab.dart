@@ -62,7 +62,7 @@ class RequestsTab extends GetView<RequestsController> {
             color: AppStyle.softOrange.withOpacity(0.1),
             spreadRadius: 2,
             blurRadius: 8,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -128,8 +128,8 @@ class RequestsTab extends GetView<RequestsController> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => controller.aprooveTraineeReq(trainee),
-                    // TODO: Implement approve functionality
+                    onPressed: () => controller.approveTraineeRequest(trainee),
+                 
 
                     style: ElevatedButton.styleFrom(
                       primary: AppStyle.softOrange,
@@ -137,7 +137,7 @@ class RequestsTab extends GetView<RequestsController> {
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Approve',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -146,9 +146,9 @@ class RequestsTab extends GetView<RequestsController> {
                 SizedBox(width: 16.w),
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () {
-                      // TODO: Implement reject functionality
-                    },
+                    onPressed: () => controller.rejectTraineeRequest(trainee),
+                      
+                    
                     style: OutlinedButton.styleFrom(
                       primary: AppStyle.softBrown,
                       side: BorderSide(color: AppStyle.softBrown),
@@ -156,7 +156,7 @@ class RequestsTab extends GetView<RequestsController> {
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                     ),
-                    child: Text('Reject'),
+                    child: const Text('Reject'),
                   ),
                 ),
               ],

@@ -10,7 +10,8 @@ class RequestsController extends GetxController {
   RequestsController({required this.firestoreService});
 
   RxList<TraineeModel> traineesRequests = <TraineeModel>[].obs;
-  final String trainerId = Get.find<TrainerController>().trainer.value?.userId ?? '';
+  final String trainerId =
+      Get.find<TrainerController>().trainer.value?.userId ?? '';
   final RxBool isLoading = false.obs;
 
   @override
@@ -21,7 +22,8 @@ class RequestsController extends GetxController {
 
   Future<void> fetchRequests() async {
     try {
-      final requestsData = await firestoreService.getCollection('trainers/$trainerId/requests');
+      final requestsData =
+          await firestoreService.getCollection('trainers/$trainerId/requests');
       for (var requestData in requestsData) {
         await _processRequest(requestData);
       }
@@ -32,8 +34,9 @@ class RequestsController extends GetxController {
 
   Future<void> _processRequest(Map<String, dynamic> requestData) async {
     final request = RequestModel.fromMap(requestData);
-    final traineeData = await firestoreService.getDocument('trainees', request.traineeID);
-    
+    final traineeData =
+        await firestoreService.getDocument('trainees', request.traineeID);
+
     if (traineeData != null) {
       traineesRequests.add(TraineeModel.fromJson(traineeData));
     }
@@ -58,6 +61,18 @@ class RequestsController extends GetxController {
       traineesController.addTraineeToList(updatedTrainee);
     } catch (e) {
       print("Error approving trainee request: $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> rejectTraineeRequest(TraineeModel trainee) async {
+    isLoading.value = true;
+    try {
+      await _removeRequestFromFirebase(trainee.userId);
+      traineesRequests.removeWhere((t) => t.userId == trainee.userId);
+    } catch (e) {
+      print("Error rejecting trainee request: $e");
     } finally {
       isLoading.value = false;
     }
