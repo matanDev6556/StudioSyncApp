@@ -19,7 +19,13 @@ class LessonsView extends StatelessWidget {
       children: [
         Column(
           children: [
-            WeekDaysSelector(),
+            Obx(
+              () => WeekDaysSelector(
+                selectedDayIndex: controller.selectedDayIndex.value,
+                onDaySelected: (index) =>
+                    controller.selectedDayIndex.value = index,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Row(
