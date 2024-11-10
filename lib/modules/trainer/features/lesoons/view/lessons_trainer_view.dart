@@ -77,26 +77,50 @@ class LessonsView extends StatelessWidget {
                       final lesson = lessons[index];
                       return LessonWidget(
                         lessonModel: lesson,
-                        isTrainer: true,
-                        deleteOnTap: () => controller.deleteLesson(lesson.id),
-                        editOnTap: () {
-                          controller.showLessonBottomSheet(
-                            title: 'Edit lesson',
-                            lesson: lesson,
-                            onSave: (updatedLesson) =>
-                                controller.editLesson(updatedLesson),
-                          );
-                        },
-                        copyOnTap: () {
-                          controller.showLessonBottomSheet(
-                            title: 'Add lesson',
-                            lesson: lesson,
-                            onSave: (updatedLesson) =>
-                                controller.addLesson(updatedLesson),
-                          );
-                        },
-                        detailsOnTap: () => controller.onDetailsTap(lesson),
-                        isLoading: controller.isLoading.value,
+                        actionButton: Row(
+                          children: [
+                            _buildIconButton(
+                              onTap: () {
+                                controller.showLessonBottomSheet(
+                                  title: 'Add lesson',
+                                  lesson: lesson,
+                                  onSave: (updatedLesson) =>
+                                      controller.addLesson(updatedLesson),
+                                );
+                              },
+                              icon: Icons.copy,
+                              color: AppStyle.softOrange,
+                            ),
+                            SizedBox(width: 8.w),
+                            _buildIconButton(
+                              onTap: () {
+                                controller.showLessonBottomSheet(
+                                  title: 'Edit lesson',
+                                  lesson: lesson,
+                                  onSave: (updatedLesson) =>
+                                      controller.editLesson(updatedLesson),
+                                );
+                              },
+                              icon: Icons.edit,
+                              color: AppStyle.deepBlackOrange,
+                            ),
+                            SizedBox(width: 8.w),
+                            _buildIconButton(
+                              onTap: () => controller.deleteLesson(lesson.id),
+                              icon: Icons.delete,
+                              color: Colors.redAccent,
+                            ),
+                            const Spacer(),
+                            controller.isLoading.value
+                                ? const CircularProgressIndicator()
+                                : _buildActionButton(
+                                    onTap: () =>
+                                        controller.onDetailsTap(lesson),
+                                    label: 'Details',
+                                    color: AppStyle.softBrown,
+                                  )
+                          ],
+                        ),
                       );
                     },
                   );
@@ -120,6 +144,41 @@ class LessonsView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildIconButton({
+    required VoidCallback onTap,
+    required IconData icon,
+    required Color color,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8.r),
+      child: Container(
+        padding: EdgeInsets.all(8.w),
+        child: Icon(icon, color: color, size: 20.sp),
+      ),
+    );
+  }
+
+  Widget _buildActionButton({
+    required VoidCallback onTap,
+    required String label,
+    required Color color,
+  }) {
+    return TextButton(
+      onPressed: onTap,
+      style: TextButton.styleFrom(
+        primary: color,
+        textStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          side: BorderSide(color: color),
+        ),
+      ),
+      child: Text(label),
     );
   }
 }

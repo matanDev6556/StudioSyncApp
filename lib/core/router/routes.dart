@@ -17,4 +17,5 @@ class Routes {
   static const homeTrainee = '/home-trainee';
   static const myTrainerProfile = '/trainer-profile';
   static const trainersList = '/trainers-list';
+  static const trainerLessons = '/trainer-lessons';
 }

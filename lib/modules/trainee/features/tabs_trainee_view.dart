@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/features/lessons/view/trainee_lessons_view.dart';
+import 'package:studiosync/modules/trainee/features/lessons/views/upcoming_lessons_view.dart';
 import 'package:studiosync/modules/trainee/features/profile/views/trainee_profile_view.dart';
 import 'package:studiosync/modules/trainee/features/workouts/view/workouts_view.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
@@ -16,7 +16,7 @@ class TraineeTabsView extends StatelessWidget {
   static final List<Widget> _pages = <Widget>[
     const TraineeProfileTab(),
     const TraineeWorkoutsTab(),
-    const TraineeSessionsTab(),
+    const TraineeLessonsTab(),
   ];
 
   @override
@@ -55,7 +55,7 @@ class TraineeTabsView extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.schedule),
-              label: 'Sessions',
+              label: 'Lessons',
               activeIcon: Icon(Icons.schedule, color: AppStyle.deepBlackOrange),
             ),
           ],
@@ -91,14 +91,14 @@ class TraineeWorkoutsTab extends StatelessWidget {
   }
 }
 
-class TraineeSessionsTab extends StatelessWidget {
-  const TraineeSessionsTab({Key? key}) : super(key: key);
+class TraineeLessonsTab extends StatelessWidget {
+  const TraineeLessonsTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final controler = Get.find<TraineeController>();
     return controler.trainee.value?.trainerID.isNotEmpty ?? false
-        ? LessonsTraineeView()
+        ? UpcomingLessonsView()
         : Center(
             child: CustomContainer(
               padding: EdgeInsets.all(16.h),

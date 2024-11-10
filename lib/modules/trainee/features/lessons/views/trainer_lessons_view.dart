@@ -1,0 +1,264 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/core/utils/dates.dart';
+import 'package:studiosync/modules/trainee/controllers/lessons_trainee_controller.dart';
+import 'package:studiosync/modules/trainee/features/lessons/service/lessons_filter_service.dart';
+import 'package:studiosync/modules/trainee/features/lessons/widgets/filter_lessosn_buttom.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/widgets/days_selector.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
+
+class TrainerLessonsView extends GetView<LessonsTraineeController> {
+  const TrainerLessonsView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          _buildSliverAppBar(),
+          SliverToBoxAdapter(child: _buildWeekDaysSelector()),
+          SliverToBoxAdapter(child: _buildLessonsHeader()),
+          SliverToBoxAdapter(child: _buildFilterChips()),
+          _buildLessonsList(),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => Get.bottomSheet(LessonFilterBottomSheet()),
+        icon: const Icon(Icons.tune, color: Colors.white),
+        label: const Text('Filter', style: TextStyle(color: Colors.white)),
+        backgroundColor: AppStyle.softOrange,
+      ),
+    );
+  }
+
+  Widget _buildSliverAppBar() {
+    return SliverAppBar(
+      expandedHeight: 200.h,
+      floating: false,
+      pinned: true,
+      flexibleSpace: FlexibleSpaceBar(
+        titlePadding: EdgeInsets.only(left: 16.w, bottom: 16.h),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Trainer Lessons',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Elevate Your Fitness Journey',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ],
+        ),
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(
+              'assets/images/image_login.png',
+              fit: BoxFit.cover,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () => Get.back(),
+      ),
+    );
+  }
+
+  Widget _buildWeekDaysSelector() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.h),
+      child: Obx(() => WeekDaysSelector(
+            selectedDayIndex: controller.selectedDayIndex.value,
+            onDaySelected: (index) => controller.setDayIndex(index),
+          )),
+    );
+  }
+
+  Widget _buildLessonsHeader() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Obx(() => Text(
+                '${controller.filteredLessons.length} Lessons',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  color: AppStyle.softBrown,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+          Obx(
+            () => AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+              decoration: BoxDecoration(
+                color: AppStyle.softOrange.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: Text(
+                DatesUtils.getDayFromIndex(controller.selectedDayIndex.value),
+                style: TextStyle(
+                  color: AppStyle.softOrange,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFilterChips() {
+    return Obx(() => SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Row(
+            children: [
+              ..._buildFilterChipsByType(FilterType.lesson),
+              ..._buildFilterChipsByType(FilterType.trainer),
+              ..._buildFilterChipsByType(FilterType.location),
+            ],
+          ),
+        ));
+  }
+
+  List<Widget> _buildFilterChipsByType(FilterType type) {
+    List<String> filters;
+    switch (type) {
+      case FilterType.lesson:
+        filters = controller.lessonFilterService.lessonsFilter;
+        break;
+      case FilterType.trainer:
+        filters = controller.lessonFilterService.trainersFilter;
+        break;
+      case FilterType.location:
+        filters = controller.lessonFilterService.locationFilter;
+        break;
+    }
+
+    return filters
+        .map((filter) => Padding(
+              padding: EdgeInsets.only(right: 8.w),
+              child: FilterChip(
+                label:
+                    Text(filter, style: TextStyle(color: AppStyle.softBrown)),
+                selected: true,
+                onSelected: (selected) {
+                  controller.lessonFilterService
+                      .toggleFilter(type, filter, add: false);
+                  controller.applyFilters();
+                },
+                selectedColor: AppStyle.softOrange.withOpacity(0.2),
+                checkmarkColor: AppStyle.softOrange,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.r)),
+              ),
+            ))
+        .toList();
+  }
+
+  Widget _buildLessonsList() {
+    return Obx(() {
+      final lessons = controller.filteredLessons;
+
+      if (lessons.isEmpty) {
+        return SliverFillRemaining(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.event_busy, size: 80.sp, color: AppStyle.softOrange),
+                SizedBox(height: 20.h),
+                Text(
+                  'No lessons available',
+                  style: TextStyle(fontSize: 18.sp, color: AppStyle.softBrown),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            final lesson = lessons[index];
+            return _buildLessonItem(lesson);
+          },
+          childCount: lessons.length,
+        ),
+      );
+    });
+  }
+
+  Widget _buildLessonItem(LessonModel lesson) {
+    return LessonWidget(
+      lessonModel: lesson,
+      actionButton: Center(
+        child: ElevatedButton(
+          onPressed: () => controller.handleLessonPress(lesson),
+          style: ElevatedButton.styleFrom(
+            primary: _buttonColor(lesson),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r)),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+          ),
+          child: Text(
+            _buttonText(lesson),
+            style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _buttonText(LessonModel lesson) {
+    if (controller.checkIfTraineeInLesson(lesson)) {
+      return 'Cancel';
+    } else if (lesson.isLessonFull()) {
+      return 'Full';
+    } else {
+      return 'Join';
+    }
+  }
+
+  Color _buttonColor(LessonModel lesson) {
+    if (controller.checkIfTraineeInLesson(lesson)) {
+      return Colors.redAccent;
+    } else if (lesson.isLessonFull()) {
+      return Colors.grey;
+    } else {
+      return AppStyle.softOrange;
+    }
+  }
+}

@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/views/widgets/filters_buttom.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/widgets/filters_trainrs_buttom.dart';
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 
 class TrainersListController extends GetxController {
@@ -62,7 +62,7 @@ class TrainersListController extends GetxController {
   void showFilterBottomSheet() {
     // Show the BottomSheet to choose preferences
     Get.bottomSheet(
-      FilterBottomSheet(onFilterSelected: _onFilterSelected),
+      FilterTrainersBottomSheet(onFilterSelected: _onFilterSelected),
     );
   }
 

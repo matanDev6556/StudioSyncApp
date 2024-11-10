@@ -36,7 +36,7 @@ class TrainerTabsBinding extends Bindings {
 
   void _bindSessionsTab() {
     Get.lazyPut(() => TrainerLessonsService(Get.find()));
-    Get.lazyPut(() => LessonFilterService());
+    Get.lazyPut(() => LessonTrainerFilterService());
     Get.lazyPut(() => LessonsCrudService(trainerLessonsService: Get.find()));
     Get.put(TrainerLessonsController(
       trainerLessonsService: Get.find(),

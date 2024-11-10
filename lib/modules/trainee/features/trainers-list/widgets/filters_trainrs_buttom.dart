@@ -4,10 +4,10 @@ import 'package:studiosync/modules/trainee/controllers/trainers_list_controller.
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/consts_lessons.dart';
 
-class FilterBottomSheet extends StatelessWidget {
+class FilterTrainersBottomSheet extends StatelessWidget {
   final Function(bool, List<String>) onFilterSelected;
 
-  const FilterBottomSheet({super.key, required this.onFilterSelected});
+  const FilterTrainersBottomSheet({super.key, required this.onFilterSelected});
 
   @override
   Widget build(BuildContext context) {

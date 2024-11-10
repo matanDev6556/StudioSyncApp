@@ -15,11 +15,11 @@ import 'package:studiosync/modules/trainer/features/lesoons/widgets/settings_wid
 // trainer_lessons_controller.dart
 class TrainerLessonsController extends GetxController {
   final TrainerController trainerController;
-  final LessonFilterService filterService;
+  final LessonTrainerFilterService filterService;
   final LessonsCrudService crudService;
   final TrainerLessonsService trainerLessonsService;
 
-  TrainerLessonsController({
+  TrainerLessonsController({ 
     required this.trainerLessonsService,
     required this.trainerController,
     required this.filterService,
@@ -28,6 +28,8 @@ class TrainerLessonsController extends GetxController {
 
   var isLoading = false.obs;
   RxList<LessonModel> lessons = <LessonModel>[].obs;
+
+  //filters
   RxList<LessonModel> filteredLessons = <LessonModel>[].obs;
   RxInt selectedDayIndex = (DateTime.now().weekday % 7).obs;
   var statusFilter = 'Active'.obs;
@@ -87,8 +89,9 @@ class TrainerLessonsController extends GetxController {
       isLoading.value = true;
 
       if (lesson.traineesRegistrations.isNotEmpty) {
-        // רק אם יש מתאמנים רשומים נבצע את הקריאה ל- Firestore
-        final registeredTrainees = await crudService.getRegisteredTrainees(
+        final registeredTrainees =
+            await trainerLessonsService.getRegisteredTrainees(
+          trainerController.trainer.value!.userId,
           lesson.traineesRegistrations,
         );
 

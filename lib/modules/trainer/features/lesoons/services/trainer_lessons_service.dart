@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
@@ -22,17 +22,28 @@ class TrainerLessonsService {
     });
   }
 
-  Future<List<TraineeModel>> getTraineesByIds(List<String> traineeIds) async {
-    // כאן תבצע שאילתא על Firestore כדי להביא את המתאמנים לפי ה־IDs שלהם
-    final snapshots = await firestoreService.firestore
+  Future<List<TraineeModel>> getRegisteredTrainees(String trainerId, List<String> traineeIds) async { 
+  final List<TraineeModel> registeredTrainees = [];
+
+  for (final traineeId in traineeIds) {
+    final traineeDoc = await firestoreService.firestore
         .collection('trainers')
-        .where(FieldPath.documentId, whereIn: traineeIds)
+        .doc(trainerId)
+        .collection('trainees')
+        .doc(traineeId)
         .get();
 
-    return snapshots.docs
-        .map((doc) => TraineeModel.fromJson(doc.data()))
-        .toList();
+    if (traineeDoc.exists) {
+      final traineeData = traineeDoc.data();
+      if (traineeData != null) {
+        final trainee = TraineeModel.fromJson(traineeData);
+        registeredTrainees.add(trainee);
+      }
+    }
   }
+
+  return registeredTrainees;
+}
 
   Future<void> addLesson(String trainerId, LessonModel lesson) async {
     try {
