@@ -9,7 +9,7 @@ class TrainerModel extends UserModel {
   List<String> locationsList;
   List<String> lessonsTypeList;
   String about;
-  bool isLessonsAvailable;
+  
   String instagramLink;
   TrainerModel({
     super.id,
@@ -25,7 +25,7 @@ class TrainerModel extends UserModel {
     this.coachesList = const <String>[],
     this.locationsList = const <String>[],
     this.lessonsTypeList = const <String>[],
-    this.isLessonsAvailable = false,
+   
     this.instagramLink = '',
     required this.about,
   });
@@ -64,7 +64,7 @@ class TrainerModel extends UserModel {
       priceList: priceList ?? this.priceList,
       coachesList: coachesList ?? this.coachesList,
       about: about ?? this.about,
-      isLessonsAvailable: isLessonsAvailable ?? this.isLessonsAvailable,
+      
       locationsList: locationsList ?? this.locationsList,
       lessonsTypeList: lessonsTypeList ?? this.lessonsTypeList,
       instagramLink: instagramLink ?? this.instagramLink,
@@ -82,7 +82,7 @@ class TrainerModel extends UserModel {
 
     final imgUrl = json['imgUrl'] ?? '';
     final id = json['id'] ?? '';
-    final isLessonsAvailable = json['isLessonsAvailable'] ?? false;
+    
 
     final priceListMapList = json['priceList'] as List<dynamic>? ?? [];
     final priceList = priceListMapList
@@ -115,7 +115,7 @@ class TrainerModel extends UserModel {
       imgUrl: imgUrl,
       id: id,
       priceList: priceList,
-      isLessonsAvailable: isLessonsAvailable,
+      
       imageUrls: imageUrls,
       coachesList: coachesList,
       locationsList: locationsList,
@@ -138,7 +138,7 @@ class TrainerModel extends UserModel {
       'about': about,
       'imageUrls': imageUrls,
       'id': userId,
-      'isLessonsAvailable': isLessonsAvailable,
+      
       'coachesList': coachesList,
       'locationsList': locationsList,
       'lessonsTypeList': lessonsTypeList,

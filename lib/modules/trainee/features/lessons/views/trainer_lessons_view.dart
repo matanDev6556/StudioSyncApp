@@ -204,7 +204,7 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
                   ),
                   SizedBox(height: 10.h),
                   Text(
-                    'Trainer not allowed \n to shedule lessons now',
+                    'Trainer is not allowing \n lesson scheduling at this time',
                     style:
                         TextStyle(fontSize: 18.sp, color: AppStyle.softBrown),
                     textAlign: TextAlign.center,
@@ -212,7 +212,7 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
                   AppStyle.h(10.h),
                   settings.message.isNotEmpty
                       ? CustomContainer(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           child: Text(
                             settings.message,
                             style: TextStyle(
@@ -220,7 +220,7 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
                             textAlign: TextAlign.center,
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                 ],
               ),
             ),
@@ -236,8 +236,11 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
               children: [
                 CustomContainer(
                   padding: EdgeInsets.all(16.sp),
-                  child: Icon(Icons.event_busy,
-                      size: 80.sp, color: AppStyle.softOrange),
+                  child: Icon(
+                    Icons.event_busy,
+                    size: 70.sp,
+                    color: AppStyle.softOrange,
+                  ),
                 ),
                 SizedBox(height: 10.h),
                 Text(
