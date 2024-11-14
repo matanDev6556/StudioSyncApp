@@ -1,7 +1,6 @@
 // lessons_crud_service.dart
 import 'package:studiosync/modules/trainer/features/lesoons/services/trainer_lessons_service.dart';
 import 'package:uuid/uuid.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 import 'package:studiosync/core/utils/dates.dart';
 
@@ -18,7 +17,7 @@ class LessonsCrudService {
         day: DatesUtils.getDayFromIndex(lesson.startDateTime.day),
         traineesRegistrations: [],
       );
-      
+
       await trainerLessonsService.addLesson(trainerId, newLesson);
     } catch (e) {
       throw Exception('Failed to add lesson: $e');
@@ -41,17 +40,10 @@ class LessonsCrudService {
     }
   }
 
-  Future<List<TraineeModel>> getRegisteredTrainees(List<String> traineeIds) async {
-    try {
-      return await trainerLessonsService.getTraineesByIds(traineeIds);
-    } catch (e) {
-      throw Exception('Failed to fetch trainees: $e');
-    }
-  }
 
   bool validateLesson(LessonModel? lesson) {
     if (lesson == null) return false;
-    
+
     if (lesson.typeLesson.isEmpty) {
       throw Exception('Type is required!');
     }
@@ -61,7 +53,7 @@ class LessonsCrudService {
     if (lesson.trainerName.isEmpty) {
       throw Exception('Trainer name is required!');
     }
-    
+
     return true;
   }
 }

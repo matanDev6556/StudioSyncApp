@@ -1,6 +1,6 @@
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 
-class LessonFilterService {
+class LessonTrainerFilterService {
   List<LessonModel> filterLessons(
     List<LessonModel> lessons,
     int selectedDayIndex,
@@ -9,17 +9,17 @@ class LessonFilterService {
     String typeFilter,
     String locationFilter,
   ) {
-    List<LessonModel> filtered = _filterByDay(lessons, selectedDayIndex);
+    List<LessonModel> filtered = filterByDay(lessons, selectedDayIndex);
     filtered = _filterByStatus(filtered, statusFilter);
-    filtered = _filterByTrainer(filtered, trainerFilter);
-    filtered = _filterByType(filtered, typeFilter);
-    filtered = _filterByLocation(filtered, locationFilter);
+    filtered = filterByTrainer(filtered, trainerFilter);
+    filtered = filterByType(filtered, typeFilter);
+    filtered = filterByLocation(filtered, locationFilter);
 
     filtered.sort((a, b) => a.startDateTime.compareTo(b.startDateTime));
     return filtered;
   }
 
-  List<LessonModel> _filterByDay(List<LessonModel> lessons, int dayIndex) {
+  List<LessonModel> filterByDay(List<LessonModel> lessons, int dayIndex) {
     if (dayIndex == -1) return lessons;
     return lessons.where((lesson) {
       if (dayIndex == 0) return lesson.startDateTime.weekday == 7;
@@ -50,17 +50,17 @@ class LessonFilterService {
     }
   }
 
-  List<LessonModel> _filterByTrainer(List<LessonModel> lessons, String trainer) {
+  List<LessonModel> filterByTrainer(List<LessonModel> lessons, String trainer) {
     if (trainer == 'All') return lessons;
     return lessons.where((lesson) => lesson.trainerName == trainer).toList();
   }
 
-  List<LessonModel> _filterByType(List<LessonModel> lessons, String type) {
+  List<LessonModel> filterByType(List<LessonModel> lessons, String type) {
     if (type == 'All') return lessons;
     return lessons.where((lesson) => lesson.typeLesson == type).toList();
   }
 
-  List<LessonModel> _filterByLocation(List<LessonModel> lessons, String location) {
+  List<LessonModel> filterByLocation(List<LessonModel> lessons, String location) {
     if (location == 'All') return lessons;
     return lessons.where((lesson) => lesson.location == location).toList();
   }

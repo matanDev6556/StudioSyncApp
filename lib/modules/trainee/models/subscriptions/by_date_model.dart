@@ -73,6 +73,7 @@ class SubscriptionByDate extends Subscription {
     Function? editButton,
     bool isTrainer = true,
   }) {
+    
     return ByDateSubscriptionWidget(
       usedMonthlyTraining: usedMonthlyTraining,
       monthlyTrainingLimit: monthlyTrainingLimit,

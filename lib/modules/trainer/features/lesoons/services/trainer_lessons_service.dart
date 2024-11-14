@@ -22,16 +22,28 @@ class TrainerLessonsService {
     });
   }
 
-  Future<List<TraineeModel>> getTraineesByIds(List<String> traineeIds) async {
-    // כאן תבצע שאילתא על Firestore כדי להביא את המתאמנים לפי ה־IDs שלהם
-    final snapshots = await firestoreService.firestore
-        .collection('trainers')
-        .where(FieldPath.documentId, whereIn: traineeIds)
-        .get();
+  Future<List<TraineeModel>> getRegisteredTrainees(
+      String trainerId, List<String> traineeIds) async {
+    final List<TraineeModel> registeredTrainees = [];
 
-    return snapshots.docs
-        .map((doc) => TraineeModel.fromJson(doc.data()))
-        .toList();
+    for (final traineeId in traineeIds) {
+      final traineeDoc = await firestoreService.firestore
+          .collection('trainers')
+          .doc(trainerId)
+          .collection('trainees')
+          .doc(traineeId)
+          .get();
+
+      if (traineeDoc.exists) {
+        final traineeData = traineeDoc.data();
+        if (traineeData != null) {
+          final trainee = TraineeModel.fromJson(traineeData);
+          registeredTrainees.add(trainee);
+        }
+      }
+    }
+
+    return registeredTrainees;
   }
 
   Future<void> addLesson(String trainerId, LessonModel lesson) async {
@@ -74,5 +86,33 @@ class TrainerLessonsService {
     } catch (e) {
       throw Exception('Failed to delete lesson: $e');
     }
+  }
+
+  Future<void> removeTraineeFromLesson(
+      String trainerId, String lessonId, String traineeId) async {
+    try {
+      DocumentReference lessonRef = firestoreService.firestore
+          .collection('trainers')
+          .doc(trainerId)
+          .collection('lessons')
+          .doc(lessonId);
+
+      await lessonRef.update({
+        'traineesRegistrations': FieldValue.arrayRemove([traineeId])
+      });
+
+      print("Trainee removed successfully.");
+    } catch (e) {
+      print("Error removing trainee: $e");
+      // טיפול בשגיאה
+    }
+  }
+
+  Future<void> updateTraineeSub(TraineeModel traineeModel) async {
+    await firestoreService.updateDocument(
+      'trainers/${traineeModel.trainerID}/trainees}',
+      traineeModel.userId,
+      traineeModel.toMap(),
+    );
   }
 }

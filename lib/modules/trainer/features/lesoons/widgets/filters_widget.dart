@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
+import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class LessonFiltersWidget extends StatelessWidget {
-  final TrainerLessonsController lessonsController;
+  final TrainerLessonsController lessonsController = Get.find();
 
-  const LessonFiltersWidget({
+  LessonFiltersWidget({
     Key? key,
-    required this.lessonsController,
   }) : super(key: key);
 
   @override
@@ -34,13 +34,21 @@ class LessonFiltersWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Lesson Filters',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppStyle.deepBlackOrange,
-                  ),
+                Row(
+                  children: [
+                    CustomContainer(
+                        child:
+                            Icon(Icons.tune, color: AppStyle.deepBlackOrange)),
+                    AppStyle.w(5.w),
+                    Text(
+                      'Lesson Filters',
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppStyle.deepBlackOrange,
+                      ),
+                    ),
+                  ],
                 ),
                 IconButton(
                   icon: Icon(Icons.close, color: AppStyle.deepBlackOrange),

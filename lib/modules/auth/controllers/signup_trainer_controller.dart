@@ -15,7 +15,6 @@ class SignUpTrainerController extends SignUpController {
   RxList<String> locationsList = <String>[].obs;
   RxList<String> lessonsTypeList = <String>[].obs;
   RxString about = ''.obs;
-  RxBool isLessonsAvailable = false.obs;
   RxString instagramLink = ''.obs;
 
   var description = ''.obs;
@@ -125,7 +124,7 @@ class SignUpTrainerController extends SignUpController {
         coachesList: coachesList,
         locationsList: locationsList,
         lessonsTypeList: lessonsTypeList,
-        isLessonsAvailable: isLessonsAvailable.value,
+       
         instagramLink: instagramLink.value,
         isTrainer: true,
       );

@@ -7,23 +7,11 @@ import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class LessonWidget extends StatelessWidget {
   final LessonModel lessonModel;
-  final VoidCallback? deleteOnTap;
-  final VoidCallback? editOnTap;
-  final VoidCallback? detailsOnTap;
-  final VoidCallback? copyOnTap;
-  final bool isTrainer;
-  final bool isLoading;
+  final Widget actionButton;
 
-  const LessonWidget({
-    Key? key,
-    required this.lessonModel,
-    this.deleteOnTap,
-    this.editOnTap,
-    this.detailsOnTap,
-    this.copyOnTap,
-    this.isTrainer = false,
-    this.isLoading = false,
-  }) : super(key: key);
+  const LessonWidget(
+      {Key? key, required this.lessonModel, required this.actionButton})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,40 +78,7 @@ class LessonWidget extends StatelessWidget {
             total: lessonModel.limitPeople,
           ),
           SizedBox(height: 16.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (isTrainer)
-                Row(
-                  children: [
-                    _buildIconButton(
-                      onTap: copyOnTap ?? () {},
-                      icon: Icons.copy,
-                      color: AppStyle.softOrange,
-                    ),
-                    SizedBox(width: 8.w),
-                    _buildIconButton(
-                      onTap: editOnTap ?? () {},
-                      icon: Icons.edit,
-                      color: AppStyle.deepBlackOrange,
-                    ),
-                    SizedBox(width: 8.w),
-                    _buildIconButton(
-                      onTap: deleteOnTap ?? () {},
-                      icon: Icons.delete,
-                      color: Colors.redAccent,
-                    ),
-                  ],
-                ),
-              isLoading
-                  ? const CircularProgressIndicator()
-                  : _buildActionButton(
-                      onTap: detailsOnTap ?? () {},
-                      label: 'Details',
-                    ),
-              // הצגת כפתורי העריכה רק אם המשתמש הוא מאמן
-            ],
-          ),
+          actionButton,
         ],
       ),
     );
@@ -174,40 +129,6 @@ class LessonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(3.r),
         ),
       ],
-    );
-  }
-
-  Widget _buildActionButton({
-    required VoidCallback onTap,
-    required String label,
-  }) {
-    return TextButton(
-      onPressed: onTap,
-      style: TextButton.styleFrom(
-        primary: AppStyle.softBrown,
-        textStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          side: BorderSide(color: AppStyle.softBrown),
-        ),
-      ),
-      child: Text(label),
-    );
-  }
-
-  Widget _buildIconButton({
-    required VoidCallback onTap,
-    required IconData icon,
-    required Color color,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8.r),
-      child: Container(
-        padding: EdgeInsets.all(8.w),
-        child: Icon(icon, color: color, size: 20.sp),
-      ),
     );
   }
 }

@@ -28,5 +28,6 @@ class TrainerRouter {
       },
       binding: TraineeProfileBinding(),
     ),
+   
   ];
 }

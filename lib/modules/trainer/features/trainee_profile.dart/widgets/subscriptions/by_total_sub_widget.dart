@@ -47,7 +47,7 @@ class ByTotalSubscriptionContainer extends StatelessWidget {
             isTrainer: isTrainer,
             howWorkOutsDid: usedTrainings,
             totalWorkouts: totalTrainings,
-            editButton: () => editButton,
+            editButton: editButton != null ? () => editButton!() : () {},
           ),
           AppStyle.h(10),
           Row(

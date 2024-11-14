@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
+import 'package:studiosync/modules/trainer/contollers/trainer_lessons_settings.controller%20.dart';
+import 'package:studiosync/shared/widgets/custom_container.dart';
+import 'package:studiosync/shared/widgets/custom_text_field.dart';
 
-class LessonSettingsWidget extends StatelessWidget {
-  final TrainerLessonsController lessonsController;
-
+class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
   const LessonSettingsWidget({
     Key? key,
-    required this.lessonsController,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Get.height * 0.5,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
@@ -34,13 +32,22 @@ class LessonSettingsWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Lesson Settings',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppStyle.deepBlackOrange,
-                  ),
+                Row(
+                  children: [
+                    CustomContainer(
+                      child:
+                          Icon(Icons.settings, color: AppStyle.deepBlackOrange),
+                    ),
+                    AppStyle.w(5.w),
+                    Text(
+                      'Lesson Settings',
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppStyle.deepBlackOrange,
+                      ),
+                    ),
+                  ],
                 ),
                 IconButton(
                   icon: Icon(Icons.close, color: AppStyle.deepBlackOrange),
@@ -61,11 +68,37 @@ class LessonSettingsWidget extends StatelessWidget {
                     color: AppStyle.softBrown,
                   ),
                 ),
-                value: lessonsController.showLessons.value,
-                onChanged: (value) =>
-                    lessonsController.showLessons.value = value,
+                value: controller.lessonsSettings.value.isAllowedToSchedule,
+                onChanged: (value) => controller.updateLocalLessons(
+                  controller.settings.copyWith(isAllowedToSchedule: value),
+                ),
                 activeColor: AppStyle.softOrange,
                 contentPadding: EdgeInsets.zero,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Text(
+              'Message to trainees',
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+                color: AppStyle.softBrown,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 7),
+            child: CustomTextField(
+              hintText: 'Enter message if nececery ',
+              initialValue: controller.settings.message,
+              hintColor: AppStyle.deepBlackOrange,
+              fill: true,
+              maxLines: 4,
+              color: AppStyle.softOrange.withOpacity(0.2),
+              onChanged: (val) => controller.updateLocalLessons(
+                controller.lessonsSettings.value.copyWith(message: val),
               ),
             ),
           ),
@@ -81,7 +114,7 @@ class LessonSettingsWidget extends StatelessWidget {
       padding: EdgeInsets.all(24.w),
       child: ElevatedButton(
         onPressed: () {
-          // Apply settings and close bottom sheet
+          controller.updateLessonsSettings(controller.lessonsSettings.value);
           Get.back();
         },
         style: ElevatedButton.styleFrom(
@@ -92,7 +125,7 @@ class LessonSettingsWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 16.h),
         ),
         child: Text(
-          'Apply Filters',
+          'Apply Settings',
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.w600,
