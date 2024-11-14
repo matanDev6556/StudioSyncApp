@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/days_selector.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/widgets/filters_widget.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/widgets/settings_widget.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class LessonsView extends StatelessWidget {
@@ -44,15 +46,27 @@ class LessonsView extends StatelessWidget {
                   ),
                   const Spacer(),
                   IconButton(
-                    icon: Icon(
-                      Icons.settings,
-                      color: AppStyle.backGrey3.withOpacity(0.6),
-                    ),
-                    onPressed: () => controller.showLessonSettingsBottomSheet(),
+                    icon: Icon(Icons.tune, color: AppStyle.softOrange),
+                    onPressed: () {
+                      Get.bottomSheet(
+                        LessonFiltersWidget(),
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                      );
+                    },
                   ),
                   IconButton(
-                    icon: Icon(Icons.filter_list, color: AppStyle.softOrange),
-                    onPressed: () => controller.showLessonFilterBottomSheet(),
+                    icon: Icon(
+                      Icons.settings,
+                      color: AppStyle.softBrown.withOpacity(0.4),
+                    ),
+                    onPressed: () {
+                      Get.bottomSheet(
+                        const LessonSettingsWidget(),
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                      );
+                    },
                   ),
                 ],
               ),

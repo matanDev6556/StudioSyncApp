@@ -5,13 +5,14 @@ import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/controllers/lessons_upcoming_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
-
+import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class UpcomingLessonsView extends GetView<UpcomingLessonsController> {
   const UpcomingLessonsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    
     return Column(
       children: [
         _buildHeader(),
@@ -53,10 +54,18 @@ class UpcomingLessonsView extends GetView<UpcomingLessonsController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.event_busy, size: 60.sp, color: AppStyle.softOrange),
+            CustomContainer(
+              padding: EdgeInsets.all(16.sp),
+              child: Icon(
+                Icons.event_busy,
+                size: 60.sp,
+                color: AppStyle.softOrange,
+              ),
+            ),
             SizedBox(height: 10.h),
             Text(
-              'No upcoming lessons',
+              'No upcoming\n lessons',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppStyle.softBrown,
                 fontSize: 16.sp,

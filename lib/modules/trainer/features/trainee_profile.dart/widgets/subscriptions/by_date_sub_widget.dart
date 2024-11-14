@@ -71,7 +71,7 @@ class ByDateSubscriptionWidget extends StatelessWidget {
             isTrainer: isTrainer,
             howWorkOutsDid: DateTime.now().difference(startDate).inDays,
             totalWorkouts: endDate.difference(startDate).inDays,
-            editButton: () => editButton ,
+            editButton: editButton != null ? () => editButton!() : () {},
           ),
           SizedBox(height: 12.h),
           Row(

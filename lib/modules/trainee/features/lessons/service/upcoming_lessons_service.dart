@@ -9,16 +9,15 @@ class UpcomingLessonsTraineeService {
 
     Stream<List<LessonModel>> getUpcomingRegisteredLessonsForTrainee(
       String trainerId, String traineeId) {
-    // הגדרת המסלול של האוסף
+
     String collectionPath = 'trainers/$trainerId/lessons';
 
-    // יצירת שאילתה שבודקת שה-id של המתאמן נמצא במערך registeredTrainees
-    // ושזמן ההתחלה של השיעור הוא בעתיד
+    
     Query query = firestoreService.firestore
         .collection(collectionPath)
         .where('traineesRegistrations', arrayContains: traineeId);
 
-    // החזרת Stream של התוצאות בזמן אמת, מומרות ל-List<LessonModel>
+    
     return query.snapshots().map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
         return LessonModel.fromJson(doc.data() as Map<String, dynamic>);

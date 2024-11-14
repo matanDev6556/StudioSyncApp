@@ -25,50 +25,52 @@ class FilterTrainersBottomSheet extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Filter Trainers',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppStyle.softBrown,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Filter Trainers',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: AppStyle.softBrown,
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          _buildCityToggle(tempInMyCity),
-          const SizedBox(height: 16),
-          _buildLessonTypesCheckboxes(tempSelectedLessons),
-          const SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () {
-                  tempSelectedLessons.clear();
-                  tempInMyCity.value = false;
-                },
-                child: const Text('Clear All'),
-              ),
-              const SizedBox(width: 8),
-              ElevatedButton(
-                onPressed: () {
-                  onFilterSelected(tempInMyCity.value, tempSelectedLessons);
-                  Get.back();
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: AppStyle.softOrange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+            const SizedBox(height: 16),
+            _buildCityToggle(tempInMyCity),
+            const SizedBox(height: 16),
+            _buildLessonTypesCheckboxes(tempSelectedLessons),
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    tempSelectedLessons.clear();
+                    tempInMyCity.value = false;
+                  },
+                  child: const Text('Clear All'),
                 ),
-                child: const Text('Apply'),
-              ),
-            ],
-          ),
-        ],
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    onFilterSelected(tempInMyCity.value, tempSelectedLessons);
+                    Get.back();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: AppStyle.softOrange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text('Apply'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

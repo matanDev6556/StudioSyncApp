@@ -115,8 +115,10 @@ class TraineeWorkoutView extends GetView<TraineeWorkoutController> {
   }
 
   Widget _buildSubscriptionSection(TraineeModel trainee) {
+   
     return trainee.subscription != null
         ? trainee.subscription!.getSubscriptionContainer(
+            isTrainer: true,
             editButton: () {
               showBottomAddSubscription(
                 Get.context!,

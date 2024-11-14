@@ -14,7 +14,7 @@ class FirestoreService {
   // פונקציה לעדכון מסמך קיים
   Future<void> updateDocument(String collectionPath, String documentId,
       Map<String, dynamic> data) async {
-    await _firestore.collection(collectionPath).doc(documentId).update(data);
+    await _firestore.collection(collectionPath).doc(documentId).set(data);
   }
 
   // פונקציה למחיקת מסמך
@@ -51,6 +51,11 @@ class FirestoreService {
     } catch (e) {
       return null;
     }
+  }
+
+  // stream doc  
+   Stream<DocumentSnapshot<Map<String, dynamic>>> streamDocument(String path) {
+    return _firestore.doc(path).snapshots();
   }
 
   Future<Map<String, dynamic>?> getNestedDocument(

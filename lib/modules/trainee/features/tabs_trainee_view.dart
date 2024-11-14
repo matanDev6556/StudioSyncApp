@@ -96,9 +96,17 @@ class TraineeLessonsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controler = Get.find<TraineeController>();
-    return controler.trainee.value?.trainerID.isNotEmpty ?? false
-        ? UpcomingLessonsView()
+    final trainee = Get.find<TraineeController>().trainee.value;
+    return trainee != null && trainee.trainerID.isNotEmpty
+        ? trainee.subscription != null
+            ? const UpcomingLessonsView()
+            : Center(
+                child: CustomContainer(
+                  padding: EdgeInsets.all(16.h),
+                  text:
+                      'Your subscription is unactive\n tallk with your trainer!',
+                ),
+              )
         : Center(
             child: CustomContainer(
               padding: EdgeInsets.all(16.h),

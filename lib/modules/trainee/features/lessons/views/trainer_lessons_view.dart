@@ -5,10 +5,11 @@ import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/dates.dart';
 import 'package:studiosync/modules/trainee/controllers/lessons_trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/service/lessons_filter_service.dart';
-import 'package:studiosync/modules/trainee/features/lessons/widgets/filter_lessosn_buttom.dart';
+import 'package:studiosync/modules/trainee/features/lessons/widgets/trainee_filter_lessosn_buttom.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/days_selector.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
+import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class TrainerLessonsView extends GetView<LessonsTraineeController> {
   const TrainerLessonsView({Key? key}) : super(key: key);
@@ -186,7 +187,46 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
 
   Widget _buildLessonsList() {
     return Obx(() {
+      final settings = controller.lessonsSettings.value;
       final lessons = controller.filteredLessons;
+
+      if (settings != null) {
+        if (!settings.isAllowedToSchedule) {
+          return SliverFillRemaining(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomContainer(
+                    padding: EdgeInsets.all(16.sp),
+                    child: Icon(Icons.event_busy,
+                        size: 70.sp, color: AppStyle.softOrange),
+                  ),
+                  SizedBox(height: 10.h),
+                  Text(
+                    'Trainer not allowed \n to shedule lessons now',
+                    style:
+                        TextStyle(fontSize: 18.sp, color: AppStyle.softBrown),
+                    textAlign: TextAlign.center,
+                  ),
+                  AppStyle.h(10.h),
+                  settings.message.isNotEmpty
+                      ? CustomContainer(
+                          padding: EdgeInsets.all(16),
+                          child: Text(
+                            settings.message,
+                            style: TextStyle(
+                                fontSize: 18.sp, color: AppStyle.softBrown),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      : SizedBox(),
+                ],
+              ),
+            ),
+          );
+        }
+      }
 
       if (lessons.isEmpty) {
         return SliverFillRemaining(
@@ -194,11 +234,16 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.event_busy, size: 80.sp, color: AppStyle.softOrange),
-                SizedBox(height: 20.h),
+                CustomContainer(
+                  padding: EdgeInsets.all(16.sp),
+                  child: Icon(Icons.event_busy,
+                      size: 80.sp, color: AppStyle.softOrange),
+                ),
+                SizedBox(height: 10.h),
                 Text(
-                  'No lessons available',
+                  'No lessons\n available',
                   style: TextStyle(fontSize: 18.sp, color: AppStyle.softBrown),
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),

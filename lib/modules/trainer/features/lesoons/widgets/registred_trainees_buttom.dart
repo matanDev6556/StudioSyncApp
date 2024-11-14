@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/shared/widgets/custom_image.dart';
 
 class RegisteredTrainees extends StatelessWidget {
   const RegisteredTrainees({
     super.key,
     required this.registeredTrainees,
+    required this.lessonId,
   });
 
   final List<TraineeModel> registeredTrainees;
+  final String lessonId;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,8 @@ class RegisteredTrainees extends StatelessWidget {
                       trailing: IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
                         onPressed: () {
-                          // פונקציה להסרת המתאמן מהרשימה
+                          Get.find<TrainerLessonsController>()
+                              .deleteTraineeFromLesson(lessonId, trainee);
                         },
                       ),
                     );

@@ -2,15 +2,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/services/filter_lessons_service.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/services/lessons_crud_service.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/services/trainer_lessons_service.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/add_edit_lesson_buttom.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/widgets/filters_widget.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/registred_trainees_buttom.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/widgets/settings_widget.dart';
+
 
 // trainer_lessons_controller.dart
 class TrainerLessonsController extends GetxController {
@@ -19,7 +19,7 @@ class TrainerLessonsController extends GetxController {
   final LessonsCrudService crudService;
   final TrainerLessonsService trainerLessonsService;
 
-  TrainerLessonsController({ 
+  TrainerLessonsController({
     required this.trainerLessonsService,
     required this.trainerController,
     required this.filterService,
@@ -36,10 +36,11 @@ class TrainerLessonsController extends GetxController {
   late RxString trainerFilter = 'All'.obs;
   late RxString typeFilter = 'All'.obs;
   late RxString locationFilter = 'All'.obs;
-  Rx<bool> showLessons = false.obs;
+
 
   List<String> statusFilterOptions = ['All', 'Active', 'Past', 'Upcoming'];
   late StreamSubscription<List<LessonModel>> lessonsSubscription;
+
 
   @override
   void onInit() {
@@ -96,13 +97,19 @@ class TrainerLessonsController extends GetxController {
         );
 
         Get.bottomSheet(
-          RegisteredTrainees(registeredTrainees: registeredTrainees),
+          RegisteredTrainees(
+            registeredTrainees: registeredTrainees,
+            lessonId: lesson.id,
+          ),
           isScrollControlled: true,
         );
       } else {
         // אם אין מתאמנים רשומים, נציג BottomSheet עם הודעה מתאימה
         Get.bottomSheet(
-          const RegisteredTrainees(registeredTrainees: []),
+          RegisteredTrainees(
+            registeredTrainees: [],
+            lessonId: lesson.id,
+          ),
           isScrollControlled: true,
         );
       }
@@ -153,24 +160,18 @@ class TrainerLessonsController extends GetxController {
     }
   }
 
-  void showLessonSettingsBottomSheet() {
-    Get.bottomSheet(
-      LessonSettingsWidget(
-        lessonsController: this,
-      ),
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-    );
-  }
+  Future<void> deleteTraineeFromLesson(
+    String lessonId,
+    TraineeModel traineeModel,
+  ) async {
+    isLoading.value = true;
+    //traineeModel.subscription?.cancleLesson();
+    await trainerLessonsService.removeTraineeFromLesson(
+        traineeModel.trainerID, lessonId, traineeModel.userId);
 
-  void showLessonFilterBottomSheet() {
-    Get.bottomSheet(
-      LessonFiltersWidget(
-        lessonsController: this,
-      ),
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-    );
+    // await trainerLessonsService.updateTraineeSub(traineeModel);
+
+    isLoading.value = false;
   }
 
   void showLessonBottomSheet({

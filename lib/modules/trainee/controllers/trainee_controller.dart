@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/services/firebase/auth_service.dart';
@@ -20,7 +23,45 @@ class TraineeController extends GetxController {
 
   final isLoading = false.obs;
 
+  StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
+      _traineeStreamSubscription;
 
+  @override
+  void onReady() {
+    super.onReady();
+    _listenToTraineeUpdates();
+  }
+
+  @override
+  void onClose() {
+    _traineeStreamSubscription?.cancel();
+    super.onClose();
+  }
+
+  void _listenToTraineeUpdates() {
+    final String path;
+    final trainerId = trainee.value!.trainerID;
+
+    if (trainerId.isNotEmpty) {
+      path = 'trainers/$trainerId/trainees/${trainee.value!.userId}';
+    } else {
+      path = 'trainees/${trainee.value!.userId}';
+    }
+
+    print("Listening to document changes at: $path");
+
+    // מאזינים לכל שינוי במסמך במסלול הנכון
+    _traineeStreamSubscription =
+        firestoreService.streamDocument(path).listen((snapshot) {
+      if (snapshot.exists) {
+        final traineeData = snapshot.data() as Map<String, dynamic>;
+        updateLocalTrainer(TraineeModel.fromJson(traineeData));
+        print("Trainee data updated from Firestore.");
+      } else {
+        print("Document does not exist at path: $path");
+      }
+    });
+  }
 
   Future<void> setNewProfileImg() async {
     isLoading.value = true;

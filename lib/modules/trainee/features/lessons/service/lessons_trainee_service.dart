@@ -21,6 +21,11 @@ class LessonsTraineeService {
       }).toList();
     });
   }
+  
+  Stream<DocumentSnapshot<Map<String, dynamic>>?> getLessonsSettingsChanges(String trainerID) {
+    return firestoreService
+        .streamDocument('trainers/$trainerID/settings/lessonsSettings');
+  }
 
   Future<void> addTraineeToLesson(
       String trainerId, String lessonId, String traineeId) async {
