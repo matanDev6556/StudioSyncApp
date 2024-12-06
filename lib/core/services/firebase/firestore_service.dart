@@ -5,14 +5,8 @@ class FirestoreService {
 
   FirebaseFirestore get firestore => _firestore;
 
-  // פונקציה ליצירת מסמך חדש
-  Future<void> createDocument(String collectionPath, String documentId,
-      Map<String, dynamic> data) async {
-    await _firestore.collection(collectionPath).doc(documentId).set(data);
-  }
-
-  // פונקציה לעדכון מסמך קיים
-  Future<void> updateDocument(String collectionPath, String documentId,
+  // can use for add/update
+  Future<void> setDocument(String collectionPath, String documentId,
       Map<String, dynamic> data) async {
     await _firestore.collection(collectionPath).doc(documentId).set(data);
   }
@@ -39,6 +33,31 @@ class FirestoreService {
     await documentRef.delete();
   }
 
+  Future<void> deleteDocumentsWithFilters(
+      String collectionPath, Map<String, dynamic> filters) async {
+    try {
+      // יצירת השאילתה
+      Query query = _firestore.collection(collectionPath);
+
+      // הוספת תנאים לשאילתה עבור כל פילטר
+      filters.forEach((field, value) {
+        query = query.where(field, isEqualTo: value);
+      });
+
+      // שליפת המסמכים התואמים
+      QuerySnapshot querySnapshot = await query.get();
+
+      // מעבר על המסמכים ומחיקת כל אחד מהם
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      print("Documents matching the filters were deleted successfully.");
+    } catch (e) {
+      print("Error deleting documents: $e");
+    }
+  }
+
   // פונקציה לקבלת מסמך לפי מזהה
   Future<Map<String, dynamic>?> getDocument(
     String collectionPath,
@@ -53,58 +72,6 @@ class FirestoreService {
     }
   }
 
-  // stream doc  
-   Stream<DocumentSnapshot<Map<String, dynamic>>> streamDocument(String path) {
-    return _firestore.doc(path).snapshots();
-  }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> streamCollection(String path) {
-  return FirebaseFirestore.instance.collection(path).snapshots();
-}
-
-  Future<Map<String, dynamic>?> getNestedDocument(
-    String parentCollectionPath,
-    String parentDocumentId,
-    String childCollectionPath,
-    String childDocumentId,
-  ) async {
-    try {
-      DocumentSnapshot documentSnapshot = await _firestore
-          .collection(parentCollectionPath)
-          .doc(parentDocumentId)
-          .collection(childCollectionPath)
-          .doc(childDocumentId)
-          .get();
-
-      return documentSnapshot.data() as Map<String, dynamic>?;
-    } catch (e) {
-      print("Error fetching nested document: $e");
-      return null;
-    }
-  }
-
-  Future<void> addNastedDocument(
-    String parentCollectionPath,
-    String parentDocumentId,
-    String childCollectionPath,
-    String childDocumentId,
-    Map<String, dynamic> mapData,
-  ) async {
-    try {
-      // הוספה של מסמך מתאמן לתוך הקולקציה של המאמן
-      await _firestore
-          .collection(parentCollectionPath)
-          .doc(parentDocumentId)
-          .collection(childCollectionPath)
-          .doc(childDocumentId)
-          .set(mapData);
-
-      print("Added nasted doc");
-    } catch (e) {
-      print("Failed to add trainee: $e");
-    }
-  }
-
   // פונקציה לקבלת כל המסמכים מקולקציה
   Future<List<Map<String, dynamic>>> getCollection(
       String collectionPath) async {
@@ -113,19 +80,6 @@ class FirestoreService {
     return querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
-  }
-
-  Future<int> countDocumentsInCollection(String collectionPath) async {
-    try {
-      // שליפת כל המסמכים מתוך הנתיב שניתן
-      final querySnapshot = await firestore.collection(collectionPath).get();
-
-      // חישוב כמות המסמכים שנמצאו
-      return querySnapshot.size;
-    } catch (e) {
-      print("Error counting documents: $e");
-      return 0;
-    }
   }
 
   // פונקציה לקבלת מסמכים עם תנאים (פילטרים)
@@ -143,28 +97,25 @@ class FirestoreService {
         .toList();
   }
 
-  Future<void> deleteDocumentsWithFilters(
-    String collectionPath, Map<String, dynamic> filters) async {
-  try {
-    // יצירת השאילתה
-    Query query = _firestore.collection(collectionPath);
-
-    // הוספת תנאים לשאילתה עבור כל פילטר
-    filters.forEach((field, value) {
-      query = query.where(field, isEqualTo: value);
-    });
-
-    // שליפת המסמכים התואמים
-    QuerySnapshot querySnapshot = await query.get();
-
-    // מעבר על המסמכים ומחיקת כל אחד מהם
-    for (var doc in querySnapshot.docs) {
-      await doc.reference.delete();
-    }
-
-    print("Documents matching the filters were deleted successfully.");
-  } catch (e) {
-    print("Error deleting documents: $e");
+  // stream doc
+  Stream<DocumentSnapshot<Map<String, dynamic>>> streamDocument(String path) {
+    return _firestore.doc(path).snapshots();
   }
-}
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamCollection(String path) {
+    return FirebaseFirestore.instance.collection(path).snapshots();
+  }
+
+  Future<int> countDocumentsInCollection(String collectionPath) async {
+    try {
+      // שליפת כל המסמכים מתוך הנתיב שניתן
+      final querySnapshot = await firestore.collection(collectionPath).get();
+
+      // חישוב כמות המסמכים שנמצאו
+      return querySnapshot.size;
+    } catch (e) {
+      print("Error counting documents: $e");
+      return 0;
+    }
+  }
 }

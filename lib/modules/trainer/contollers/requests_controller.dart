@@ -26,7 +26,6 @@ class RequestsController extends GetxController {
 
   @override
   void onClose() {
-  
     requestStreamSubscription.cancel();
   }
 
@@ -91,10 +90,8 @@ class RequestsController extends GetxController {
   }
 
   Future<void> _addTraineeToTrainer(TraineeModel trainee) async {
-    await firestoreService.addNastedDocument(
-      'trainers',
-      trainerId,
-      'trainees',
+    await firestoreService.setDocument(
+      'trainers/$trainerId/trainees',
       trainee.userId,
       trainee.toMap(),
     );
@@ -105,7 +102,7 @@ class RequestsController extends GetxController {
   }
 
   Future<void> _updateAllTraineesCollection(String userId) async {
-    await firestoreService.updateDocument(
+    await firestoreService.setDocument(
       'AllTrainees',
       userId,
       {'id': userId, 'trainerID': trainerId},

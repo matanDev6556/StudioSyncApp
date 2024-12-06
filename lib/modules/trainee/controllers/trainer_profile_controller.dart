@@ -58,8 +58,11 @@ class TrainerProfileController extends GetxController {
 
     // יצירת בקשה חדשה
     final request = RequestModel(traineeID: traineeID, trainerID: trainerID);
-    await firestoreService.addNastedDocument(
-        'trainers', trainerID, 'requests', request.id, request.toMap());
+    await firestoreService.setDocument(
+      'trainers/$trainerID/requests',
+      request.id,
+      request.toMap(),
+    );
 
     isLoading.value = false;
   }
@@ -82,7 +85,7 @@ class TrainerProfileController extends GetxController {
     updatedTrainee.startWorOutDate = null;
 
     // move the trainee doc to general trainees coll
-    await firestoreService.createDocument('trainees',
+    await firestoreService.setDocument('trainees',
         traineeController.trainee.value!.userId, updatedTrainee.toMap());
 
     // מחיקת המתאמן ממאגר המתאמנים של המאמן
@@ -93,7 +96,7 @@ class TrainerProfileController extends GetxController {
     );
 
     // עדכון מסד הנתונים הכללי להסרת ה-trainerID
-    await firestoreService.updateDocument('AllTrainees', traineeId, {
+    await firestoreService.setDocument('AllTrainees', traineeId, {
       'trainerID': '',
     });
 

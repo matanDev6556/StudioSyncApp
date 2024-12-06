@@ -98,15 +98,12 @@ class SubscriptionController extends GetxController {
             trainee.copyWith(subscription: subscriptionByTotal.value);
       }
       // עדכון המסמך של המתאמן בשירות הפיירבייס
-      await firestoreService.addNastedDocument(
-        'trainers',
-        updatedTrainee.trainerID ,
-        'trainees',
+      await firestoreService.setDocument(
+        'trainers/${updatedTrainee.trainerID}/trainees',
         updatedTrainee.userId,
         updatedTrainee.toMap(),
       );
 
-     
       // עדכון הרשימה המסוננת של המתאמנים עם המידע החדש
       traineesController.filteredTraineesList.value = traineesController
           .filteredTraineesList
@@ -130,13 +127,11 @@ class SubscriptionController extends GetxController {
     final TraineeModel updatetrainee = trainee;
     updatetrainee.subscription = null;
     isLoading.value = true;
-   await firestoreService.addNastedDocument(
-        'trainers',
-        updatetrainee.trainerID ,
-        'trainees',
-        updatetrainee.userId,
-        updatetrainee.toMap(),
-      );
+    await firestoreService.setDocument(
+      'trainers/${updatetrainee.trainerID}/trainees',
+      updatetrainee.userId,
+      updatetrainee.toMap(),
+    );
     isLoading.value = false;
   }
 

@@ -66,7 +66,7 @@ class TrainerController extends GetxController {
 
   void saveTrainerToDb() async {
     isLoading.value = true;
-    await userFirestoreService.updateDocument(
+    await userFirestoreService.setDocument(
       'trainers',
       trainer.value!.userId,
       trainer.value!.toMap(),

@@ -89,12 +89,11 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
 
   Future<void> _tryHandleNestedTraineeLogin(
       String trainerId, String uid) async {
-    final traineeInTrainerMap = await firestoreService.getNestedDocument(
-      'trainers',
-      trainerId,
-      'trainees',
+    final traineeInTrainerMap = await firestoreService.getDocument(
+      'trainers/$trainerId/trainees',
       uid,
     );
+
     if (traineeInTrainerMap != null) {
       await _handleTraineeLogin(traineeInTrainerMap);
     } else {

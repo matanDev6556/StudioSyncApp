@@ -81,15 +81,13 @@ class TraineeController extends GetxController {
     isLoading.value = true;
 
     if (trainee.value!.trainerID.isNotEmpty) {
-      await firestoreService.addNastedDocument(
-        'trainers',
+      await firestoreService.setDocument(
+        'trainers/${trainee.value!.trainerID}/trainees',
         trainee.value!.trainerID,
-        'trainees',
-        trainee.value!.userId,
         trainee.value!.toMap(),
       );
     } else {
-      await firestoreService.updateDocument(
+      await firestoreService.setDocument(
         'trainees',
         trainee.value!.userId,
         trainee.value!.toMap(),

@@ -86,13 +86,13 @@ class SignUpController extends GetxController {
         password.value,
       );
       if (user != null) {
-        await firestoreService.createDocument(
+        await firestoreService.setDocument(
           'trainees',
           user.uid,
           newTrainee.copyWith(id: user.uid).toMap(),
         );
 
-        await firestoreService.createDocument(
+        await firestoreService.setDocument(
           'AllTrainees',
           user.uid,
           {

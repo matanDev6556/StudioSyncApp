@@ -137,7 +137,7 @@ class SignUpTrainerController extends SignUpController {
 
       // save in the db
       if (user != null) {
-        await firestoreService.createDocument(
+        await firestoreService.setDocument(
           'trainers',
           user.uid,
           newTrainer.copyWith(id: user.uid).toMap(),

@@ -109,7 +109,7 @@ class TrainerLessonsService {
   }
 
   Future<void> updateTraineeSub(TraineeModel traineeModel) async {
-    await firestoreService.updateDocument(
+    await firestoreService.setDocument(
       'trainers/${traineeModel.trainerID}/trainees}',
       traineeModel.userId,
       traineeModel.toMap(),
