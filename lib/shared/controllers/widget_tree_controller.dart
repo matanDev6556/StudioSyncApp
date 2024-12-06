@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/core/services/firebase/auth_service.dart';
 import 'package:studiosync/core/services/firebase/storage_services.dart';
+import 'package:studiosync/core/services/iauth_service.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/models/user_model.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
@@ -17,7 +17,7 @@ import 'package:studiosync/core/router/routes.dart';
 */
 
 class WidgetTreeController<T extends UserModel> extends GetxController {
-  final AuthService authService;
+  final IAuthService authService;
   final FirestoreService firestoreService;
   final StorageServices storageServices;
 

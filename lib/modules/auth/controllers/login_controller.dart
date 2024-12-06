@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/core/services/iauth_service.dart';
 import 'package:studiosync/core/utils/validations.dart';
-
 import 'package:studiosync/modules/auth/const_auth.dart';
-import 'package:studiosync/core/services/firebase/auth_service.dart';
 import 'package:studiosync/core/router/routes.dart';
 
 class LoginController extends GetxController {
-  final AuthService authService;
+  final IAuthService _authService;
 
-  LoginController(this.authService);
+  LoginController(this._authService);
 
   var email = ''.obs;
   var password = ''.obs;
@@ -24,7 +23,7 @@ class LoginController extends GetxController {
   
     try {
       if (_validate()) {
-        await authService.signInWithEmailAndPassword(
+        await _authService.signInWithEmailAndPassword(
             email.value, password.value);
 
         loginStatus.value = LoginStatus.success;
@@ -37,7 +36,7 @@ class LoginController extends GetxController {
   }
 
   void logout() async {
-    await authService.signOut();
+    await _authService.signOut();
     Get.offAllNamed(Routes.login);
   }
 

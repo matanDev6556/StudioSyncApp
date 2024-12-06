@@ -1,17 +1,16 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
 import 'package:studiosync/core/services/firebase/storage_services.dart';
+import 'package:studiosync/core/services/iauth_service.dart';
 import 'package:studiosync/core/utils/validations.dart';
-import 'package:studiosync/core/services/firebase/auth_service.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:uuid/uuid.dart';
 
 class SignUpController extends GetxController {
-  final AuthService authService;
+  final IAuthService authService;
   final FirestoreService firestoreService;
   final StorageServices storageServices;
 

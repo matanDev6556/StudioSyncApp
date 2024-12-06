@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/services/firebase/auth_service.dart';
+import 'package:studiosync/core/services/iauth_service.dart';
 import 'package:studiosync/modules/auth/views/login_view.dart';
 import 'package:studiosync/shared/controllers/widget_tree_controller.dart';
 
@@ -16,7 +16,7 @@ class WidgetTree extends StatefulWidget {
 }
 
 class _WidgetTreeState extends State<WidgetTree> {
-  final authService = Get.find<AuthService>();
+  final authService = Get.find<IAuthService>();
   final controller = Get.find<WidgetTreeController>();
 
   @override
