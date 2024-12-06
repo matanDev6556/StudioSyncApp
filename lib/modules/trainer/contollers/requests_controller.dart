@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
@@ -14,22 +16,32 @@ class RequestsController extends GetxController {
       Get.find<TrainerController>().trainer.value?.userId ?? '';
   final RxBool isLoading = false.obs;
 
+  late StreamSubscription requestStreamSubscription;
+
   @override
   void onInit() {
     super.onInit();
-    fetchRequests();
+    listenToRequests();
   }
 
-  Future<void> fetchRequests() async {
-    try {
-      final requestsData =
-          await firestoreService.getCollection('trainers/$trainerId/requests');
-      for (var requestData in requestsData) {
-        await _processRequest(requestData);
+  @override
+  void onClose() {
+  
+    requestStreamSubscription.cancel();
+  }
+
+  void listenToRequests() {
+    requestStreamSubscription = firestoreService
+        .streamCollection('trainers/$trainerId/requests')
+        .listen((snapshot) {
+      traineesRequests.clear();
+
+      for (var doc in snapshot.docs) {
+        _processRequest(doc.data());
       }
-    } catch (e) {
-      print("Error fetching requests: $e");
-    }
+    }, onError: (error) {
+      print("Error listening to requests: $error");
+    });
   }
 
   Future<void> _processRequest(Map<String, dynamic> requestData) async {

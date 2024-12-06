@@ -24,10 +24,10 @@ class SearchBarWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 5,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -46,7 +46,7 @@ class SearchBarWidget extends StatelessWidget {
                   hintText: 'Search by name or city...',
                   hintColor: AppStyle.backGrey3.withOpacity(0.7),
                   fill: true,
-                  color: AppStyle.backGrey3.withOpacity(0.1),
+                  color: Colors.white,
                   onChanged: onSearchChanged,
                   textStyle: TextStyle(
                     fontSize: 16.sp,

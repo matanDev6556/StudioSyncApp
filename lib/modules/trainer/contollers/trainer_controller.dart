@@ -21,15 +21,23 @@ class TrainerController extends GetxController {
   final isLoading = false.obs;
 
   void addItemToList<T>(List<T> Function(TrainerModel) getList, T newItem) {
-    final list = getList(trainer.value!);
-    list.add(newItem);
-    saveTrainerToDb();
+    final trainerModel = trainer.value!;
+    final list = getList(trainerModel);
+    if (!list.contains(newItem)) {
+      list.add(newItem);
+      updateLocalTrainer(trainerModel);
+      saveTrainerToDb();
+    }
   }
 
   void removeItemFromList<T>(List<T> Function(TrainerModel) getList, T item) {
-    final list = getList(trainer.value!);
-    list.remove(item);
-    saveTrainerToDb();
+    final trainerModel = trainer.value!;
+    final list = getList(trainerModel);
+    if (list.contains(item)) {
+      list.remove(item);
+      updateLocalTrainer(trainerModel);
+      saveTrainerToDb();
+    }
   }
 
   Future<void> addImage() async {

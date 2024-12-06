@@ -58,6 +58,10 @@ class FirestoreService {
     return _firestore.doc(path).snapshots();
   }
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamCollection(String path) {
+  return FirebaseFirestore.instance.collection(path).snapshots();
+}
+
   Future<Map<String, dynamic>?> getNestedDocument(
     String parentCollectionPath,
     String parentDocumentId,

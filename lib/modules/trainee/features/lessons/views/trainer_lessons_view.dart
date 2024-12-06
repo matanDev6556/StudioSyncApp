@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/core/utils/dates.dart';
 import 'package:studiosync/modules/trainee/controllers/lessons_trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/service/lessons_filter_service.dart';
 import 'package:studiosync/modules/trainee/features/lessons/widgets/trainee_filter_lessosn_buttom.dart';
@@ -16,23 +15,28 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _buildSliverAppBar(),
-          SliverToBoxAdapter(child: _buildWeekDaysSelector()),
-          SliverToBoxAdapter(child: _buildLessonsHeader()),
-          SliverToBoxAdapter(child: _buildFilterChips()),
-          _buildLessonsList(),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Get.bottomSheet(LessonFilterBottomSheet()),
-        icon: const Icon(Icons.tune, color: Colors.white),
-        label: const Text('Filter', style: TextStyle(color: Colors.white)),
-        backgroundColor: AppStyle.softOrange,
-      ),
-    );
+    return Obx(() {
+      return Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            _buildSliverAppBar(),
+            SliverToBoxAdapter(
+              child: controller.lessonsSettings.value?.isAllowedToSchedule() ??
+                      false
+                  ? Column(
+                      children: [
+                        _buildWeekDaysSelector(),
+                        _buildLessonsHeader(),
+                        _buildFilterChips()
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+            ),
+            _buildLessonsList(),
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildSliverAppBar() {
@@ -104,7 +108,6 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Obx(() => Text(
                 '${controller.filteredLessons.length} Lessons',
@@ -114,23 +117,14 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
                   fontWeight: FontWeight.bold,
                 ),
               )),
-          Obx(
-            () => AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-              decoration: BoxDecoration(
-                color: AppStyle.softOrange.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-              child: Text(
-                DatesUtils.getDayFromIndex(controller.selectedDayIndex.value),
-                style: TextStyle(
-                  color: AppStyle.softOrange,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          const Spacer(),
+          IconButton(
+            onPressed: () => Get.bottomSheet(LessonFilterBottomSheet()),
+            icon: Icon(
+              Icons.tune,
+              color: AppStyle.mutedBrown,
             ),
-          ),
+          )
         ],
       ),
     );
@@ -189,9 +183,8 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
     return Obx(() {
       final settings = controller.lessonsSettings.value;
       final lessons = controller.filteredLessons;
-
       if (settings != null) {
-        if (!settings.isAllowedToSchedule) {
+        if (!(settings.isAllowedToSchedule())) {
           return SliverFillRemaining(
             child: Center(
               child: Column(
@@ -204,7 +197,7 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
                   ),
                   SizedBox(height: 10.h),
                   Text(
-                    'Trainer is not allowing \n lesson scheduling at this time',
+                    settings.getDayAndHoursText(),
                     style:
                         TextStyle(fontSize: 18.sp, color: AppStyle.softBrown),
                     textAlign: TextAlign.center,
