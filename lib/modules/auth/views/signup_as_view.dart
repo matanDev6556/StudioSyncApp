@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/auth/widgets/app_bar.dart';
 import 'package:studiosync/shared/widgets/custome_bttn.dart';
@@ -12,14 +12,15 @@ class SignUpAsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
+    
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.5),
+        preferredSize: Size.fromHeight(AppStyle.getScreenHeight() * 0.5),
         child: AppBarAuth(
           context: context,
-          toolBarHeight: MediaQuery.of(context).size.height * 0.5,
+          toolBarHeight: AppStyle.getScreenHeight() * 0.5,
           back: false,
         ),
       ),
@@ -40,15 +41,15 @@ class SignUpAsView extends StatelessWidget {
             fill: true,
             color: AppStyle.deepOrange,
             width: MediaQuery.of(context).size.width * 0.85,
-            onTap: () => Get.toNamed(Routes.signUpTrainer),
+            onTap: () => AppRouter.navigateTo(Routes.signUpTrainer),
           ),
           AppStyle.h(15.h),
           CustomButton(
             text: 'Sign as Trainee',
             fill: false,
             color: AppStyle.deepOrange,
-            width: MediaQuery.of(context).size.width * 0.85,
-            onTap: () => Get.toNamed(Routes.signUpTrainee),
+            width: AppStyle.getScreenWidht() * 0.85,
+            onTap: () => AppRouter.navigateTo(Routes.signUpTrainee),
           ),
           AppStyle.h(15.h),
           Row(
@@ -62,7 +63,7 @@ class SignUpAsView extends StatelessWidget {
               ),
               AppStyle.w(8.h),
               InkWell(
-                onTap: () => Get.toNamed(Routes.login),
+                onTap: () => AppRouter.navigateTo(Routes.login),
                 child: Text(
                   'Login',
                   style: TextStyle(

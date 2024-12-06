@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/auth/const_auth.dart';
@@ -16,15 +17,15 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     double height = 0.4.h;
+   
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * height),
+        preferredSize: Size.fromHeight(AppStyle.getScreenHeight() * height),
         child: AppBarAuth(
           context: context,
-          toolBarHeight: MediaQuery.of(context).size.height * height,
+          toolBarHeight:AppStyle.getScreenHeight() * height,
           back: false,
         ),
       ),
@@ -166,7 +167,7 @@ class LoginView extends GetView<LoginController> {
           ),
         ),
         GestureDetector(
-          onTap: () => Get.toNamed(Routes.signUpAs),
+          onTap: () => AppRouter.navigateTo(Routes.signUpAs),
           child: Text(
             "Sign Up",
             style: TextStyle(

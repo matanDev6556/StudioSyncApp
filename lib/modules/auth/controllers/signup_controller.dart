@@ -14,10 +14,11 @@ class SignUpController extends GetxController {
   final FirestoreService firestoreService;
   final StorageServices storageServices;
 
-  SignUpController(
-      {required this.authService,
-      required this.firestoreService,
-      required this.storageServices});
+  SignUpController({
+    required this.authService,
+    required this.firestoreService,
+    required this.storageServices,
+  });
 
   // Shared fields
   var userId = const Uuid().v4();

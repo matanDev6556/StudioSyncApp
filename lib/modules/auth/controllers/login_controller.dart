@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/services/iauth_service.dart';
 import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/auth/const_auth.dart';
@@ -27,7 +28,7 @@ class LoginController extends GetxController {
             email.value, password.value);
 
         loginStatus.value = LoginStatus.success;
-        Get.toNamed(Routes.widgetTree);
+        AppRouter.navigateTo(Routes.widgetTree);
       }
     } catch (e) {
       loginStatus.value = LoginStatus.failure;
@@ -37,7 +38,7 @@ class LoginController extends GetxController {
 
   void logout() async {
     await _authService.signOut();
-    Get.offAllNamed(Routes.login);
+   AppRouter.navigateOffAllNamed(Routes.login);
   }
 
   bool _validate() {
