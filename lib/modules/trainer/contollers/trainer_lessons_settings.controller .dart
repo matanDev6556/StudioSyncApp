@@ -18,6 +18,8 @@ class TrainerLessonsSettingsController extends GetxController {
 
   get trainerId => Get.find<TrainerController>().trainer.value!.userId;
 
+  Rx<bool?> isAlloweingToSheduleNow = Rx<bool?>(null);
+
   @override
   void onReady() {
     super.onReady();
@@ -28,9 +30,16 @@ class TrainerLessonsSettingsController extends GetxController {
     isLoading.value = true;
     try {
       final settings = await firestoreService.getDocument(
-          'trainers/$trainerId/settings', 'lessonsSettings');
+        'trainers/$trainerId/settings',
+        'lessonsSettings',
+      );
       if (settings != null) {
         lessonsSettings.value = LessonsSettingsModel.fromMap(settings);
+        // עדכון ה-Rx בהתאם לתוצאה של isAllowedToScheduleNow
+        isAlloweingToSheduleNow.value =
+            lessonsSettings.value.isAllowedToSchedule();
+
+        print(isAlloweingToSheduleNow.value);
       }
     } catch (e) {
       Get.snackbar(
@@ -46,16 +55,20 @@ class TrainerLessonsSettingsController extends GetxController {
 
   void updateLocalLessons(LessonsSettingsModel updatedSettings) {
     lessonsSettings.value = updatedSettings;
+    isAlloweingToSheduleNow.value = updatedSettings.isAllowedToSchedule();
   }
 
   Future<void> updateLessonsSettings(
-    LessonsSettingsModel updatedSettings,
-  ) async {
+      LessonsSettingsModel updatedSettings) async {
     isLoading.value = true;
     try {
-      await firestoreService.updateDocument('trainers/$trainerId/settings',
-          'lessonsSettings', updatedSettings.toMap());
+      await firestoreService.updateDocument(
+        'trainers/$trainerId/settings',
+        'lessonsSettings',
+        updatedSettings.toMap(),
+      );
       lessonsSettings.value = updatedSettings;
+      isAlloweingToSheduleNow.value = updatedSettings.isAllowedToSchedule();
       Get.snackbar(
         'Success',
         'Lessons settings updated successfully',
@@ -71,7 +84,6 @@ class TrainerLessonsSettingsController extends GetxController {
       );
     } finally {
       isLoading.value = false;
-      updateLocalLessons(updatedSettings);
     }
   }
 }

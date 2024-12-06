@@ -11,7 +11,6 @@ import 'package:studiosync/modules/trainer/features/lesoons/services/trainer_les
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/add_edit_lesson_buttom.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/registred_trainees_buttom.dart';
 
-
 // trainer_lessons_controller.dart
 class TrainerLessonsController extends GetxController {
   final TrainerController trainerController;
@@ -37,10 +36,8 @@ class TrainerLessonsController extends GetxController {
   late RxString typeFilter = 'All'.obs;
   late RxString locationFilter = 'All'.obs;
 
-
   List<String> statusFilterOptions = ['All', 'Active', 'Past', 'Upcoming'];
   late StreamSubscription<List<LessonModel>> lessonsSubscription;
-
 
   @override
   void onInit() {
@@ -71,6 +68,39 @@ class TrainerLessonsController extends GetxController {
       lessons.refresh();
       _applyFilters();
     });
+  }
+
+  List<LessonModel> getLastWeekLessons() {
+    DateTime now = DateTime.now();
+    DateTime lastWeekStart = now.subtract(Duration(days: now.weekday + 7));
+    DateTime lastWeekEnd = now.subtract(Duration(days: now.weekday));
+
+    return lessons
+        .where((lesson) =>
+            lesson.startDateTime.isAfter(lastWeekStart) &&
+            lesson.startDateTime.isBefore(lastWeekEnd))
+        .toList();
+  }
+
+  Future<void> duplicateLastWeekLessons() async {
+    List<LessonModel> lastWeekLessons = getLastWeekLessons();
+
+    List<LessonModel> newLessons = lastWeekLessons.map((lesson) {
+      return lesson.copyWith(
+        startDateTime: lesson.startDateTime.add(const Duration(days: 7)),
+        endDateTime: lesson.endDateTime.add(const Duration(days: 7)),
+      );
+    }).toList();
+
+    await Future.wait(
+      newLessons.map(
+        (lesson) => crudService.addLesson(
+          trainerController.trainer.value!.userId,
+          lesson,
+          resetId: false,
+        ),
+      ),
+    );
   }
 
   void _applyFilters() {
@@ -122,8 +152,6 @@ class TrainerLessonsController extends GetxController {
 
   Future<void> addLesson(LessonModel lesson) async {
     try {
-      if (!crudService.validateLesson(lesson)) return;
-
       await crudService.addLesson(
         trainerController.trainer.value!.userId,
         lesson,

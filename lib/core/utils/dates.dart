@@ -63,4 +63,35 @@ class DatesUtils {
   static String getFormattedStartDate(DateTime? date) {
     return date != null ? DateFormat('yMMMMd').format(date) : 'Not start yet';
   }
+
+  static Future<DateTime?> selectDateTime(
+      BuildContext context, DateTime initialDate) async {
+    // שלב 1: בחר תאריך
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null) {
+      // שלב 2: בחר שעה
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(initialDate),
+      );
+
+      if (pickedTime != null) {
+        // החזר את התאריך והשעה כערך מסוג DateTime
+        return DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+      }
+    }
+    return null; // החזר null אם הבחירה בוטלה
+  }
 }

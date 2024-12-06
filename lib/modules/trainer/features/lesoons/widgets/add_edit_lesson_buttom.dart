@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
@@ -62,8 +63,11 @@ class _LessonEditBottomSheetState extends State<LessonEditBottomSheet> {
             CustomDropDown(
               color: AppStyle.softOrange.withOpacity(0.2),
               textColor: AppStyle.softBrown.withOpacity(0.6),
-              initialValue:
-                  widget.lesson != null ? _editingLesson.typeLesson : null,
+              initialValue: controler
+                      .trainerController.trainer.value!.lessonsTypeList
+                      .contains(_editingLesson.typeLesson)
+                  ? _editingLesson.typeLesson
+                  : null,
               items: controler.trainerController.trainer.value!.lessonsTypeList,
               onChanged: (val) =>
                   _editingLesson = _editingLesson.copyWith(typeLesson: val),
@@ -75,8 +79,11 @@ class _LessonEditBottomSheetState extends State<LessonEditBottomSheet> {
             CustomDropDown(
               color: AppStyle.softOrange.withOpacity(0.2),
               textColor: AppStyle.softBrown.withOpacity(0.6),
-              initialValue:
-                  widget.lesson != null ? _editingLesson.trainerName : null,
+              initialValue: controler
+                      .trainerController.trainer.value!.coachesList
+                      .contains(_editingLesson.trainerName)
+                  ? _editingLesson.trainerName
+                  : null,
               onChanged: (val) =>
                   _editingLesson = _editingLesson.copyWith(trainerName: val),
               items: controler.trainerController.trainer.value!.coachesList,
@@ -88,8 +95,11 @@ class _LessonEditBottomSheetState extends State<LessonEditBottomSheet> {
             CustomDropDown(
               color: AppStyle.softOrange.withOpacity(0.2),
               textColor: AppStyle.softBrown.withOpacity(0.6),
-              initialValue:
-                  widget.lesson != null ? _editingLesson.location : null,
+              initialValue: controler
+                      .trainerController.trainer.value!.locationsList
+                      .contains(_editingLesson.location)
+                  ? _editingLesson.location
+                  : null,
               onChanged: (val) =>
                   _editingLesson = _editingLesson.copyWith(location: val),
               items: controler.trainerController.trainer.value!.locationsList,
@@ -109,6 +119,7 @@ class _LessonEditBottomSheetState extends State<LessonEditBottomSheet> {
               onChanged: (val) => _editingLesson =
                   _editingLesson.copyWith(limitPeople: int.tryParse(val)),
               keyboardType: TextInputType.number,
+              validator: (p0) => Validations.validOnlyNumbers(p0, 'limit'),
             ),
             AppStyle.h(10.h),
             _titleText('Date and time'),
@@ -198,10 +209,31 @@ class _LessonEditBottomSheetState extends State<LessonEditBottomSheet> {
     }
   }
 
+  String validateLesson(LessonModel? lesson) {
+    if (lesson == null) return 'Error!';
+
+    if (lesson.typeLesson.isEmpty) {
+      return 'Pick type!';
+    }
+    if (lesson.location.isEmpty) {
+      return 'Pick location!';
+    }
+    if (lesson.trainerName.isEmpty) {
+      return 'Pick trainer!';
+    }
+    return '';
+  }
+
   void _saveLesson() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      widget.onSave(_editingLesson);
+      String validMsg = validateLesson(_editingLesson);
+      if (validMsg == '') {
+        widget.onSave(_editingLesson);
+      } else {
+        Validations.showValidationSnackBar(validMsg, Colors.red);
+      }
+
       Get.back();
     }
   }

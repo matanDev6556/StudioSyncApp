@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
+import 'package:studiosync/modules/trainer/models/lessons_settings_model.dart';
 
 class LessonsTraineeService {
   final FirestoreService firestoreService;
 
   LessonsTraineeService({required this.firestoreService});
 
-  // Listen to changes in the lessons collection for a specific trainer
   // Listen to changes in the lessons collection for a specific trainer
   Stream<List<LessonModel>> getUpcomingLessonChanges(String trainerID) {
     return firestoreService.firestore
@@ -22,9 +22,15 @@ class LessonsTraineeService {
     });
   }
   
-  Stream<DocumentSnapshot<Map<String, dynamic>>?> getLessonsSettingsChanges(String trainerID) {
+  Stream<LessonsSettingsModel?> getLessonsSettingsChanges(String trainerID) {
     return firestoreService
-        .streamDocument('trainers/$trainerID/settings/lessonsSettings');
+        .streamDocument('trainers/$trainerID/settings/lessonsSettings')
+        .map((snapshot) {
+      if (snapshot.exists) {
+        return LessonsSettingsModel.fromMap(snapshot.data() as Map<String, dynamic>);
+      }
+      return null;
+    });
   }
 
   Future<void> addTraineeToLesson(

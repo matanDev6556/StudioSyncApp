@@ -63,7 +63,7 @@ class LessonWidget extends StatelessWidget {
           SizedBox(height: 8.h),
           _buildInfoRow(
             icon: Icons.location_on,
-            text: lessonModel.location,
+            text: lessonModel.location ,
             color: AppStyle.deepBlackOrange,
           ),
           SizedBox(height: 8.h),

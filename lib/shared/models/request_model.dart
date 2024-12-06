@@ -1,7 +1,5 @@
 import 'package:uuid/uuid.dart';
 
-
-
 class RequestModel {
   final String id;
   final String traineeID;

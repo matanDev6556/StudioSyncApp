@@ -81,24 +81,18 @@ class WorkoutsView extends GetView<WorkoutController> {
           children: [
             titleText('Workouts'),
             const Spacer(),
-            CustomContainer(
-              backgroundColor: AppStyle.softOrange.withOpacity(0.4),
-              padding: EdgeInsets.symmetric(
-                horizontal: 1.w,
+            IconButton(
+              icon: Icon(
+                Icons.arrow_forward_ios,
+                size: 22.h,
+                color: AppStyle.deepBlackOrange,
               ),
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20.h,
-                  color: AppStyle.deepBlackOrange,
-                ),
-                onPressed: () => Get.toNamed(
-                  Routes.allTraineeWorkouts,
-                  arguments: {
-                    'workouts': controller.workouts,
-                    'summary': controller.workoutSummary.value
-                  },
-                ),
+              onPressed: () => Get.toNamed(
+                Routes.allTraineeWorkouts,
+                arguments: {
+                  'workouts': controller.workouts,
+                  'summary': controller.workoutSummary.value
+                },
               ),
             ),
           ],
@@ -129,20 +123,14 @@ class WorkoutsView extends GetView<WorkoutController> {
           children: [
             titleText('Statistics'),
             const Spacer(),
-            CustomContainer(
-              backgroundColor: AppStyle.softOrange.withOpacity(0.4),
-              padding: EdgeInsets.symmetric(
-                horizontal: 1.w,
+            IconButton(
+              icon: Icon(
+                Icons.arrow_forward_ios,
+                size: 22.h,
+                color: AppStyle.deepBlackOrange,
               ),
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20.h,
-                  color: AppStyle.deepBlackOrange,
-                ),
-                onPressed: () => Get.toNamed(Routes.workoutsAnalytic,
-                    arguments: controller.workoutSummary.value),
-              ),
+              onPressed: () => Get.toNamed(Routes.workoutsAnalytic,
+                  arguments: controller.workoutSummary.value),
             ),
           ],
         ),

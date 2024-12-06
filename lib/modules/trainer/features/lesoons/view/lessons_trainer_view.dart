@@ -57,14 +57,39 @@ class LessonsView extends StatelessWidget {
                   ),
                   IconButton(
                     icon: Icon(
-                      Icons.settings,
-                      color: AppStyle.softBrown.withOpacity(0.4),
+                      Icons.schedule,
+                      color: AppStyle.softOrange,
                     ),
                     onPressed: () {
                       Get.bottomSheet(
                         const LessonSettingsWidget(),
                         isScrollControlled: true,
                         backgroundColor: Colors.transparent,
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.play_circle_outline,
+                        color: AppStyle.softOrange),
+                    onPressed: () {
+                      Get.dialog(
+                        AlertDialog(
+                          title: const Text('שחזור יומן השבוע שעבר ?'),
+                          content: const Text('האם ברצונך לשחזר את יומן שבוע שעבר?'),
+                          actions: [
+                            TextButton(
+                              child: const Text('לא'),
+                              onPressed: () => Get.back(),
+                            ),
+                            TextButton(
+                              child: const Text('כן'),
+                              onPressed: () {
+                                controller.duplicateLastWeekLessons();
+                                Get.back();
+                              },
+                            ),
+                          ],
+                        ),
                       );
                     },
                   ),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/utils/validations.dart';
@@ -22,8 +21,7 @@ class LessonsTraineeController extends GetxController {
   });
 
   late StreamSubscription<List<LessonModel>> _lessonsSubscription;
-  late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>?>
-      lessonsSettingsSubscription;
+  late StreamSubscription<LessonsSettingsModel?> lessonsSettingsSubscription;
 
   final isLoading = false.obs;
   final _lessons = <LessonModel>[].obs;
@@ -66,8 +64,7 @@ class LessonsTraineeController extends GetxController {
         .getLessonsSettingsChanges(trainee.trainerID)
         .listen((settings) {
       if (settings != null) {
-        lessonsSettings.value = LessonsSettingsModel.fromMap(
-            settings.data() as Map<String, dynamic>);
+        lessonsSettings.value = settings;
       }
     });
   }

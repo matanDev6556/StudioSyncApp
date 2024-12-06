@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-
 import 'package:studiosync/modules/trainer/features/notifications/views/notifications_tab.dart';
 import 'package:studiosync/modules/trainer/features/notifications/views/requests_tab.dart';
 
 class TabsButtom extends StatelessWidget {
   final int reqCount;
- 
-  const TabsButtom({super.key,required this.reqCount});
+
+  const TabsButtom({super.key, required this.reqCount});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(16),
       height: Get.height * 0.81,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -33,7 +33,10 @@ class TabsButtom extends StatelessWidget {
                     children: [
                       Text(
                         'Requests',
-                        style: TextStyle(color: AppStyle.softBrown),
+                        style: TextStyle(
+                          color: AppStyle.softBrown,
+                          fontSize: 17.sp,
+                        ),
                       ),
                       AppStyle.w(10.w),
                       reqCount > 0
@@ -46,9 +49,8 @@ class TabsButtom extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Text(
-                                 reqCount
-                                      .toString(),
-                                  style: TextStyle(color: Colors.white),
+                                  reqCount.toString(),
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                               ),
                             )
@@ -62,7 +64,10 @@ class TabsButtom extends StatelessWidget {
                     children: [
                       Text(
                         'Notifications',
-                        style: TextStyle(color: AppStyle.softBrown),
+                        style: TextStyle(
+                          color: AppStyle.softBrown,
+                          fontSize: 17.sp,
+                        ),
                       ),
                       AppStyle.w(10.w),
                       Container(
@@ -72,7 +77,7 @@ class TabsButtom extends StatelessWidget {
                           borderRadius: BorderRadius.circular(100.r),
                           color: Colors.red.withOpacity(0.8),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             '2',
                             style: TextStyle(color: Colors.white),
