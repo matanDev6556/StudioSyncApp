@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/router/app_touter.dart';
-import 'package:studiosync/core/services/iauth_service.dart';
+import 'package:studiosync/core/services/abstract/i_auth_service.dart';
 import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/auth/const_auth.dart';
 import 'package:studiosync/core/router/routes.dart';

@@ -276,7 +276,7 @@ class PriceListContainer extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => controller.deletePrice(p),
+                onTap: () => controller.deletePrice(index),
                 child: const Icon(
                   Icons.delete_outline,
                   color: Colors.red,

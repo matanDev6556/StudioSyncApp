@@ -4,10 +4,11 @@ import 'package:studiosync/modules/trainer/models/price_tier_model.dart';
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 
 class SignUpTrainerController extends SignUpController {
-  SignUpTrainerController(
-      {required super.authService,
-      required super.firestoreService,
-      required super.storageServices});
+  SignUpTrainerController({
+    required super.authService,
+    required super.firestoreService,
+    required super.storageService,
+  });
   // Trainer-specific fields
   RxList<String> imageUrls = <String>[].obs;
   RxList<PriceTier> priceList = <PriceTier>[].obs;
@@ -23,83 +24,65 @@ class SignUpTrainerController extends SignUpController {
   var service = ''.obs;
   var subTrainerName = ''.obs;
 
+  void updateAbout(String val) => about.value = val;
+  void updateInstegramLing(String val) => instagramLink.value = val;
+
   // Methods to update trainer-specific fields
 
-  void updateAbout(String val) => about.value = val;
+  void addToList<T>(RxList<T> list, T item) {
+    if (item != null) {
+      list.insert(0, item);
+    }
+  }
 
-  void updateInstegramLing(String val) => instagramLink.value = val;
+  void removeFromList<T>(RxList<T> list, int index) {
+    list.removeAt(index);
+  }
 
   void addPrice() {
     if (description.isNotEmpty && price >= 0) {
-      var updatedPrices = List<PriceTier>.from(priceList);
-      updatedPrices.insert(
-          0, PriceTier(description: description.value, price: price.value));
-      priceList.value = updatedPrices;
+      addToList(priceList,
+          PriceTier(description: description.value, price: price.value));
     }
     price.value = 0;
     description.value = '';
   }
 
-  void deletePrice(PriceTier priceTier) {
-    var updatedPrices = List<PriceTier>.from(priceList);
-    updatedPrices.remove(priceTier);
-    priceList.value = updatedPrices;
-  }
-
   void addLocation(String location) {
     if (location.isNotEmpty) {
-      var updatedLocations = List<String>.from(locationsList);
-      updatedLocations.insert(0, location);
-
-      locationsList.value = updatedLocations;
-
+      addToList(locationsList, location);
       this.location.value = '';
     }
   }
 
-  void deleteLocation(int index) {
-    var updatedLocations = List<String>.from(locationsList);
-    updatedLocations.removeAt(index);
-
-    locationsList.value = updatedLocations;
-  }
-
   void addService() {
     if (service.isNotEmpty) {
-      var updatedServices = List<String>.from(lessonsTypeList);
-
-      updatedServices.insert(0, service.value);
-
-      lessonsTypeList.value = updatedServices;
-
+      addToList(lessonsTypeList, service.value);
       service.value = '';
     }
   }
 
-  void deleteService(int index) {
-    var updatedServices = List<String>.from(lessonsTypeList);
-    updatedServices.removeAt(index);
-
-    lessonsTypeList.value = updatedServices;
-  }
-
   void addSubTrainer() {
     if (subTrainerName.isNotEmpty) {
-      var updatedSubTrainers = List<String>.from(coachesList);
-
-      updatedSubTrainers.insert(0, subTrainerName.value);
-
-      coachesList.value = updatedSubTrainers;
-
+      addToList(coachesList, subTrainerName.value);
       subTrainerName.value = '';
     }
   }
 
-  void deleteSubTrainer(int index) {
-    var updatedSubTrainers = List<String>.from(coachesList);
-    updatedSubTrainers.removeAt(index);
+  void deletePrice(int index) {
+    removeFromList(priceList, index);
+  }
 
-    coachesList.value = updatedSubTrainers;
+  void deleteLocation(int index) {
+    removeFromList(locationsList, index);
+  }
+
+  void deleteService(int index) {
+    removeFromList(lessonsTypeList, index);
+  }
+
+  void deleteSubTrainer(int index) {
+    removeFromList(coachesList, index);
   }
 
   // Validation and submission
@@ -124,7 +107,6 @@ class SignUpTrainerController extends SignUpController {
         coachesList: coachesList,
         locationsList: locationsList,
         lessonsTypeList: lessonsTypeList,
-       
         instagramLink: instagramLink.value,
         isTrainer: true,
       );

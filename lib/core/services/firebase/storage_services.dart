@@ -1,16 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:studiosync/core/services/abstract/i_storage_service.dart';
 
-class StorageServices {
+class StorageServices implements IStorageService {
   final Reference _storageRef = FirebaseStorage.instance.ref();
 
-  Future<String> uploadImageas(File imgFile, String imgPath) async {
-    final ref = _storageRef.child(imgPath);
-    final uploadTask = ref.putFile(imgFile);
+  @override
+  Future<String> uploadImage(File imageFile, String path) async {
+    final ref = _storageRef.child(path);
+    final uploadTask = ref.putFile(imageFile);
     final snapshot = await uploadTask;
     final imgUrl = await snapshot.ref.getDownloadURL();
-    print('storage service: $imgUrl');
     return imgUrl;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/services/iauth_service.dart';
+import 'package:studiosync/core/services/abstract/i_auth_service.dart';
 import 'package:studiosync/modules/auth/views/login_view.dart';
 import 'package:studiosync/shared/controllers/widget_tree_controller.dart';
 

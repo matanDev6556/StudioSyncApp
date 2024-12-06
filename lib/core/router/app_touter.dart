@@ -10,12 +10,15 @@ class AppRouter {
     ...TraineeRouter.traineeRoutes,
   ];
 
-
   static void navigateTo(String routeName) {
     Get.toNamed(routeName);
   }
 
   static void navigateOffAllNamed(String routeName) {
     Get.offAllNamed(routeName);
+  }
+
+  static void navigateBack() {
+    Get.back();
   }
 }

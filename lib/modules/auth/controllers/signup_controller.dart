@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/core/services/firebase/storage_services.dart';
-import 'package:studiosync/core/services/iauth_service.dart';
+
+import 'package:studiosync/core/services/abstract/i_auth_service.dart';
+import 'package:studiosync/core/services/abstract/i_storage_service.dart';
 import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
 import 'package:uuid/uuid.dart';
@@ -12,12 +13,12 @@ import 'package:uuid/uuid.dart';
 class SignUpController extends GetxController {
   final IAuthService authService;
   final FirestoreService firestoreService;
-  final StorageServices storageServices;
+   final IStorageService storageService;
 
   SignUpController({
     required this.authService,
     required this.firestoreService,
-    required this.storageServices,
+    required this.storageService,
   });
 
   // Shared fields
@@ -42,7 +43,7 @@ class SignUpController extends GetxController {
         final imageFile = File(pickedFile.path);
 
         isLoading.value = true;
-        final imgUrl = await storageServices.uploadImageas(
+        final imgUrl = await storageService.uploadImage(
             imageFile, '$userId/${const Uuid().v4()}.jpg');
 
         updateImgUrl(imgUrl);

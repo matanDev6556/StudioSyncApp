@@ -15,7 +15,7 @@ class ImageService {
 
       if (pickedFile != null) {
         final imageFile = File(pickedFile.path);
-        final imgUrl = await storageServices.uploadImageas(
+        final imgUrl = await storageServices.uploadImage(
             imageFile, '$userId/${const Uuid().v4()}.jpg');
         return imgUrl;
       }
