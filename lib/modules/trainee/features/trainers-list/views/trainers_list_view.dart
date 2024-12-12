@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainee/controllers/trainers_list_try_controller.dart';
+import 'package:studiosync/modules/trainee/controllers/trainers_list_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/widgets/my_trainer_widget.dart';
 
 class TrainersListView extends GetView<TrainersListController> {

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/modules/trainee/controllers/trainers_list_try_controller.dart';
+import 'package:studiosync/modules/trainee/controllers/trainers_list_controller.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/repositories/firesstore_trainers_list_repository.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/usecases/fetch_trainers_usecase.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/usecases/filter_trainers_usecase.dart';
