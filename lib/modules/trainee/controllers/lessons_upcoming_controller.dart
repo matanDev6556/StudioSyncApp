@@ -58,7 +58,7 @@ class UpcomingLessonsController extends GetxController {
         trainee.trainerID, lessonModel.id, trainee.userId);
 
     trainee.subscription?.cancleLesson();
-    Get.find<TraineeController>().saveTraineeToDb();
+    Get.find<TraineeController>().saveTrainee();
   }
 
 }

@@ -18,6 +18,10 @@ class AppRouter {
     Get.offAllNamed(routeName);
   }
 
+  static void navigateWithArgs(String routeName, dynamic arguments) {
+    Get.toNamed(routeName, arguments: arguments);
+  }
+
   static void navigateBack() {
     Get.back();
   }

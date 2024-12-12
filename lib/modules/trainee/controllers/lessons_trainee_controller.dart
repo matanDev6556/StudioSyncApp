@@ -85,7 +85,7 @@ class LessonsTraineeController extends GetxController {
           trainee.trainerID, lessonModel.id, trainee.userId);
     }
     print(trainee.subscription?.getSub().toMap());
-    Get.find<TraineeController>().saveTraineeToDb();
+    Get.find<TraineeController>().saveTrainee();
   }
 
   Future<void> cancleLesson(LessonModel lessonModel) async {
@@ -93,7 +93,7 @@ class LessonsTraineeController extends GetxController {
         trainee.trainerID, lessonModel.id, trainee.userId);
 
     trainee.subscription?.cancleLesson();
-    Get.find<TraineeController>().saveTraineeToDb();
+    Get.find<TraineeController>().saveTrainee();
   }
 
   void applyFilters() {

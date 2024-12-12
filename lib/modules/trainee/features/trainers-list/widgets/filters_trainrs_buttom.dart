@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/modules/trainee/controllers/trainers_list_controller.dart';
 import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/modules/trainee/controllers/trainers_list_try_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/consts_lessons.dart';
 
 class FilterTrainersBottomSheet extends StatelessWidget {
@@ -16,8 +16,8 @@ class FilterTrainersBottomSheet extends StatelessWidget {
     final RxList<String> tempSelectedLessons = <String>[].obs;
 
     // Initialize with current values
-    tempInMyCity.value = controller.inMyCity.value;
-    tempSelectedLessons.assignAll(controller.lessonsFilter);
+    tempInMyCity.value = controller.filters.value.inMyCity;
+    tempSelectedLessons.assignAll(controller.filters.value.lessonsFilter);
 
     return Container(
       padding: const EdgeInsets.all(16),

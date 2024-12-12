@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:studiosync/core/services/interfaces/i_storage_service.dart';
 import 'package:uuid/uuid.dart';
-import 'package:studiosync/core/services/firebase/storage_services.dart';
+
 
 class ImageService {
-  final StorageServices storageServices;
+  final IStorageService storageServices;
 
   ImageService(this.storageServices);
 

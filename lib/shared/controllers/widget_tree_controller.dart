@@ -1,7 +1,12 @@
 import 'package:get/get.dart';
+import 'package:studiosync/core/services/interfaces/i_storage_service.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/core/services/firebase/storage_services.dart';
-import 'package:studiosync/core/services/abstract/i_auth_service.dart';
+import 'package:studiosync/core/services/interfaces/i_auth_service.dart';
+import 'package:studiosync/modules/trainee/features/profile/repositories/firestore_trainee_repository.dart';
+import 'package:studiosync/modules/trainee/features/profile/usecases/listen_trainee_updates_use_case.dart';
+import 'package:studiosync/modules/trainee/features/profile/usecases/logout_usecase.dart';
+import 'package:studiosync/modules/trainee/features/profile/usecases/save_trainee_usecase.dart';
+import 'package:studiosync/modules/trainee/features/profile/usecases/update_image_usecase.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/models/user_model.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
@@ -19,7 +24,7 @@ import 'package:studiosync/core/router/routes.dart';
 class WidgetTreeController<T extends UserModel> extends GetxController {
   final IAuthService authService;
   final FirestoreService firestoreService;
-  final StorageServices storageServices;
+  final IStorageService storageServices;
 
   WidgetTreeController(
     this.authService,
@@ -112,11 +117,25 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
   }
 
   Future<void> _handleTraineeLogin(Map<String, dynamic> mapUser) async {
-    Get.put(
+    final traineeRepository =
+        FirestoreTraineeRepository(Get.find<FirestoreService>());
+
+    Get.put<ListenToTraineeUpdatesUseCase>(
+        ListenToTraineeUpdatesUseCase(traineeRepository));
+    Get.put<SaveTraineeUseCase>(SaveTraineeUseCase(traineeRepository));
+    Get.put<UpdateProfileImageUseCase>(UpdateProfileImageUseCase(
+        traineeRepository, Get.find<IStorageService>()));
+    Get.put<LogoutUseCase>(
+        LogoutUseCase(authService: Get.find<IAuthService>()));
+
+    Get.put<TraineeController>(
       TraineeController(
-          authService: Get.find(),
-          firestoreService: Get.find(),
-          imageService: Get.find()),
+        listenToTraineeUpdatesUseCase:
+            Get.find<ListenToTraineeUpdatesUseCase>(),
+        saveTraineeUseCase: Get.find<SaveTraineeUseCase>(),
+        updateProfileImageUseCase: Get.find<UpdateProfileImageUseCase>(),
+        logoutUseCase: Get.find<LogoutUseCase>(),
+      ),
       permanent: true,
     );
     final controller = Get.find<TraineeController>();

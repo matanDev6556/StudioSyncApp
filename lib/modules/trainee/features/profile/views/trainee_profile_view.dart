@@ -20,7 +20,7 @@ class TraineeProfileeView extends StatelessWidget {
 
   void _handleSave() {
     if (_formKey.currentState!.validate()) {
-      controller.saveTraineeToDb();
+      controller.saveTrainee();
     } else {
       Validations.showValidationSnackBar(
           'Fill the requierd fields!', AppStyle.backGrey3);

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainee/controllers/trainers_list_controller.dart';
+import 'package:studiosync/modules/trainee/controllers/trainers_list_try_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/widgets/my_trainer_widget.dart';
 
 class TrainersListView extends GetView<TrainersListController> {
@@ -11,8 +12,9 @@ class TrainersListView extends GetView<TrainersListController> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!controller.markedFilters.value) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await controller.loadPreferences();
+      if (!controller.filters.value.markedFilters) {
         controller.showFilterBottomSheet();
       } else {
         if (controller.trainers.isNotEmpty) return;
@@ -148,12 +150,13 @@ class TrainersListView extends GetView<TrainersListController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              if (controller.inMyCity.value)
-                _buildChip("Nearby", controller.inMyCity.value, (selected) {
+              if (controller.filters.value.inMyCity)
+                _buildChip("Nearby", controller.filters.value.inMyCity,
+                    (selected) {
                   controller.setIsInMyCity(selected);
                   controller.fetchTrainers();
                 }),
-              ...controller.lessonsFilter
+              ...controller.filters.value.lessonsFilter
                   .map((filter) => _buildChip(filter, true, (selected) {
                         if (!selected) {
                           controller.removeFilter(filter);
@@ -218,9 +221,10 @@ class TrainersListView extends GetView<TrainersListController> {
             return Padding(
               padding: EdgeInsets.only(bottom: 16.h),
               child: MyTrainerWidget(
+                key: ValueKey(trainer.userId),
                 trainerModel: trainer,
-                onClick: () =>
-                    Get.toNamed(Routes.myTrainerProfile, arguments: trainer),
+                onClick: () => AppRouter.navigateWithArgs(
+                    Routes.myTrainerProfile, trainer),
               ),
             );
           },

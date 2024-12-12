@@ -25,11 +25,11 @@ class TraineeTabsView extends StatelessWidget {
     final tabController = Get.find<GeneralTabController>();
 
     return Obx(() {
-      final trainee = controller.trainee.value; // trainer is reactive
+      final trainee = controller.trainee.value;
       return Scaffold(
         appBar: CustomAppBarTabs(
           userModel: trainee!,
-          onEditPressed: () => controller.setNewProfileImg(),
+          onEditPressed: () => controller.updateProfileImage(),
           onNotificationPressed: () {},
           thereIsNotifications: false,
           isLoading: controller.isLoading.value,

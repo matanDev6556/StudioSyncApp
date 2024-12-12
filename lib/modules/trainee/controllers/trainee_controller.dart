@@ -1,102 +1,90 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/router/routes.dart';
-import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/core/services/abstract/i_auth_service.dart';
+import 'package:studiosync/modules/trainee/features/profile/usecases/listen_trainee_updates_use_case.dart';
+import 'package:studiosync/modules/trainee/features/profile/usecases/logout_usecase.dart';
+import 'package:studiosync/modules/trainee/features/profile/usecases/save_trainee_usecase.dart';
+import 'package:studiosync/modules/trainee/features/profile/usecases/update_image_usecase.dart';
 import 'package:studiosync/modules/trainee/models/trainee_model.dart';
-import 'package:studiosync/shared/services/image_service.dart';
 
 class TraineeController extends GetxController {
-  final ImageService imageService;
-  final IAuthService authService;
-  final FirestoreService firestoreService;
+  final ListenToTraineeUpdatesUseCase _listenToTraineeUpdatesUseCase;
+  final SaveTraineeUseCase _saveTraineeUseCase;
+  final UpdateProfileImageUseCase _updateProfileImageUseCase;
+  final LogoutUseCase _logoutUseCase;
 
   TraineeController({
-    required this.authService,
-    required this.firestoreService,
-    required this.imageService,
-  });
-
-  Rx<TraineeModel?> trainee = Rx<TraineeModel?>(null);
+    required ListenToTraineeUpdatesUseCase listenToTraineeUpdatesUseCase,
+    required SaveTraineeUseCase saveTraineeUseCase,
+    required UpdateProfileImageUseCase updateProfileImageUseCase,
+    required LogoutUseCase logoutUseCase,
+  })  : _listenToTraineeUpdatesUseCase = listenToTraineeUpdatesUseCase,
+        _saveTraineeUseCase = saveTraineeUseCase,
+        _updateProfileImageUseCase = updateProfileImageUseCase,
+        _logoutUseCase = logoutUseCase;
 
   final isLoading = false.obs;
-
-  StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
-      _traineeStreamSubscription;
+  Rx<TraineeModel?> trainee = Rx<TraineeModel?>(null);
+  StreamSubscription<TraineeModel>? _traineeSubscription;
 
   @override
   void onReady() {
     super.onReady();
-    _listenToTraineeUpdates();
+    _listenToTrainee();
   }
 
   @override
   void onClose() {
-    _traineeStreamSubscription?.cancel();
+    _traineeSubscription?.cancel();
     super.onClose();
   }
 
-  void _listenToTraineeUpdates() {
-    final String path;
-    final trainerId = trainee.value!.trainerID;
-
-    if (trainerId.isNotEmpty) {
-      path = 'trainers/$trainerId/trainees/${trainee.value!.userId}';
-    } else {
-      path = 'trainees/${trainee.value!.userId}';
-    }
-
-    print("Listening to document changes at: $path");
-
-    // מאזינים לכל שינוי במסמך במסלול הנכון
-    _traineeStreamSubscription =
-        firestoreService.streamDocument(path).listen((snapshot) {
-      if (snapshot.exists) {
-        final traineeData = snapshot.data() as Map<String, dynamic>;
-        updateLocalTrainer(TraineeModel.fromJson(traineeData));
-        print("Trainee data updated from Firestore.");
-      } else {
-        print("Document does not exist at path: $path");
-      }
-    });
+  void _listenToTrainee() {
+    final path = _getTraineePath();
+    _traineeSubscription = _listenToTraineeUpdatesUseCase
+        .execute('$path/${trainee.value!.userId}')
+        .listen(
+      (updatedTrainee) {
+        updateLocalTrainer(updatedTrainee);
+      },
+      onError: (error) {
+        debugPrint("Error listening to trainee updates: $error");
+      },
+    );
   }
 
-  Future<void> setNewProfileImg() async {
+  Future<void> updateProfileImage() async {
     isLoading.value = true;
-    final imgUrl = await imageService.pickAndUploadImage(trainee.value!.userId);
+
+    await _updateProfileImageUseCase.execute(trainee.value!, _getTraineePath());
+
     isLoading.value = false;
-    if (imgUrl != null) {
-      updateLocalTrainer(trainee.value!.copyWith(imgUrl: imgUrl));
+  }
+
+  Future<void> saveTrainee() async {
+    isLoading.value = true;
+    await _saveTraineeUseCase.execute(trainee.value!, _getTraineePath());
+    isLoading.value = false;
+  }
+
+  String _getTraineePath() {
+    final trainerId = trainee.value?.trainerID ?? '';
+    if (trainerId.isNotEmpty) {
+      return 'trainers/$trainerId/trainees';
+    } else {
+      return 'trainees';
     }
   }
 
-  void updateLocalTrainer(TraineeModel updatedTrainee) {
-    trainee.value = updatedTrainee;
+  void updateLocalTrainer(TraineeModel traineeModel) {
+    trainee.value = traineeModel;
     trainee.refresh();
   }
 
-  void saveTraineeToDb() async {
-    isLoading.value = true;
-
-    if (trainee.value!.trainerID.isNotEmpty) {
-      await firestoreService.setDocument(
-        'trainers/${trainee.value!.trainerID}/trainees',
-        trainee.value!.trainerID,
-        trainee.value!.toMap(),
-      );
-    } else {
-      await firestoreService.setDocument(
-        'trainees',
-        trainee.value!.userId,
-        trainee.value!.toMap(),
-      );
-    }
-    isLoading.value = false;
-  }
-
-  void logout() async {
-    await authService.signOut();
-    Get.offAllNamed(Routes.login);
+  void logout() {
+    _logoutUseCase.execute();
+    AppRouter.navigateOffAllNamed(Routes.login);
   }
 }
