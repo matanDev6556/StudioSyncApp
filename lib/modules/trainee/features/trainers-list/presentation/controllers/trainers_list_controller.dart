@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/model/trainer_filter_model.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/usecases/fetch_trainers_usecase.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/usecases/filter_trainers_usecase.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/usecases/load_prefrences_usecase.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/usecases/save_preference_usecase.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/utils/keys_filters_prefrences.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/widgets/filters_trainrs_buttom.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/data/model/trainer_filter_model.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/fetch_trainers_usecase.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/filter_trainers_usecase.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/load_prefrences_usecase.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/save_preference_usecase.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/presentation/utils/keys_filters_prefrences.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/presentation/widgets/filters_trainrs_buttom.dart';
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 
 class TrainersListController extends GetxController {
@@ -26,6 +26,7 @@ class TrainersListController extends GetxController {
 
   RxList<TrainerModel> trainers = <TrainerModel>[].obs;
   var isLoading = false.obs;
+  RxString errorMessage = ''.obs;
 
   // Filters
   RxList<TrainerModel> filteredTrainers = <TrainerModel>[].obs;
@@ -40,19 +41,30 @@ class TrainersListController extends GetxController {
   void onInit() async {
     super.onInit();
     await loadPreferences();
+    if (!filters.value.markedFilters) {
+      showFilterBottomSheet();
+    } else {
+      if (trainers.isNotEmpty) return;
+      fetchTrainers();
+    }
   }
 
+// Update fetchTrainers
   Future<void> fetchTrainers() async {
-    isLoading.value = true;
-    final userCity = filters.value.inMyCity
-        ? _traineeController.trainee.value?.userCity ?? ''
-        : '';
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+      final userCity = filters.value.inMyCity
+          ? _traineeController.trainee.value?.userCity ?? ''
+          : '';
 
-    trainers.value = await _fetchTrainersUseCase.execute(userCity);
-
-    applyFilters();
-
-    isLoading.value = false;
+      trainers.value = await _fetchTrainersUseCase.execute(userCity);
+      applyFilters();
+    } catch (e) {
+      errorMessage.value = e.toString();
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   //--FILTERS--
@@ -61,12 +73,15 @@ class TrainersListController extends GetxController {
     filters.refresh();
     _savePreferences(
         PreferencesKeys.lessonFilters, filters.value.lessonsFilter);
+    applyFilters();
   }
 
   void setIsInMyCity(bool val) {
     filters.value.inMyCity = val;
     filters.refresh();
+
     _savePreferences(PreferencesKeys.inMyCity, val);
+    fetchTrainers();
   }
 
   void _onFilterSelected(bool selectedInMyCity, List<String> selectedLessons) {
@@ -80,6 +95,11 @@ class TrainersListController extends GetxController {
     _savePreferences(PreferencesKeys.markedFilters, true);
 
     fetchTrainers();
+  }
+
+  void setSearchQuery(String query) {
+    searchQuery.value = query;
+    applyFilters();
   }
 
   void applyFilters() {
@@ -103,12 +123,10 @@ class TrainersListController extends GetxController {
 
   Future<void> loadPreferences() async {
     final prefs = await _loadPreferencesUseCase.execute();
-    print(prefs);
     filters.value = TrainerFilters.fromMap(prefs);
   }
 
   Future<void> _savePreferences(String key, dynamic value) async {
-    print('$key: $value');
     await _savePreferencesUseCase.execute(key: key, value: value);
   }
 }

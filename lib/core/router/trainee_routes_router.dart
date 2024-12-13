@@ -2,13 +2,13 @@ import 'package:get/get.dart';
 import 'package:studiosync/modules/auth/views/signip_trainee_view.dart';
 import 'package:studiosync/modules/trainee/bindings/trainee_tabs_binding.dart';
 import 'package:studiosync/modules/trainee/bindings/trainer_lessons_binding.dart';
-import 'package:studiosync/modules/trainee/bindings/trainers_list_binding.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/presentation/bindings/trainers_list_binding.dart';
 import 'package:studiosync/modules/trainee/features/lessons/views/trainer_lessons_view.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/views/trainer_profile_view.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/presentation/views/trainer_profile_view.dart';
 import 'package:studiosync/modules/trainee/features/tabs_trainee_view.dart';
 import 'package:studiosync/modules/auth/bindings/signup_trainee_binding.dart';
 import 'package:studiosync/core/router/routes.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/views/trainers_list_view.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/presentation/views/trainers_list_view.dart';
 
 class TraineeRouter {
   static final traineeRoutes = [
@@ -23,7 +23,7 @@ class TraineeRouter {
       binding: TraineeTabsBinding(),
     ),
     GetPage(
-      name: Routes.myTrainerProfile,
+      name: Routes.trainerProfile,
       page: () => TrainerProfileView(
         trainerModel: Get.arguments,
       ),
@@ -33,12 +33,10 @@ class TraineeRouter {
       page: () => const TrainersListView(),
       binding: TrainersListBinding(),
     ),
-     GetPage(
-      name: Routes.trainerLessons,
-      page: () =>  const TrainerLessonsView(),
-      binding: TrainerLessonsBinding()
-     
-    ),
+    GetPage(
+        name: Routes.trainerLessons,
+        page: () => const TrainerLessonsView(),
+        binding: TrainerLessonsBinding()),
 
     // Add other trainee-specific routes here
   ];

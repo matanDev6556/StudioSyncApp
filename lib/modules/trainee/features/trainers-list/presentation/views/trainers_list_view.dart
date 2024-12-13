@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainee/controllers/trainers_list_controller.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/presentation/controllers/trainers_list_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/widgets/my_trainer_widget.dart';
 
 class TrainersListView extends GetView<TrainersListController> {
@@ -12,16 +12,7 @@ class TrainersListView extends GetView<TrainersListController> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await controller.loadPreferences();
-      if (!controller.filters.value.markedFilters) {
-        controller.showFilterBottomSheet();
-      } else {
-        if (controller.trainers.isNotEmpty) return;
-        controller.fetchTrainers();
-      }
-    });
-
+    ;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -89,7 +80,7 @@ class TrainersListView extends GetView<TrainersListController> {
       ),
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-        onPressed: () => Get.back(),
+        onPressed: () => AppRouter.navigateBack(),
       ),
     );
   }
@@ -135,8 +126,7 @@ class TrainersListView extends GetView<TrainersListController> {
             contentPadding: EdgeInsets.symmetric(vertical: 12.h),
           ),
           onChanged: (value) {
-            controller.searchQuery.value = value;
-            controller.applyFilters();
+            controller.setSearchQuery(value);
           },
         ),
       ),
@@ -154,13 +144,11 @@ class TrainersListView extends GetView<TrainersListController> {
                 _buildChip("Nearby", controller.filters.value.inMyCity,
                     (selected) {
                   controller.setIsInMyCity(selected);
-                  controller.fetchTrainers();
                 }),
               ...controller.filters.value.lessonsFilter
                   .map((filter) => _buildChip(filter, true, (selected) {
                         if (!selected) {
                           controller.removeFilter(filter);
-                          controller.applyFilters();
                         }
                       })),
             ],
@@ -204,6 +192,15 @@ class TrainersListView extends GetView<TrainersListController> {
 
   Widget _buildTrainersList() {
     return Obx(() {
+      if (controller.errorMessage.isNotEmpty) {
+        return SliverFillRemaining(
+          child: Center(
+            child: Text(controller.errorMessage.value,
+                style: const TextStyle(color: Colors.red)),
+          ),
+        );
+      }
+
       if (controller.isLoading.value) {
         return SliverFillRemaining(
           child: Center(
@@ -224,7 +221,9 @@ class TrainersListView extends GetView<TrainersListController> {
                 key: ValueKey(trainer.userId),
                 trainerModel: trainer,
                 onClick: () => AppRouter.navigateWithArgs(
-                    Routes.myTrainerProfile, trainer),
+                  Routes.trainerProfile,
+                  trainer,
+                ),
               ),
             );
           },

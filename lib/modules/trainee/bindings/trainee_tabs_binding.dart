@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:studiosync/modules/trainee/controllers/lessons_upcoming_controller.dart';
-import 'package:studiosync/modules/trainee/controllers/trainer_profile_controller.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/presentation/controllers/trainer_profile_controller.dart';
 import 'package:studiosync/modules/trainee/controllers/workouts_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/service/upcoming_lessons_service.dart';
 import 'package:studiosync/modules/trainee/features/workouts/services/workouts_service.dart';

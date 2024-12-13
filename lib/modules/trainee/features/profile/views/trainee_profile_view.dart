@@ -6,7 +6,7 @@ import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/const.dart';
 import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/controllers/trainer_profile_controller.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/presentation/controllers/trainer_profile_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/widgets/my_trainer_widget.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
 import 'package:studiosync/shared/widgets/custom_dropdown.dart';
@@ -127,7 +127,7 @@ class TraineeProfileeView extends StatelessWidget {
                 ? MyTrainerWidget(
                     trainerModel: trainerProfileController.myTrainer.value,
                     onClick: () => Get.toNamed(
-                      Routes.myTrainerProfile,
+                      Routes.trainerProfile,
                       arguments: trainerProfileController.myTrainer.value,
                     ),
                   )

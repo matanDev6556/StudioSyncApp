@@ -1,4 +1,4 @@
-import 'package:studiosync/modules/trainee/features/trainers-list/utils/keys_filters_prefrences.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/presentation/utils/keys_filters_prefrences.dart';
 
 class TrainerFilters {
   bool inMyCity;
