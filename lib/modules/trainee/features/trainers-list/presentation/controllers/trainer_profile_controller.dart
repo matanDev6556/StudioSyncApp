@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/shared/models/request_model.dart';
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 import 'package:url_launcher/url_launcher.dart';

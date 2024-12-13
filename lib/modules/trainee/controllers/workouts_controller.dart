@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/workouts/services/workouts_service.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/shared/models/workout_summary.dart';
 import 'package:studiosync/shared/services/workouts_analytics_service.dart';

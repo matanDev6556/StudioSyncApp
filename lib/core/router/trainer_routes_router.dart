@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/bindings/trainee_profile_binding.dart';
 import 'package:studiosync/modules/trainer/bindings/trainer_tabs_binding.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/views/trainee_workout_view.dart';

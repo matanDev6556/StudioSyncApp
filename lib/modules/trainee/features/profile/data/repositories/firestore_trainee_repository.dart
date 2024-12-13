@@ -1,8 +1,8 @@
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/modules/trainee/features/profile/repositories/trainee_repository.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/repositories/itrainee_repository.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 
-class FirestoreTraineeRepository implements TraineeRepository {
+class FirestoreTraineeRepository implements ITraineeRepository {
   final FirestoreService _firestoreService;
 
   FirestoreTraineeRepository(this._firestoreService);

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/router/routes.dart';
-import 'package:studiosync/modules/trainee/features/profile/usecases/listen_trainee_updates_use_case.dart';
-import 'package:studiosync/modules/trainee/features/profile/usecases/logout_usecase.dart';
-import 'package:studiosync/modules/trainee/features/profile/usecases/save_trainee_usecase.dart';
-import 'package:studiosync/modules/trainee/features/profile/usecases/update_image_usecase.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/logout_usecase.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/save_trainee_usecase.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/update_image_usecase.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 
 class TraineeController extends GetxController {
   final ListenToTraineeUpdatesUseCase _listenToTraineeUpdatesUseCase;

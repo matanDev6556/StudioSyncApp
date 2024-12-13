@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:studiosync/core/services/interfaces/i_storage_service.dart';
-import 'package:studiosync/modules/trainee/features/profile/repositories/trainee_repository.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/repositories/itrainee_repository.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:uuid/uuid.dart';
 
 class UpdateProfileImageUseCase {
-  final TraineeRepository _repository;
+  final ITraineeRepository _repository;
   final IStorageService _iStorageService;
 
   UpdateProfileImageUseCase(this._repository, this._iStorageService);

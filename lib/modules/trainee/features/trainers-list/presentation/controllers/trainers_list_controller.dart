@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/data/model/trainer_filter_model.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/fetch_trainers_usecase.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/filter_trainers_usecase.dart';

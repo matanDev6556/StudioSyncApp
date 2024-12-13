@@ -5,7 +5,7 @@ import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/presentation/controllers/trainers_list_controller.dart';
-import 'package:studiosync/modules/trainee/features/profile/widgets/my_trainer_widget.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/widgets/my_trainer_widget.dart';
 
 class TrainersListView extends GetView<TrainersListController> {
   const TrainersListView({Key? key}) : super(key: key);
