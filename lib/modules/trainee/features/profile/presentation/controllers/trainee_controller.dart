@@ -7,7 +7,6 @@ import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/modules/auth/domain/usecases/logout_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/save_trainee_usecase.dart';
-
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 
 class TraineeController extends GetxController {

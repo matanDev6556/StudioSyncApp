@@ -12,7 +12,7 @@ class TrainersListView extends GetView<TrainersListController> {
 
   @override
   Widget build(BuildContext context) {
-    ;
+    
     return Scaffold(
       body: CustomScrollView(
         slivers: [

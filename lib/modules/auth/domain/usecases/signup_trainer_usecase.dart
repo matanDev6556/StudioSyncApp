@@ -1,13 +1,12 @@
+import 'package:studiosync/modules/auth/domain/repositories/i_signup_repository.dart';
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
-
-import '../../../../core/services/firebase/firestore_service.dart';
 import '../../../../modules/auth/domain/repositories/i_auth_repository.dart';
 
 class SignUpTrainerUseCase {
   final IAuthRepository _authRepository;
-  final FirestoreService _firestoreService;
+  final ISignUpRepository _iSignUpRepository;
 
-  SignUpTrainerUseCase(this._authRepository, this._firestoreService);
+  SignUpTrainerUseCase(this._authRepository, this._iSignUpRepository);
 
   Future<void> execute(
       TrainerModel newTrainer, String email, String password) async {
@@ -15,11 +14,7 @@ class SignUpTrainerUseCase {
         await _authRepository.signUpWithEmailAndPassword(email, password);
 
     if (user != null) {
-      await _firestoreService.setDocument(
-        'trainers',
-        user.uid,
-        newTrainer.copyWith(id: user.uid).toMap(),
-      );
+      await _iSignUpRepository.createTrainer(newTrainer.copyWith(id: user.uid));
     } else {
       throw Exception("Failed to sign up user.");
     }
