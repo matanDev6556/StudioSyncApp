@@ -4,7 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/auth/widgets/logo.dart';
+import 'package:studiosync/modules/auth/presentation/widgets/logo.dart';
 
 class AppBarAuth extends StatelessWidget {
   final BuildContext context;

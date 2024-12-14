@@ -1,7 +1,6 @@
-abstract class IAuthService<T> {
+abstract class IAuthRepository<T> {
   T? get currentUser;
   Stream<T?> get authStateChanges;
-  Stream<String?> get userUidStream;
 
   Future<bool> isTrainerAllowedToSignUp(String email);
   Future<T?> signInWithEmailAndPassword(String email, String password);

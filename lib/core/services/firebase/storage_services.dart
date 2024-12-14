@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:studiosync/core/services/interfaces/i_storage_service.dart';
+import 'package:studiosync/core/domain/repositories/i_storage_service.dart';
 
 class StorageServices implements IStorageService {
   final Reference _storageRef = FirebaseStorage.instance.ref();

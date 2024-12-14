@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/auth/controllers/signup_trainer_controller.dart';
-import 'package:studiosync/modules/auth/widgets/signup_fields.dart';
-import 'package:studiosync/modules/auth/widgets/signup_trainer_fields.dart';
+import 'package:studiosync/modules/auth/presentation/controllers/signup_trainer_controller.dart';
+import 'package:studiosync/modules/auth/presentation/widgets/signup_fields.dart';
+import 'package:studiosync/modules/auth/presentation/widgets/signup_trainer_fields.dart';
 
 class SignUpTrainerView extends StatelessWidget {
   const SignUpTrainerView({super.key});

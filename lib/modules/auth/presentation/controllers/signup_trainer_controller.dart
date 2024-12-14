@@ -1,14 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/modules/auth/controllers/signup_controller.dart';
+import 'package:studiosync/core/router/app_touter.dart';
+import 'package:studiosync/core/router/routes.dart';
+import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/modules/auth/domain/usecases/signup_trainer_usecase.dart';
+import 'package:studiosync/modules/auth/presentation/controllers/shared_signup_controller.dart';
 import 'package:studiosync/modules/trainer/models/price_tier_model.dart';
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 
-class SignUpTrainerController extends SignUpController {
+class SignUpTrainerController extends AbstractSignUpController {
+  final SignUpTrainerUseCase _signUpTrainerUseCase;
+
   SignUpTrainerController({
-    required super.authService,
-    required super.firestoreService,
-    required super.storageService,
-  });
+    required super.pickImageUseCase,
+    required SignUpTrainerUseCase signUpTrainerUseCase,
+  }) : _signUpTrainerUseCase = signUpTrainerUseCase;
+
   // Trainer-specific fields
   RxList<String> imageUrls = <String>[].obs;
   RxList<PriceTier> priceList = <PriceTier>[].obs;
@@ -111,22 +118,15 @@ class SignUpTrainerController extends SignUpController {
         isTrainer: true,
       );
 
-      // auth user in
-      final user = await authService.signUpWithEmailAndPassword(
-        email.value,
-        password.value,
-      );
-
-      // save in the db
-      if (user != null) {
-        await firestoreService.setDocument(
-          'trainers',
-          user.uid,
-          newTrainer.copyWith(id: user.uid).toMap(),
-        );
+      try {
+        await _signUpTrainerUseCase.execute(
+            newTrainer, email.value, password.value);
+      } catch (e) {
+        Validations.showValidationSnackBar(e.toString(), Colors.red);
+        AppRouter.navigateTo(Routes.widgetTree);
       }
     } else {
-      print('Form validation failed');
+      Validations.showValidationSnackBar('Form validation failed!', Colors.red);
     }
   }
 }

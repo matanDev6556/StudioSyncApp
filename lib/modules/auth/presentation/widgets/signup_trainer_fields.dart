@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/validations.dart';
-import 'package:studiosync/modules/auth/controllers/signup_trainer_controller.dart';
+import 'package:studiosync/modules/auth/presentation/controllers/signup_trainer_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/consts_lessons.dart';
 import 'package:studiosync/shared/widgets/custom_text_field.dart';
 import 'package:studiosync/shared/widgets/custom_dropdown.dart';

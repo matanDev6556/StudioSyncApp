@@ -1,12 +1,14 @@
 import 'package:get/get.dart';
-import 'package:studiosync/core/services/interfaces/i_storage_service.dart';
+import 'package:studiosync/core/domain/repositories/i_storage_service.dart';
+import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/core/services/interfaces/i_auth_service.dart';
+import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
+import 'package:studiosync/modules/auth/domain/usecases/logout_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/repositories/firestore_trainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
-import 'package:studiosync/modules/trainee/features/profile/domain/usecases/logout_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/save_trainee_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/update_image_usecase.dart';
+
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/models/user_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
@@ -22,12 +24,12 @@ import 'package:studiosync/core/router/routes.dart';
 */
 
 class WidgetTreeController<T extends UserModel> extends GetxController {
-  final IAuthService authService;
+  final IAuthRepository authRepository;
   final FirestoreService firestoreService;
   final IStorageService storageServices;
 
   WidgetTreeController(
-    this.authService,
+    this.authRepository,
     this.firestoreService,
     this.storageServices,
   );
@@ -42,7 +44,7 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
   }
 
   Future<void> checkUserRoleAndRedirect1() async {
-    final currentUser = authService.currentUser;
+    final currentUser = authRepository.currentUser;
 
     if (currentUser == null) {
       Get.offAllNamed(Routes.login);
@@ -120,20 +122,17 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
     final traineeRepository =
         FirestoreTraineeRepository(Get.find<FirestoreService>());
 
-    Get.put<ListenToTraineeUpdatesUseCase>(
-        ListenToTraineeUpdatesUseCase(traineeRepository));
-    Get.put<SaveTraineeUseCase>(SaveTraineeUseCase(traineeRepository));
-    Get.put<UpdateProfileImageUseCase>(UpdateProfileImageUseCase(
+    Get.put(ListenToTraineeUpdatesUseCase(traineeRepository));
+    Get.put(SaveTraineeUseCase(traineeRepository));
+    Get.put(UpdateProfileImageUseCase(
         traineeRepository, Get.find<IStorageService>()));
-    Get.put<LogoutUseCase>(
-        LogoutUseCase(authService: Get.find<IAuthService>()));
 
     Get.put<TraineeController>(
       TraineeController(
         listenToTraineeUpdatesUseCase:
             Get.find<ListenToTraineeUpdatesUseCase>(),
         saveTraineeUseCase: Get.find<SaveTraineeUseCase>(),
-        updateProfileImageUseCase: Get.find<UpdateProfileImageUseCase>(),
+        pickImageUseCase: Get.find<PickImageUseCase>(),
         logoutUseCase: Get.find<LogoutUseCase>(),
       ),
       permanent: true,

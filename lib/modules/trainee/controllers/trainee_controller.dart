@@ -1,29 +1,29 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
 import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/modules/auth/domain/usecases/logout_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/save_trainee_usecase.dart';
-
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/update_image_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
+
 
 class TraineeController extends GetxController {
   final ListenToTraineeUpdatesUseCase _listenToTraineeUpdatesUseCase;
   final SaveTraineeUseCase _saveTraineeUseCase;
-  final PickImageUseCase _pickImageUseCase;
+  final UpdateProfileImageUseCase _updateProfileImageUseCase;
   final LogoutUseCase _logoutUseCase;
 
   TraineeController({
     required ListenToTraineeUpdatesUseCase listenToTraineeUpdatesUseCase,
     required SaveTraineeUseCase saveTraineeUseCase,
-    required PickImageUseCase pickImageUseCase,
+    required UpdateProfileImageUseCase updateProfileImageUseCase,
     required LogoutUseCase logoutUseCase,
   })  : _listenToTraineeUpdatesUseCase = listenToTraineeUpdatesUseCase,
         _saveTraineeUseCase = saveTraineeUseCase,
-        _pickImageUseCase = pickImageUseCase,
+        _updateProfileImageUseCase = updateProfileImageUseCase,
         _logoutUseCase = logoutUseCase;
 
   final isLoading = false.obs;
@@ -59,12 +59,9 @@ class TraineeController extends GetxController {
   Future<void> updateProfileImage() async {
     isLoading.value = true;
 
-    var imgUrl = await _pickImageUseCase.execute(
-      trainee.value!.userId,
-    );
+    await _updateProfileImageUseCase.execute(trainee.value!, _getTraineePath());
 
-    updateLocalTrainer(trainee.value!.copyWith(imgUrl: imgUrl));
-    saveTrainee();
+    isLoading.value = false;
   }
 
   Future<void> saveTrainee() async {

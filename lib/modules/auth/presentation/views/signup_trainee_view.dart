@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/auth/controllers/signup_controller.dart';
-import 'package:studiosync/modules/auth/widgets/signup_fields.dart';
+import 'package:studiosync/modules/auth/presentation/controllers/signup_trainee_controller.dart';
+import 'package:studiosync/modules/auth/presentation/widgets/signup_fields.dart';
 
 class SignUpTraineeView extends StatelessWidget {
   const SignUpTraineeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final SignUpController controller = Get.find<SignUpController>();
+    final SignUpTraineeController controller =
+        Get.find<SignUpTraineeController>();
 
     return Scaffold(
       resizeToAvoidBottomInset: true,

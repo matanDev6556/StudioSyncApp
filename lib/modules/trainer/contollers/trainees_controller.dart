@@ -1,7 +1,7 @@
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_rx/src/rx_workers/rx_workers.dart';
-import 'package:studiosync/core/services/interfaces/i_auth_service.dart';
+import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/services/trainees_service.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/services/trainess_filter_service.dart';
@@ -10,7 +10,7 @@ class TraineesController extends GetxController {
   final TraineeListService traineeService;
   final TraineeFilterService filterService;
 
-  final IAuthService authService;
+  final IAuthRepository authService;
 
   RxList<TraineeModel> traineesList = <TraineeModel>[].obs;
   RxList<TraineeModel> filteredTraineesList = <TraineeModel>[].obs;

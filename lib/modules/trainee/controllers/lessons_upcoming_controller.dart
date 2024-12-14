@@ -21,8 +21,9 @@ class UpcomingLessonsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchRegisteredLessons();
-   
+    if (trainee.trainerID.isNotEmpty) {
+      fetchRegisteredLessons();
+    }
   }
 
   @override
@@ -44,7 +45,6 @@ class UpcomingLessonsController extends GetxController {
   }
 
   List<LessonModel> filterUpcomingLessons(List<LessonModel> lessons) {
-    print('_filterTimer');
     final now = DateTime.now();
     return lessons.where((lesson) {
       // Filter based on endDateTime instead of startDateTime
@@ -60,5 +60,4 @@ class UpcomingLessonsController extends GetxController {
     trainee.subscription?.cancleLesson();
     Get.find<TraineeController>().saveTrainee();
   }
-
 }

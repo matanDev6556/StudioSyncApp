@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:studiosync/core/services/interfaces/i_storage_service.dart';
+import 'package:studiosync/core/domain/repositories/i_storage_service.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/repositories/itrainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:uuid/uuid.dart';
