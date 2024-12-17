@@ -1,4 +1,10 @@
 import 'package:get/get.dart';
+import 'package:studiosync/modules/trainee/features/lessons/data/repositories/lessons_trainee_repository.dart';
+import 'package:studiosync/modules/trainee/features/lessons/data/repositories/registred_lessons_repository.dart';
+import 'package:studiosync/modules/trainee/features/lessons/domain/repositories/i_lessons_trainee_repository.dart';
+import 'package:studiosync/modules/trainee/features/lessons/domain/repositories/i_registredLessons_repository.dart';
+import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/cancle_lesson_usecase.dart';
+import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/get_registredLessons_usecase.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_upcoming_controller.dart';
 import 'package:studiosync/modules/trainee/features/workouts/data/repositories/firestore_workouts_trainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/workouts/domain/repositories/i_workouts_trainee_repository.dart';
@@ -6,7 +12,6 @@ import 'package:studiosync/modules/trainee/features/workouts/domain/usecases/fet
 import 'package:studiosync/modules/trainee/features/workouts/domain/usecases/listen_workouts_usecase.dart';
 import 'package:studiosync/modules/trainee/features/workouts/domain/usecases/sort_workouts_usecase.dart';
 import 'package:studiosync/modules/trainee/features/workouts/presentation/controllers/workouts_controller.dart';
-import 'package:studiosync/modules/trainee/features/lessons/service/upcoming_lessons_service.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/repositories/firestore_mytrainer_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/repositories/i_mytrainer_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/fetch_mytrainer_usecase.dart';
@@ -60,9 +65,20 @@ class TraineeTabsBinding extends Bindings {
   }
 
   void _bindLessonsTab() {
-    Get.lazyPut(
-        () => UpcomingLessonsTraineeService(firestoreService: Get.find()));
+    Get.lazyPut<ILessonsTraineeRepository>(
+        () => LessonsTraineeRepsitory(firestoreService: Get.find()));
+    Get.lazyPut<IRegistredLessonsRepository>(
+      () => RegistredTraineeLessonsFirestoreRepository(
+          firestoreService: Get.find()),
+    );
+    Get.put(CancelLessonUseCase(repository: Get.find()));
+    Get.put(GetRegisteredLessonsUseCase(repository: Get.find()));
+
     Get.put(
-        UpcomingLessonsController(upcomingLessonsTraineeService: Get.find()));
+      UpcomingLessonsController(
+        cancelLessonUseCase: Get.find(),
+        getRegisteredLessonsUseCase: Get.find(),
+      ),
+    );
   }
 }

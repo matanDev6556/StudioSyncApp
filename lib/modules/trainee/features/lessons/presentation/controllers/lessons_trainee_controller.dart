@@ -7,7 +7,7 @@ import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/get_
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/get_upcomingLessons_usecase.dart';
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/join_lesson_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/features/lessons/service/lessons_filter_service.dart';
+import 'package:studiosync/modules/trainee/features/lessons/presentation/service/lessons_filter_service.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 import 'package:studiosync/modules/trainer/models/lessons_settings_model.dart';
