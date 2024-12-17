@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainee/controllers/lessons_trainee_controller.dart';
+import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/service/lessons_filter_service.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/my_trainer_controller.dart';
 
 class LessonFilterBottomSheet extends StatelessWidget {
   LessonFilterBottomSheet({
     Key? key,
   }) : super(key: key);
 
-  final controller = Get.find<LessonsTraineeController>();
+  final LessonsTraineeController lessonController = Get.find();
+  final MyTrainerController myTrainerController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +45,16 @@ class LessonFilterBottomSheet extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  controller.lessonFilterService.lessonsFilter.clear();
-                  controller.lessonFilterService.trainersFilter.clear();
-                  controller.lessonFilterService.locationFilter.clear();
+                  lessonController.lessonFilterService.lessonsFilter.clear();
+                  lessonController.lessonFilterService.trainersFilter.clear();
+                  lessonController.lessonFilterService.locationFilter.clear();
                 },
                 child: const Text('Clear All'),
               ),
               const SizedBox(width: 8),
               ElevatedButton(
                 onPressed: () {
-                  controller.applyFilters();
+                  lessonController.applyFilters();
                   Get.back();
                 },
                 style: ElevatedButton.styleFrom(
@@ -81,18 +83,18 @@ class LessonFilterBottomSheet extends StatelessWidget {
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
-          children: controller.myTrainer.lessonsTypeList.map((type) {
+          children: myTrainerController.myTrainer.value!.lessonsTypeList.map((type) {
             return Obx(
               () => FilterChip(
                 label: Text(type),
                 selected:
-                    controller.lessonFilterService.lessonsFilter.contains(type),
+                    lessonController.lessonFilterService.lessonsFilter.contains(type),
                 onSelected: (selected) {
                   if (selected) {
-                    controller.lessonFilterService
+                    lessonController.lessonFilterService
                         .toggleFilter(FilterType.lesson, type);
                   } else {
-                    controller.lessonFilterService
+                    lessonController.lessonFilterService
                         .toggleFilter(FilterType.lesson, type, add: false);
                   }
                 },
@@ -117,18 +119,18 @@ class LessonFilterBottomSheet extends StatelessWidget {
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
-          children: controller.myTrainer.coachesList.map((trainer) {
+          children: myTrainerController.myTrainer.value!.coachesList.map((trainer) {
             return Obx(
               () => FilterChip(
                 label: Text(trainer),
-                selected: controller.lessonFilterService.trainersFilter
+                selected: lessonController.lessonFilterService.trainersFilter
                     .contains(trainer),
                 onSelected: (selected) {
                   if (selected) {
-                    controller.lessonFilterService
+                    lessonController.lessonFilterService
                         .toggleFilter(FilterType.trainer, trainer);
                   } else {
-                    controller.lessonFilterService
+                    lessonController.lessonFilterService
                         .toggleFilter(FilterType.trainer, trainer, add: false);
                   }
                 },
@@ -153,18 +155,18 @@ class LessonFilterBottomSheet extends StatelessWidget {
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
-          children: controller.myTrainer.locationsList.map((location) {
+          children: myTrainerController.myTrainer.value!.locationsList.map((location) {
             return Obx(
               () => FilterChip(
                 label: Text(location),
-                selected: controller.lessonFilterService.locationFilter
+                selected: lessonController.lessonFilterService.locationFilter
                     .contains(location),
                 onSelected: (selected) {
                   if (selected) {
-                    controller.lessonFilterService
+                    lessonController.lessonFilterService
                         .toggleFilter(FilterType.location, location);
                   } else {
-                    controller.lessonFilterService
+                    lessonController.lessonFilterService
                         .toggleFilter(FilterType.trainer, location, add: false);
                   }
                 },

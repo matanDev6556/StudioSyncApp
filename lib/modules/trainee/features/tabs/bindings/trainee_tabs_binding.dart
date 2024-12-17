@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:studiosync/modules/trainee/controllers/lessons_upcoming_controller.dart';
+import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_upcoming_controller.dart';
 import 'package:studiosync/modules/trainee/features/workouts/data/repositories/firestore_workouts_trainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/workouts/domain/repositories/i_workouts_trainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/workouts/domain/usecases/fetch_workouts_usecase.dart';

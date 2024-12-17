@@ -33,6 +33,12 @@ class WorkoutController extends GetxController {
     _listenToWorkoutChanges();
   }
 
+   @override
+  void onClose() {
+    workoutsDocSubscription.cancel();
+    super.onClose();
+  }
+
   void _listenToWorkoutChanges() {
     final trainee = traineeController.trainee.value;
     if (trainee != null) {
@@ -58,9 +64,5 @@ class WorkoutController extends GetxController {
 
 
 
-  @override
-  void onClose() {
-    workoutsDocSubscription.cancel();
-    super.onClose();
-  }
+ 
 }

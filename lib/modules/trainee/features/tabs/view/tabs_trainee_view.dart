@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/features/lessons/views/upcoming_lessons_view.dart';
+import 'package:studiosync/modules/trainee/features/lessons/presentation/views/upcoming_lessons_view.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/views/trainee_profile_view.dart';
 import 'package:studiosync/modules/trainee/features/workouts/presentation/views/workouts_view.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
@@ -21,18 +21,18 @@ class TraineeTabsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<TraineeController>();
+    final traineeController = Get.find<TraineeController>();
     final tabController = Get.find<GeneralTabController>();
 
     return Obx(() {
-      final trainee = controller.trainee.value;
+      final trainee = traineeController.trainee.value;
       return Scaffold(
         appBar: CustomAppBarTabs(
           userModel: trainee!,
-          onEditPressed: () => controller.updateProfileImage(),
+          onEditPressed: () => traineeController.updateProfileImage(),
           onNotificationPressed: () {},
           thereIsNotifications: false,
-          isLoading: controller.isLoading.value,
+          isLoading: traineeController.isLoading.value,
         ),
         body: _pages[tabController.selectedIndex.value],
         bottomNavigationBar: BottomNavigationBar(

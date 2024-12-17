@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainee/controllers/lessons_upcoming_controller.dart';
+import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_upcoming_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
 
