@@ -1,4 +1,4 @@
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 
 class TraineeFilterService {
   // Filter based on search query and active status

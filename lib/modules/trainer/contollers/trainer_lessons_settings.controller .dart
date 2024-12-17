@@ -62,7 +62,7 @@ class TrainerLessonsSettingsController extends GetxController {
       LessonsSettingsModel updatedSettings) async {
     isLoading.value = true;
     try {
-      await firestoreService.updateDocument(
+      await firestoreService.setDocument(
         'trainers/$trainerId/settings',
         'lessonsSettings',
         updatedSettings.toMap(),

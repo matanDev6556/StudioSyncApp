@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 
 class TrainerLessonsService {
@@ -109,7 +109,7 @@ class TrainerLessonsService {
   }
 
   Future<void> updateTraineeSub(TraineeModel traineeModel) async {
-    await firestoreService.updateDocument(
+    await firestoreService.setDocument(
       'trainers/${traineeModel.trainerID}/trainees}',
       traineeModel.userId,
       traineeModel.toMap(),

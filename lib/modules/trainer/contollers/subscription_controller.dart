@@ -5,7 +5,7 @@ import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/by_date_model.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/by_total_trainings_model.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
 
 enum SubscriptionType { byDate, byTotalTrainings }
@@ -98,15 +98,12 @@ class SubscriptionController extends GetxController {
             trainee.copyWith(subscription: subscriptionByTotal.value);
       }
       // עדכון המסמך של המתאמן בשירות הפיירבייס
-      await firestoreService.addNastedDocument(
-        'trainers',
-        updatedTrainee.trainerID ,
-        'trainees',
+      await firestoreService.setDocument(
+        'trainers/${updatedTrainee.trainerID}/trainees',
         updatedTrainee.userId,
         updatedTrainee.toMap(),
       );
 
-     
       // עדכון הרשימה המסוננת של המתאמנים עם המידע החדש
       traineesController.filteredTraineesList.value = traineesController
           .filteredTraineesList
@@ -130,13 +127,11 @@ class SubscriptionController extends GetxController {
     final TraineeModel updatetrainee = trainee;
     updatetrainee.subscription = null;
     isLoading.value = true;
-   await firestoreService.addNastedDocument(
-        'trainers',
-        updatetrainee.trainerID ,
-        'trainees',
-        updatetrainee.userId,
-        updatetrainee.toMap(),
-      );
+    await firestoreService.setDocument(
+      'trainers/${updatetrainee.trainerID}/trainees',
+      updatetrainee.userId,
+      updatetrainee.toMap(),
+    );
     isLoading.value = false;
   }
 

@@ -1,5 +1,5 @@
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 
 class TraineeListService {
   final FirestoreService firestoreService;

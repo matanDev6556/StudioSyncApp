@@ -1,11 +1,18 @@
 import 'package:get/get.dart';
+import 'package:studiosync/core/domain/repositories/i_storage_service.dart';
+import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
+import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/core/services/firebase/auth_service.dart';
-import 'package:studiosync/core/services/firebase/storage_services.dart';
+import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
+import 'package:studiosync/modules/auth/domain/usecases/logout_usecase.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/repositories/firestore_trainee_repository.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/save_trainee_usecase.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/update_image_usecase.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/models/user_model.dart';
-import 'package:studiosync/modules/trainee/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 import 'package:studiosync/core/router/routes.dart';
@@ -17,12 +24,12 @@ import 'package:studiosync/core/router/routes.dart';
 */
 
 class WidgetTreeController<T extends UserModel> extends GetxController {
-  final AuthService authService;
+  final IAuthRepository authRepository;
   final FirestoreService firestoreService;
-  final StorageServices storageServices;
+  final IStorageService storageServices;
 
   WidgetTreeController(
-    this.authService,
+    this.authRepository,
     this.firestoreService,
     this.storageServices,
   );
@@ -37,7 +44,7 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
   }
 
   Future<void> checkUserRoleAndRedirect1() async {
-    final currentUser = authService.currentUser;
+    final currentUser = authRepository.currentUser;
 
     if (currentUser == null) {
       Get.offAllNamed(Routes.login);
@@ -89,12 +96,11 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
 
   Future<void> _tryHandleNestedTraineeLogin(
       String trainerId, String uid) async {
-    final traineeInTrainerMap = await firestoreService.getNestedDocument(
-      'trainers',
-      trainerId,
-      'trainees',
+    final traineeInTrainerMap = await firestoreService.getDocument(
+      'trainers/$trainerId/trainees',
       uid,
     );
+
     if (traineeInTrainerMap != null) {
       await _handleTraineeLogin(traineeInTrainerMap);
     } else {
@@ -113,17 +119,29 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
   }
 
   Future<void> _handleTraineeLogin(Map<String, dynamic> mapUser) async {
-    Get.put(
+    final traineeRepository =
+        FirestoreTraineeRepository(Get.find<FirestoreService>());
+
+    Get.put(ListenToTraineeUpdatesUseCase(traineeRepository));
+    Get.put(SaveTraineeUseCase(traineeRepository));
+    Get.put(UpdateProfileImageUseCase(
+        traineeRepository, Get.find<IStorageService>()));
+   
+
+    Get.put<TraineeController>(
       TraineeController(
-          authService: Get.find(),
-          firestoreService: Get.find(),
-          imageService: Get.find()),
+          listenToTraineeUpdatesUseCase:
+              Get.find<ListenToTraineeUpdatesUseCase>(),
+          saveTraineeUseCase: Get.find<SaveTraineeUseCase>(),
+          pickImageUseCase: Get.find<PickImageUseCase>(),
+          logoutUseCase: Get.find<LogoutUseCase>(),
+      ),
       permanent: true,
     );
     final controller = Get.find<TraineeController>();
     TraineeModel traineeModel = TraineeModel.fromJson(mapUser);
     controller.trainee.value = traineeModel;
     userModel.value = traineeModel;
-    Get.offAllNamed(Routes.homeTrainee);
+   AppRouter.navigateOffAllNamed(Routes.homeTrainee);
   }
 }

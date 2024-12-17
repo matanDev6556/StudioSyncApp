@@ -1,15 +1,14 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/router/routes.dart';
-import 'package:studiosync/core/services/firebase/auth_service.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
+import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
 import 'package:studiosync/shared/services/image_service.dart';
-
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 
 class TrainerController extends GetxController {
   final ImageService imageService;
-  final AuthService authService;
-  final FirestoreService userFirestoreService;
+  final IAuthRepository authService;
+  final FirestoreService userFirestoreService ;
 
   TrainerController(
     this.imageService,
@@ -66,7 +65,7 @@ class TrainerController extends GetxController {
 
   void saveTrainerToDb() async {
     isLoading.value = true;
-    await userFirestoreService.updateDocument(
+    await userFirestoreService.setDocument(
       'trainers',
       trainer.value!.userId,
       trainer.value!.toMap(),

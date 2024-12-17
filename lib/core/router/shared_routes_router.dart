@@ -5,9 +5,8 @@ import 'package:studiosync/modules/trainer/features/trainee_profile.dart/views/w
 import 'package:studiosync/shared/bindings/widget_tree_binding.dart';
 import 'package:studiosync/shared/views/splash_view.dart';
 import 'package:studiosync/shared/views/widget_tree.dart';
-import 'package:studiosync/modules/auth/views/login_view.dart';
-import 'package:studiosync/modules/auth/bindings/login_binding.dart';
-import 'package:studiosync/modules/auth/views/signup_as_view.dart';
+import 'package:studiosync/modules/auth/presentation/views/login_view.dart';
+import 'package:studiosync/modules/auth/presentation/views/signup_as_view.dart';
 
 class SharedRoutes {
   static final sharedRoutes = [
@@ -23,7 +22,6 @@ class SharedRoutes {
     GetPage(
       name: Routes.login,
       page: () => const LoginView(),
-      binding: LoginBinding(),
     ),
     GetPage(
       name: Routes.signUpAs,
@@ -41,7 +39,9 @@ class SharedRoutes {
 
     GetPage(
       name: Routes.workoutsAnalytic,
-      page: () =>  WorkoutAnalyticView(workoutSummary: Get.arguments,),
+      page: () => WorkoutAnalyticView(
+        workoutSummary: Get.arguments,
+      ),
     ),
     // Add other shared routes here
   ];
