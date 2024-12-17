@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/dates.dart';
-import 'package:studiosync/modules/trainee/controllers/workouts_controller.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
+import 'package:studiosync/modules/trainee/features/workouts/presentation/controllers/workouts_controller.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/data_workout_container.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/msg_statistic.dart';
@@ -12,7 +13,8 @@ import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets
 import 'package:studiosync/shared/widgets/custom_container.dart';
 
 class WorkoutsView extends GetView<WorkoutController> {
-  const WorkoutsView({super.key});
+  final TraineeController traineeController = Get.find();
+  WorkoutsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,8 @@ class WorkoutsView extends GetView<WorkoutController> {
             children: [
               titleText('Subscription'),
               AppStyle.h(10.h),
-              _buildSubscriptionSection(controller.getSubscription().value),
+              _buildSubscriptionSection(
+                  traineeController.trainee.value!.subscription),
               AppStyle.h(15.h),
               titleText('Start At'),
               AppStyle.h(10.h),
@@ -67,7 +70,8 @@ class WorkoutsView extends GetView<WorkoutController> {
   Widget _buildStartAtSection() {
     return WorkOutDataContainer(
       traineeDataWorkout: DatesUtils.getFormattedStartDate(
-          controller.trainee.value?.startWorOutDate),
+        traineeController.trainee.value?.startWorOutDate,
+      ),
       emptyDataReplace: 'Not started yet',
       iconPath: 'assets/icons/clock_icon.png',
     );

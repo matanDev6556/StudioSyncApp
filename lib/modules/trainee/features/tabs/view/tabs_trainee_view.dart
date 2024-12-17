@@ -5,7 +5,7 @@ import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/views/upcoming_lessons_view.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/views/trainee_profile_view.dart';
-import 'package:studiosync/modules/trainee/features/workouts/view/workouts_view.dart';
+import 'package:studiosync/modules/trainee/features/workouts/presentation/views/workouts_view.dart';
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/widgets/app_bar.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
@@ -70,7 +70,7 @@ class TraineeProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  TraineeProfileView();
+    return TraineeProfileView();
   }
 }
 
@@ -81,7 +81,7 @@ class TraineeWorkoutsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final controler = Get.find<TraineeController>();
     return controler.trainee.value?.trainerID.isNotEmpty ?? false
-        ? const WorkoutsView()
+        ? WorkoutsView()
         : Center(
             child: CustomContainer(
               backgroundColor: Colors.red.withOpacity(0.2),
