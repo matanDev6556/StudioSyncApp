@@ -1,4 +1,4 @@
-import 'package:studiosync/modules/trainee/features/profile/domain/repositories/itrainee_repository.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/repositories/i_trainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 
 class SaveTraineeUseCase {

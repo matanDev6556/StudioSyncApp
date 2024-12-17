@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/const.dart';
 import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/my_trainer_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/presentation/controllers/trainer_profile_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/widgets/my_trainer_widget.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
 import 'package:studiosync/shared/widgets/custom_dropdown.dart';
 import 'package:studiosync/shared/widgets/custom_text_field.dart';
 import 'package:studiosync/shared/widgets/custome_bttn.dart';
 
-class TraineeProfileeView extends StatelessWidget {
-  final TrainerProfileController trainerProfileController = Get.find();
-  final TraineeController controller = Get.find();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class TraineeProfileView extends GetView<TraineeController> {
+  TraineeProfileView({Key? key}) : super(key: key);
 
   void _handleSave() {
-    if (_formKey.currentState!.validate()) {
+    if (controller.formKey.currentState!.validate()) {
       controller.saveTrainee();
     } else {
       Validations.showValidationSnackBar(
@@ -27,13 +26,13 @@ class TraineeProfileeView extends StatelessWidget {
     }
   }
 
-  TraineeProfileeView({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final MyTrainerController myTrainerController = Get.find();
+
     return Obx(() {
       return Form(
-        key: _formKey,
+        key: controller.formKey,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 10),
           children: [
@@ -98,7 +97,7 @@ class TraineeProfileeView extends StatelessWidget {
               children: [
                 _buildSectionTitle('My trainer'),
                 GestureDetector(
-                  onTap: () => Get.toNamed(Routes.trainersList),
+                  onTap: () => AppRouter.navigateTo(Routes.trainersList),
                   child: CustomContainer(
                     backgroundColor: AppStyle.softOrange.withOpacity(0.6),
                     child: Row(
@@ -123,16 +122,18 @@ class TraineeProfileeView extends StatelessWidget {
               ],
             ),
             AppStyle.h(10.h),
-            Obx(() => trainerProfileController.myTrainer.value != null
+            Obx(() => myTrainerController.myTrainer.value != null
                 ? MyTrainerWidget(
-                    trainerModel: trainerProfileController.myTrainer.value,
-                    onClick: () => Get.toNamed(
+                    trainerModel: myTrainerController.myTrainer.value,
+                    onClick: () => AppRouter.navigateWithArgs(
                       Routes.trainerProfile,
-                      arguments: trainerProfileController.myTrainer.value,
+                      myTrainerController.myTrainer.value,
                     ),
                   )
-                : const CustomContainer(
-                    padding: EdgeInsets.all(10),
+                : CustomContainer(
+                    backgroundColor: Colors.red.withOpacity(0.2),
+                    textColor: Colors.red,
+                    padding: const EdgeInsets.all(10),
                     text: 'You didnt connected with trainer yet!',
                   )),
             _buildDivider(),

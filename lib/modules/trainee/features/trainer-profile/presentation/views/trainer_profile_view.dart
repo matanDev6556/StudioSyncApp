@@ -2,26 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/my_trainer_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/presentation/controllers/trainer_profile_controller.dart';
+import 'package:studiosync/modules/trainee/features/trainer-profile/presentation/controllers/trainer_profile_controller.dart';
 import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 import 'package:studiosync/shared/widgets/app_bar_profile.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
 import 'package:studiosync/shared/widgets/custom_image.dart';
 import 'package:studiosync/shared/widgets/custome_bttn.dart';
 
-class TrainerProfileView extends StatelessWidget {
+class TrainerProfileView extends GetView<TrainerProfileController> {
   final TrainerModel trainerModel;
+  final MyTrainerController myTrainerController = Get.find();
+  final TraineeController traineeController = Get.find();
 
-  final bool isMytrainer;
-  final controller = Get.find<TrainerProfileController>();
+  TrainerProfileView({super.key, required this.trainerModel});
 
-  TrainerProfileView({Key? key, required this.trainerModel})
-      : isMytrainer = Get.find<TrainerProfileController>()
-            .isMyTrainer(trainerModel.userId),
-        super(key: key);
   @override
   Widget build(BuildContext context) {
+    bool isMyTrainer =
+        traineeController.trainee.value!.trainerID == trainerModel.userId;
     return Scaffold(
       backgroundColor: AppStyle.backGrey2,
       body: Stack(
@@ -49,15 +49,17 @@ class TrainerProfileView extends StatelessWidget {
               return Padding(
                 padding: EdgeInsets.all(20.w),
                 child: CustomButton(
-                  text: isMytrainer ? 'Disconnect' : 'Join',
+                  text: isMyTrainer ? 'Disconnect' : 'Join',
                   fill: true,
-                  color: isMytrainer ? Colors.red : AppStyle.deepOrange,
+                  color: isMyTrainer ? Colors.red : AppStyle.deepOrange,
                   width: Get.width,
                   onTap: () {
-                    if (isMytrainer) {
-                      controller.disconnectTrainer(trainerModel.userId);
+                    if (isMyTrainer) {
+                      myTrainerController
+                          .disconnectTrainer(traineeController.trainee.value!);
                     } else {
-                      controller.sendRequest(trainerModel.userId);
+                      controller.sendRequest(trainerModel.userId,
+                          traineeController.trainee.value!);
                     }
                   },
                   isLoading: controller.isLoading.value,
@@ -225,17 +227,24 @@ class TrainerProfileView extends StatelessWidget {
             SizedBox(height: 20.h),
             Obx(() {
               return CustomButton(
-                text: isMytrainer ? 'Disconnect' : 'Join',
+                text: traineeController.trainee.value!.trainerID ==
+                        trainerModel.userId
+                    ? 'Disconnect'
+                    : 'Join',
                 fill: true,
-                color: isMytrainer
+                color: traineeController.trainee.value!.trainerID ==
+                        trainerModel.userId
                     ? Colors.red
                     : AppStyle.deepOrange.withOpacity(0.8),
                 width: Get.width,
                 onTap: () {
-                  if (isMytrainer) {
-                    controller.disconnectTrainer(trainerModel.userId);
+                  if (traineeController.trainee.value!.trainerID ==
+                      trainerModel.userId) {
+                    myTrainerController
+                        .disconnectTrainer(traineeController.trainee.value!);
                   } else {
-                    controller.sendRequest(trainerModel.userId);
+                    controller.sendRequest(
+                        trainerModel.userId, traineeController.trainee.value!);
                   }
                 },
                 isLoading: Get.find<TraineeController>().isLoading.value,

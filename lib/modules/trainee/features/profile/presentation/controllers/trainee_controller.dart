@@ -10,29 +10,35 @@ import 'package:studiosync/modules/trainee/features/profile/domain/usecases/save
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 
 class TraineeController extends GetxController {
+
   final ListenToTraineeUpdatesUseCase _listenToTraineeUpdatesUseCase;
   final SaveTraineeUseCase _saveTraineeUseCase;
   final PickImageUseCase _pickImageUseCase;
   final LogoutUseCase _logoutUseCase;
 
   TraineeController({
+    
     required ListenToTraineeUpdatesUseCase listenToTraineeUpdatesUseCase,
     required SaveTraineeUseCase saveTraineeUseCase,
     required PickImageUseCase pickImageUseCase,
     required LogoutUseCase logoutUseCase,
-  })  : _listenToTraineeUpdatesUseCase = listenToTraineeUpdatesUseCase,
+  })  : 
+        _listenToTraineeUpdatesUseCase = listenToTraineeUpdatesUseCase,
         _saveTraineeUseCase = saveTraineeUseCase,
         _pickImageUseCase = pickImageUseCase,
         _logoutUseCase = logoutUseCase;
 
   final isLoading = false.obs;
   Rx<TraineeModel?> trainee = Rx<TraineeModel?>(null);
+
   StreamSubscription<TraineeModel>? _traineeSubscription;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void onReady() {
     super.onReady();
-    _listenToTrainee();
+    _updateTraineePathAndListen();
+    
   }
 
   @override
@@ -41,8 +47,15 @@ class TraineeController extends GetxController {
     super.onClose();
   }
 
-  void _listenToTrainee() {
+
+  void _updateTraineePathAndListen() {
+    // 1. ביטול האזנה קודמת (אם קיימת)
+    _traineeSubscription?.cancel();
+
+    // 2. קבלת הנתיב החדש
     final path = _getTraineePath();
+
+    // 3. האזנה לנתיב החדש
     _traineeSubscription = _listenToTraineeUpdatesUseCase
         .execute('$path/${trainee.value!.userId}')
         .listen(
@@ -65,6 +78,8 @@ class TraineeController extends GetxController {
     updateLocalTrainer(trainee.value!.copyWith(imgUrl: imgUrl));
     saveTrainee();
   }
+
+ 
 
   Future<void> saveTrainee() async {
     isLoading.value = true;

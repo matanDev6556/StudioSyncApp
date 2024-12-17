@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/domain/repositories/itrainers_list_repository.dart';
+import 'package:studiosync/modules/trainee/features/trainers-list/domain/repositories/i_trainers_list_repository.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/presentation/controllers/trainers_list_controller.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/data/repositories/firesstore_trainers_list_repository.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/fetch_trainers_usecase.dart';

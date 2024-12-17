@@ -70,7 +70,7 @@ class TraineeProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TraineeProfileeView();
+    return  TraineeProfileView();
   }
 }
 
@@ -84,6 +84,8 @@ class TraineeWorkoutsTab extends StatelessWidget {
         ? const WorkoutsView()
         : Center(
             child: CustomContainer(
+              backgroundColor: Colors.red.withOpacity(0.2),
+              textColor: Colors.red,
               padding: EdgeInsets.all(16.h),
               text: 'You didnt connected to trainer yet!',
             ),
@@ -102,6 +104,8 @@ class TraineeLessonsTab extends StatelessWidget {
             ? const UpcomingLessonsView()
             : Center(
                 child: CustomContainer(
+                  backgroundColor: Colors.red.withOpacity(0.2),
+                  textColor: Colors.red,
                   padding: EdgeInsets.all(16.h),
                   text:
                       'Your subscription is unactive\n tallk with your trainer!',
@@ -109,6 +113,8 @@ class TraineeLessonsTab extends StatelessWidget {
               )
         : Center(
             child: CustomContainer(
+              backgroundColor: Colors.red.withOpacity(0.2),
+              textColor: Colors.red,
               padding: EdgeInsets.all(16.h),
               text: 'You didnt connected to trainer yet!',
             ),

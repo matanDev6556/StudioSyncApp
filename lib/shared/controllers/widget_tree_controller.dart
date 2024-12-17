@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/domain/repositories/i_storage_service.dart';
 import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
+import 'package:studiosync/core/router/app_touter.dart';
 import 'package:studiosync/core/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
 import 'package:studiosync/modules/auth/domain/usecases/logout_usecase.dart';
@@ -8,7 +9,6 @@ import 'package:studiosync/modules/trainee/features/profile/data/repositories/fi
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/save_trainee_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/update_image_usecase.dart';
-
 import 'package:studiosync/shared/controllers/tabs_controller.dart';
 import 'package:studiosync/shared/models/user_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
@@ -126,14 +126,15 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
     Get.put(SaveTraineeUseCase(traineeRepository));
     Get.put(UpdateProfileImageUseCase(
         traineeRepository, Get.find<IStorageService>()));
+   
 
     Get.put<TraineeController>(
       TraineeController(
-        listenToTraineeUpdatesUseCase:
-            Get.find<ListenToTraineeUpdatesUseCase>(),
-        saveTraineeUseCase: Get.find<SaveTraineeUseCase>(),
-        pickImageUseCase: Get.find<PickImageUseCase>(),
-        logoutUseCase: Get.find<LogoutUseCase>(),
+          listenToTraineeUpdatesUseCase:
+              Get.find<ListenToTraineeUpdatesUseCase>(),
+          saveTraineeUseCase: Get.find<SaveTraineeUseCase>(),
+          pickImageUseCase: Get.find<PickImageUseCase>(),
+          logoutUseCase: Get.find<LogoutUseCase>(),
       ),
       permanent: true,
     );
@@ -141,6 +142,6 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
     TraineeModel traineeModel = TraineeModel.fromJson(mapUser);
     controller.trainee.value = traineeModel;
     userModel.value = traineeModel;
-    Get.offAllNamed(Routes.homeTrainee);
+   AppRouter.navigateOffAllNamed(Routes.homeTrainee);
   }
 }

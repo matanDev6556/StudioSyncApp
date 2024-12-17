@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/my_trainer_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/features/trainers-list/presentation/controllers/trainer_profile_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/service/lessons_filter_service.dart';
 import 'package:studiosync/modules/trainee/features/lessons/service/lessons_trainee_service.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
@@ -34,7 +34,7 @@ class LessonsTraineeController extends GetxController {
   TraineeModel get trainee => Get.find<TraineeController>().trainee.value!;
 
   TrainerModel get myTrainer =>
-      Get.find<TrainerProfileController>().myTrainer.value!;
+      Get.find<MyTrainerController>().myTrainer.value!;
 
   @override
   void onInit() {
