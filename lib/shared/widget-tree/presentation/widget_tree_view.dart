@@ -2,30 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
 import 'package:studiosync/modules/auth/presentation/views/login_view.dart';
-import 'package:studiosync/shared/controllers/widget_tree_controller.dart';
+import 'package:studiosync/shared/widget-tree/presentation/widget_tree_controller.dart';
 
-// when user get inside the app he will first go to widget tree for check if
-// the user already sign up or not, also whe check if the user is trainer or trainee
-// and accordanly take user data and move to current home screen
-
-class WidgetTree extends StatefulWidget {
-  const WidgetTree({super.key});
+class WidgetTreeView extends StatefulWidget {
+  const WidgetTreeView({super.key});
 
   @override
-  State<WidgetTree> createState() => _WidgetTreeState();
+  State<WidgetTreeView> createState() => _WidgetTreeViewState();
 }
 
-class _WidgetTreeState extends State<WidgetTree> {
+class _WidgetTreeViewState extends State<WidgetTreeView> {
   final authService = Get.find<IAuthRepository>();
   final controller = Get.find<WidgetTreeController>();
 
-  @override
+     @override
   void initState() {
     super.initState();
     // Start listening to auth changes
     authService.authStateChanges.listen((user) {
       if (user != null) {
-        controller.checkUserRoleAndRedirect1();
+        controller.chckUserAndRedirect();
       }
     });
   }
@@ -48,4 +44,6 @@ class _WidgetTreeState extends State<WidgetTree> {
       },
     );
   }
+
+
 }

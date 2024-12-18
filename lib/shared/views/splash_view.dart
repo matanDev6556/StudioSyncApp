@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:studiosync/core/router/app_router.dart';
 import 'package:studiosync/core/router/routes.dart';
 
 class SplashView extends StatefulWidget {
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashView>
     _controller!.forward();
 
     Future.delayed(const Duration(seconds: 2), () {
-      Get.toNamed(Routes.widgetTree);
+      AppRouter.navigateTo(Routes.widgetTree);
     });
   }
 
