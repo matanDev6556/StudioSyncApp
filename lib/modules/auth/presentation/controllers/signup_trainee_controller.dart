@@ -1,6 +1,6 @@
 
 import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
-import 'package:studiosync/core/router/app_touter.dart';
+import 'package:studiosync/core/router/app_router.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/modules/auth/domain/usecases/signup_trainee_usecase.dart';
 import 'package:studiosync/modules/auth/presentation/controllers/shared_signup_controller.dart';

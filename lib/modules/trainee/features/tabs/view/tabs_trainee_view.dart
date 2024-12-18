@@ -13,12 +13,6 @@ import 'package:studiosync/shared/widgets/custom_container.dart';
 class TraineeTabsView extends StatelessWidget {
   const TraineeTabsView({Key? key}) : super(key: key);
 
-  static final List<Widget> _pages = <Widget>[
-    const TraineeProfileTab(),
-    const TraineeWorkoutsTab(),
-    const TraineeLessonsTab(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final traineeController = Get.find<TraineeController>();
@@ -26,37 +20,51 @@ class TraineeTabsView extends StatelessWidget {
 
     return Obx(() {
       final trainee = traineeController.trainee.value;
+
+      if (trainee == null) {
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      }
+
       return Scaffold(
         appBar: CustomAppBarTabs(
-          userModel: trainee!,
+          userModel: trainee,
           onEditPressed: () => traineeController.updateProfileImage(),
           onNotificationPressed: () {},
           thereIsNotifications: false,
           isLoading: traineeController.isLoading.value,
         ),
-        body: _pages[tabController.selectedIndex.value],
+        body: IndexedStack(
+          index: tabController.selectedIndex.value,
+          children: const [
+            TraineeProfileTab(),
+            TraineeWorkoutsTab(),
+            TraineeLessonsTab(),
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,
           currentIndex: tabController.selectedIndex.value,
           onTap: (index) => tabController.updateIndex(index),
+          selectedItemColor: AppStyle.deepBlackOrange,
+          unselectedItemColor: Colors.grey,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: const Icon(
-                Icons.person,
-              ),
+              icon: const Icon(Icons.person),
               activeIcon: Icon(Icons.person, color: AppStyle.deepBlackOrange),
               label: 'Profile',
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.fitness_center),
-              label: 'Workouts',
               activeIcon:
                   Icon(Icons.fitness_center, color: AppStyle.deepBlackOrange),
+              label: 'Workouts',
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.schedule),
-              label: 'Lessons',
               activeIcon: Icon(Icons.schedule, color: AppStyle.deepBlackOrange),
+              label: 'Lessons',
             ),
           ],
         ),
@@ -79,17 +87,20 @@ class TraineeWorkoutsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controler = Get.find<TraineeController>();
-    return controler.trainee.value?.trainerID.isNotEmpty ?? false
-        ? WorkoutsView()
-        : Center(
-            child: CustomContainer(
-              backgroundColor: Colors.red.withOpacity(0.2),
-              textColor: Colors.red,
-              padding: EdgeInsets.all(16.h),
-              text: 'You didnt connected to trainer yet!',
-            ),
-          );
+    final controller = Get.find<TraineeController>();
+    return Obx(() {
+      final trainee = controller.trainee.value;
+      return trainee?.trainerID.isNotEmpty ?? false
+          ? TraineeWorkoutsView()
+          : Center(
+              child: CustomContainer(
+                backgroundColor: Colors.red.withOpacity(0.2),
+                textColor: Colors.red,
+                padding: EdgeInsets.all(16.h),
+                text: 'You haven\'t connected to a trainer yet!',
+              ),
+            );
+    });
   }
 }
 
@@ -98,26 +109,36 @@ class TraineeLessonsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final trainee = Get.find<TraineeController>().trainee.value;
-    return trainee != null && trainee.trainerID.isNotEmpty
-        ? trainee.subscription != null
-            ? const UpcomingLessonsView()
-            : Center(
-                child: CustomContainer(
-                  backgroundColor: Colors.red.withOpacity(0.2),
-                  textColor: Colors.red,
-                  padding: EdgeInsets.all(16.h),
-                  text:
-                      'Your subscription is unactive\n tallk with your trainer!',
-                ),
-              )
-        : Center(
-            child: CustomContainer(
-              backgroundColor: Colors.red.withOpacity(0.2),
-              textColor: Colors.red,
-              padding: EdgeInsets.all(16.h),
-              text: 'You didnt connected to trainer yet!',
-            ),
-          );
+    final controller = Get.find<TraineeController>();
+    return Obx(() {
+      final trainee = controller.trainee.value;
+      if (trainee == null) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
+      if (trainee.trainerID.isEmpty) {
+        return Center(
+          child: CustomContainer(
+            backgroundColor: Colors.red.withOpacity(0.2),
+            textColor: Colors.red,
+            padding: EdgeInsets.all(16.h),
+            text: 'You haven\'t connected to a trainer yet!',
+          ),
+        );
+      }
+
+      if (trainee.subscription == null) {
+        return Center(
+          child: CustomContainer(
+            backgroundColor: Colors.red.withOpacity(0.2),
+            textColor: Colors.red,
+            padding: EdgeInsets.all(16.h),
+            text: 'Your subscription is inactive\nTalk with your trainer!',
+          ),
+        );
+      }
+
+      return const UpcomingLessonsView();
+    });
   }
 }

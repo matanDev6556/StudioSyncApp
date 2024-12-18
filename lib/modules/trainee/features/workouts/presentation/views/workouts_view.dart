@@ -12,9 +12,9 @@ import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/workouts_list.dart';
 import 'package:studiosync/shared/widgets/custom_container.dart';
 
-class WorkoutsView extends GetView<WorkoutController> {
+class TraineeWorkoutsView extends GetView<WorkoutController> {
   final TraineeController traineeController = Get.find();
-  WorkoutsView({super.key});
+  TraineeWorkoutsView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -71,11 +71,65 @@ class TraineeTabsBinding extends Bindings {
       () => RegistredTraineeLessonsFirestoreRepository(
           firestoreService: Get.find()),
     );
-    Get.put(CancelLessonUseCase(repository: Get.find()));
-    Get.put(GetRegisteredLessonsUseCase(repository: Get.find()));
+    Get.lazyPut(() => CancelLessonUseCase(repository: Get.find()));
+    Get.lazyPut(() => GetRegisteredLessonsUseCase(repository: Get.find()));
 
-    Get.put(
-      UpcomingLessonsController(
+    Get.lazyPut(
+      () => UpcomingLessonsController(
+        cancelLessonUseCase: Get.find(),
+        getRegisteredLessonsUseCase: Get.find(),
+      ),
+    );
+  }
+}
+
+class ProfileTraineeTabBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put<IMyTrainerRepositroy>(MyTrainerFirestoreRepository(Get.find()));
+    // use cases
+    Get.lazyPut(() =>
+        DisconnectTrainerUseCase(repository: Get.find<IMyTrainerRepositroy>()));
+    Get.lazyPut(() => FetchMyTrainerUseCase(Get.find<IMyTrainerRepositroy>()));
+    //controller
+    Get.put(MyTrainerController(
+      disconnectTrainerUseCase: Get.find(),
+      fetchMyTrainerUseCase: Get.find(),
+    ));
+  }
+}
+
+class WorkoutsTraineeTabBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<IWorkoutsRepository>(
+        () => WorkoutsRepositoryFirestore(firestoreService: Get.find()));
+    Get.lazyPut(() => FetchWorkoutsUseCase(repository: Get.find()));
+    Get.lazyPut(() => ListenWorkoutChangesUseCase(repository: Get.find()));
+    Get.lazyPut(() => SortWorkoutsUseCase());
+
+    Get.lazyPut(() => WorkoutController(
+          fetchWorkoutsUseCase: Get.find(),
+          getWorkoutChangesUseCase: Get.find(),
+          filterAndSortWorkoutsUseCase: Get.find(),
+        ));
+  }
+}
+
+class LessonsTraineeTabBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<ILessonsTraineeRepository>(
+        () => LessonsTraineeRepsitory(firestoreService: Get.find()));
+    Get.lazyPut<IRegistredLessonsRepository>(
+      () => RegistredTraineeLessonsFirestoreRepository(
+          firestoreService: Get.find()),
+    );
+    Get.lazyPut(() => CancelLessonUseCase(repository: Get.find()));
+    Get.lazyPut(() => GetRegisteredLessonsUseCase(repository: Get.find()));
+
+    Get.lazyPut(
+      () => UpcomingLessonsController(
         cancelLessonUseCase: Get.find(),
         getRegisteredLessonsUseCase: Get.find(),
       ),

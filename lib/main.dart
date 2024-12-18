@@ -6,7 +6,7 @@ import 'package:studiosync/core/config/firebase_options.dart';
 import 'package:studiosync/core/domain/repositories/i_storage_service.dart';
 import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
 import 'package:studiosync/core/services/service_locator.dart';
-import 'package:studiosync/core/router/app_touter.dart';
+import 'package:studiosync/core/router/app_router.dart';
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/modules/auth/data/repositories/firebase_auth_repository.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
