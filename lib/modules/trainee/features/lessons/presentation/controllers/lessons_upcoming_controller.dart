@@ -10,7 +10,6 @@ import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.d
 class UpcomingLessonsController extends GetxController {
   final CancelLessonUseCase _cancelLessonUseCase;
   final GetRegisteredLessonsUseCase _getRegisteredLessonsUseCase;
- 
 
   TraineeModel get trainee => Get.find<TraineeController>().trainee.value!;
 
@@ -22,7 +21,7 @@ class UpcomingLessonsController extends GetxController {
 
   RxList<LessonModel> registeredLessons = <LessonModel>[].obs;
 
-  late StreamSubscription<List<LessonModel>> lessonsSubscription;
+  late StreamSubscription<List<LessonModel>> _lessonsSubscription;
 
   @override
   void onInit() {
@@ -34,13 +33,13 @@ class UpcomingLessonsController extends GetxController {
 
   @override
   void onClose() {
-    lessonsSubscription.cancel();
-
+    
+    _lessonsSubscription.cancel();
     super.onClose();
   }
 
   void fetchRegisteredLessons() {
-    lessonsSubscription =
+    _lessonsSubscription =
         _getRegisteredLessonsUseCase(trainee.trainerID, trainee.userId).listen(
             (lessonsData) {
       registeredLessons.value = filterUpcomingLessons(lessonsData);

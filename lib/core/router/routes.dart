@@ -11,6 +11,8 @@ class Routes {
   static const signUpTrainer = '/sign-up-trainer';
   static const homeTrainer = '/home-trainer';
   static const profileTrainee = '/profile-trainee';
+  static const workoutesTrainee = '/workouts-trainee';
+  static const lessonsTrainee = '/lessons-trainee';
 
   //trainee routes
   static const signUpTrainee = '/sign-up-trainee';

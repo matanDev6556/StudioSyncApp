@@ -12,7 +12,10 @@ class UpcomingLessonsView extends GetView<UpcomingLessonsController> {
 
   @override
   Widget build(BuildContext context) {
-    
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.fetchRegisteredLessons();
+    });
+
     return Column(
       children: [
         _buildHeader(),

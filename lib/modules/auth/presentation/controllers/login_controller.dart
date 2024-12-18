@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/router/app_touter.dart';
+import 'package:studiosync/core/router/app_router.dart';
 import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/auth/domain/usecases/login_usecase.dart';
 import 'package:studiosync/modules/auth/domain/usecases/logout_usecase.dart';

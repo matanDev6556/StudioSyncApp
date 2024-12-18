@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:studiosync/modules/auth/presentation/views/signup_trainee_view.dart';
+import 'package:studiosync/modules/trainee/features/lessons/presentation/views/upcoming_lessons_view.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/views/trainee_profile_view.dart';
 import 'package:studiosync/modules/trainee/features/tabs/bindings/trainee_tabs_binding.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/bindings/trainer_lessons_binding.dart';
 import 'package:studiosync/modules/trainee/features/trainer-profile/presentation/bindings/profile_trainer_binding.dart';
@@ -10,9 +12,27 @@ import 'package:studiosync/modules/auth/presentation/bindings/signup_trainee_bin
 import 'package:studiosync/core/router/routes.dart';
 import 'package:studiosync/modules/trainee/features/trainer-profile/presentation/views/trainer_profile_view.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/presentation/views/trainers_list_view.dart';
+import 'package:studiosync/modules/trainee/features/workouts/presentation/views/workouts_view.dart';
 
 class TraineeRouter {
   static final traineeRoutes = [
+    // TABS
+    GetPage(
+      name: Routes.profileTrainee,
+      page: () => TraineeProfileView(),
+      binding: ProfileTraineeTabBinding(),
+    ),
+    GetPage(
+      name: Routes.workoutesTrainee,
+      page: () => TraineeWorkoutsView(),
+      binding: WorkoutsTraineeTabBinding(),
+    ),
+    GetPage(
+      name: Routes.lessonsTrainee,
+      page: () => UpcomingLessonsView(),
+      binding: LessonsTraineeTabBinding(),
+    ),
+
     GetPage(
       name: Routes.signUpTrainee,
       page: () => const SignUpTraineeView(),
@@ -20,7 +40,7 @@ class TraineeRouter {
     ),
     GetPage(
       name: Routes.homeTrainee,
-      page: () => const TraineeTabsView(),
+      page: () => TraineeTabsView(),
       binding: TraineeTabsBinding(),
     ),
     GetPage(
@@ -28,13 +48,12 @@ class TraineeRouter {
       page: () => const TrainersListView(),
       binding: TrainersListBinding(),
     ),
-     GetPage(
-      name: Routes.trainerProfile,
-      page: () => TrainerProfileView(
-        trainerModel: Get.arguments,
-      ),
-      binding: ProfileTrainerBinding()
-    ),
+    GetPage(
+        name: Routes.trainerProfile,
+        page: () => TrainerProfileView(
+              trainerModel: Get.arguments,
+            ),
+        binding: ProfileTrainerBinding()),
     GetPage(
         name: Routes.trainerLessons,
         page: () => const TrainerLessonsView(),
