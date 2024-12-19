@@ -10,7 +10,6 @@ import 'package:studiosync/shared/widget-tree/presentation/widget_tree_controlle
 class WidgetTreeBinding extends Bindings {
   @override
   void dependencies() {
-    
     GlobalBindings().dependencies();
 
     // widget tree dep
@@ -24,7 +23,7 @@ class WidgetTreeBinding extends Bindings {
           Get.put(GetTraineeDataUseCase(iWidgetTreeRepository: Get.find())),
       getTrainerDataUseCase:
           Get.put(GetTrainerDataUseCase(iWidgetTreeRepository: Get.find())),
-      iAuthRepository: Get.find(),
+      getCurrentUserIdUseCase: Get.find(),
     ));
   }
 }

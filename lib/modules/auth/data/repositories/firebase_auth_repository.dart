@@ -9,7 +9,7 @@ class FirebaseAuthRepository implements IAuthRepository<User> {
       : _firebaseAuthService = firebaseAuthService;
 
   @override
-  get currentUser => _firebaseAuthService.currentUser;
+ User? get currentUser => _firebaseAuthService.currentUser;
 
   @override
   Future<bool> isTrainerAllowedToSignUp(String email) {

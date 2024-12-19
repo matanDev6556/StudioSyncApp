@@ -29,7 +29,7 @@ class TraineeRouter {
     ),
     GetPage(
       name: Routes.lessonsTrainee,
-      page: () => UpcomingLessonsView(),
+      page: () => const UpcomingLessonsView(),
       binding: LessonsTraineeTabBinding(),
     ),
 
@@ -40,7 +40,7 @@ class TraineeRouter {
     ),
     GetPage(
       name: Routes.homeTrainee,
-      page: () => TraineeTabsView(),
+      page: () => const TraineeTabsView(),
       binding: TraineeTabsBinding(),
     ),
     GetPage(
