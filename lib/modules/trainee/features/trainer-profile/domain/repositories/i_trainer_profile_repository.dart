@@ -1,4 +1,4 @@
-import 'package:studiosync/shared/models/request_model.dart';
+import 'package:studiosync/core/data/models/request_model.dart';
 
 abstract class ITrainerProfileRepository {
   Future<void> sendRequest(RequestModel request);

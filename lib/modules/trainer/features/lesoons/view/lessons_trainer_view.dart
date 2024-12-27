@@ -7,7 +7,7 @@ import 'package:studiosync/modules/trainer/features/lesoons/widgets/days_selecto
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/filters_widget.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/settings_widget.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 
 class LessonsView extends StatelessWidget {
   final TrainerLessonsController controller =

@@ -5,7 +5,7 @@ import 'package:studiosync/core/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
-import 'package:studiosync/shared/models/request_model.dart';
+import 'package:studiosync/core/data/models/request_model.dart';
 
 class RequestsController extends GetxController {
   final FirestoreService firestoreService;

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 
 class LessonFiltersWidget extends StatelessWidget {
   final TrainerLessonsController lessonsController = Get.find();

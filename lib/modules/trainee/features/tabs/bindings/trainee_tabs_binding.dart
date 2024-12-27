@@ -17,7 +17,7 @@ import 'package:studiosync/modules/trainee/features/profile/domain/repositories/
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/fetch_mytrainer_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/my_trainer_controller.dart';
 import 'package:studiosync/modules/trainee/features/trainer-profile/domain/usecases/disconnect_trainer_ussecase.dart';
-import 'package:studiosync/shared/controllers/tabs_controller.dart';
+import 'package:studiosync/core/presentation/controllers/tabs_controller.dart';
 
 class TraineeTabsBinding extends Bindings {
   @override

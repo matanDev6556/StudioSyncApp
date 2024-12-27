@@ -8,7 +8,7 @@ import 'package:studiosync/modules/trainee/features/lessons/presentation/widgets
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/days_selector.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 
 class TrainerLessonsView extends GetView<LessonsTraineeController> {
   const TrainerLessonsView({Key? key}) : super(key: key);

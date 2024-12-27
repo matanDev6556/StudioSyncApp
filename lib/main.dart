@@ -15,6 +15,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
   // init all servieces
   await ServiceLocator.init();
   runApp(const MainApp());

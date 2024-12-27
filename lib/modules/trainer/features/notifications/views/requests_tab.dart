@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/contollers/requests_controller.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
-import 'package:studiosync/shared/widgets/custom_image.dart';
+import 'package:studiosync/core/presentation/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/custom_image.dart';
 
 class RequestsTab extends GetView<RequestsController> {
   const RequestsTab({Key? key}) : super(key: key);

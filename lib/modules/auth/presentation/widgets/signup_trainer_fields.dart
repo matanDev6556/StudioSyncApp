@@ -5,10 +5,10 @@ import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/auth/presentation/controllers/signup_trainer_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/consts_lessons.dart';
-import 'package:studiosync/shared/widgets/custom_text_field.dart';
-import 'package:studiosync/shared/widgets/custom_dropdown.dart';
-import 'package:studiosync/shared/widgets/list_of_strings.dart';
-import 'package:studiosync/shared/widgets/title_with_bttn.dart';
+import 'package:studiosync/core/presentation/widgets/custom_text_field.dart';
+import 'package:studiosync/core/presentation/widgets/custom_dropdown.dart';
+import 'package:studiosync/core/presentation/widgets/list_of_strings.dart';
+import 'package:studiosync/core/presentation/widgets/title_with_bttn.dart';
 import 'package:studiosync/modules/trainer/models/price_tier_model.dart';
 
 class SignUpTrainerFields extends StatelessWidget {

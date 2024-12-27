@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/msg_statistic.dart';
-import 'package:studiosync/shared/models/workout_summary.dart';
+import 'package:studiosync/core/data/models/workout_summary.dart';
 
 class WorkoutAnalyticView extends StatelessWidget {
   final WorkoutSummary workoutSummary;

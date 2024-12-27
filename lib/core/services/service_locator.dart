@@ -6,8 +6,8 @@ import 'package:studiosync/core/services/firebase/storage_services.dart';
 import 'package:studiosync/core/domain/repositories/i_storage_service.dart';
 import 'package:studiosync/modules/auth/data/repositories/firebase_auth_repository.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
-import 'package:studiosync/shared/repositories/interfaces/local_storage_repository.dart';
-import 'package:studiosync/shared/repositories/shared_refrences_repository.dart';
+import 'package:studiosync/core/domain/repositories/local_storage_repository.dart';
+import 'package:studiosync/core/data/repositories/shared_refrences_repository.dart';
 import 'package:studiosync/shared/services/image_service.dart';
 
 class ServiceLocator {

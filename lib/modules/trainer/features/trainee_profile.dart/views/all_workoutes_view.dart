@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
-import 'package:studiosync/shared/models/workout_summary.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
+import 'package:studiosync/core/data/models/workout_summary.dart';
+import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/single_workout_card.dart';
 
 class AllWorkoutsView extends StatelessWidget {

@@ -7,7 +7,7 @@ import 'package:studiosync/modules/trainer/contollers/trainer_statistic_controll
 import 'package:studiosync/modules/trainer/features/lesoons/services/filter_lessons_service.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/services/lessons_crud_service.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/services/trainer_lessons_service.dart';
-import 'package:studiosync/shared/controllers/tabs_controller.dart';
+import 'package:studiosync/core/presentation/controllers/tabs_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/services/trainees_service.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/services/trainess_filter_service.dart';

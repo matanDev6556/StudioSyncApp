@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 
 class SingleWorkoutWidget extends StatelessWidget {
   final WorkoutModel workout;

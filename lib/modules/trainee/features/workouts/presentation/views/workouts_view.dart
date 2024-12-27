@@ -10,7 +10,7 @@ import 'package:studiosync/modules/trainee/models/subscriptions/subscription_mod
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/data_workout_container.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/msg_statistic.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/workouts_list.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 
 class TraineeWorkoutsView extends GetView<WorkoutController> {
   final TraineeController traineeController = Get.find();

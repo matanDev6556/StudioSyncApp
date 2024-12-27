@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
-import 'package:studiosync/shared/widgets/linear_progress.dart';
+import 'package:studiosync/core/presentation/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/linear_progress.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/dates.dart';
 

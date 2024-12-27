@@ -6,10 +6,10 @@ import 'package:studiosync/core/theme/app_style.dart';
 import 'package:studiosync/core/utils/validations.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
-import 'package:studiosync/shared/widgets/custom_dropdown.dart';
-import 'package:studiosync/shared/widgets/custom_text_field.dart';
-import 'package:studiosync/shared/widgets/custome_bttn.dart';
+import 'package:studiosync/core/presentation/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/custom_dropdown.dart';
+import 'package:studiosync/core/presentation/widgets/custom_text_field.dart';
+import 'package:studiosync/core/presentation/widgets/custome_bttn.dart';
 
 class LessonEditBottomSheet extends StatefulWidget {
   final LessonModel? lesson;

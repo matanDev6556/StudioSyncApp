@@ -1,4 +1,4 @@
-import 'package:studiosync/shared/repositories/interfaces/local_storage_repository.dart';
+import 'package:studiosync/core/domain/repositories/local_storage_repository.dart';
 
 class SavePreferencesUseCase {
   final ILocalStorageRepository _iLocalStorageRepository;

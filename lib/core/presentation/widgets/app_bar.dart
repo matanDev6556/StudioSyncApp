@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:studiosync/shared/models/user_model.dart';
-import 'package:studiosync/shared/widgets/custom_image.dart';
+import 'package:studiosync/core/data/models/user_model.dart';
+import 'package:studiosync/core/presentation/widgets/custom_image.dart';
 import 'package:studiosync/core/theme/app_style.dart';
 
 class CustomAppBarTabs extends StatelessWidget implements PreferredSizeWidget {
