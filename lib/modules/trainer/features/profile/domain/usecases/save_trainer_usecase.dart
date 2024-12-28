@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
 import 'package:studiosync/modules/trainer/features/profile/domain/repositories/i_trainer_repository.dart';
-import 'package:studiosync/modules/trainer/models/trainer_model.dart';
+
 
 class SaveTrainerUseCase {
   final ITrainerRepository _iTrainerRepository;

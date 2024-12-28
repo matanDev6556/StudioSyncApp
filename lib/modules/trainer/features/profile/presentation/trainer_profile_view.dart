@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/price_tier_model.dart';
 import 'package:studiosync/modules/trainer/features/profile/presentation/widgets/add_item_buttom.dart';
 import 'package:studiosync/core/presentation/widgets/custom_image.dart';
 import 'package:studiosync/core/presentation/widgets/custom_text_field.dart';
@@ -10,7 +11,6 @@ import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/core/presentation/utils/const.dart';
 import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/trainer/features/profile/presentation/trainer_controller.dart';
-import 'package:studiosync/modules/trainer/models/price_tier_model.dart';
 import 'package:studiosync/modules/trainer/features/profile/presentation/widgets/expanded_list.dart';
 
 class TrainerEditProfile extends StatelessWidget {

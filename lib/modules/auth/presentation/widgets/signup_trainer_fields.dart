@@ -9,7 +9,8 @@ import 'package:studiosync/core/presentation/widgets/custom_text_field.dart';
 import 'package:studiosync/core/presentation/widgets/custom_dropdown.dart';
 import 'package:studiosync/core/presentation/widgets/list_of_strings.dart';
 import 'package:studiosync/core/presentation/widgets/title_with_bttn.dart';
-import 'package:studiosync/modules/trainer/models/price_tier_model.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/price_tier_model.dart';
+
 
 class SignUpTrainerFields extends StatelessWidget {
   final controller = Get.find<SignUpTrainerController>();

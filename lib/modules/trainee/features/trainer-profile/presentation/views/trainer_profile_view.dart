@@ -5,11 +5,11 @@ import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/my_trainer_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/trainer-profile/presentation/controllers/trainer_profile_controller.dart';
-import 'package:studiosync/modules/trainer/models/trainer_model.dart';
 import 'package:studiosync/core/presentation/widgets/app_bar_profile.dart';
 import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 import 'package:studiosync/core/presentation/widgets/custom_image.dart';
 import 'package:studiosync/core/presentation/widgets/custome_bttn.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
 
 class TrainerProfileView extends GetView<TrainerProfileController> {
   final TrainerModel trainerModel;

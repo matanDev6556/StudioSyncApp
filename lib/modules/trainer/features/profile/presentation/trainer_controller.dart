@@ -4,9 +4,10 @@ import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/core/presentation/router/routes.dart';
 import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
 import 'package:studiosync/modules/auth/domain/usecases/logout_usecase.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
 import 'package:studiosync/modules/trainer/features/profile/domain/usecases/get_trainer_data_usecase.dart';
 import 'package:studiosync/modules/trainer/features/profile/domain/usecases/save_trainer_usecase.dart';
-import 'package:studiosync/modules/trainer/models/trainer_model.dart';
+
 
 class TrainerController extends GetxController {
   final GetCurrentUserIdUseCase _getCurrentUserIdUseCase;

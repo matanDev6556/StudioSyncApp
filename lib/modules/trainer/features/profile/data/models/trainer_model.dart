@@ -1,6 +1,7 @@
 import 'package:studiosync/core/data/models/user_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/models/price_tier_model.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/price_tier_model.dart';
+
 
 class TrainerModel extends UserModel {
   List<String>? imageUrls;
