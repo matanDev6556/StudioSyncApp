@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:studiosync/core/router/app_router.dart';
-import 'package:studiosync/core/router/routes.dart';
+import 'package:studiosync/core/presentation/router/app_router.dart';
+import 'package:studiosync/core/presentation/router/routes.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});

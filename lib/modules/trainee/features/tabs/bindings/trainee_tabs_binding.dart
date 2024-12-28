@@ -6,6 +6,7 @@ import 'package:studiosync/modules/trainee/features/lessons/domain/repositories/
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/cancle_lesson_usecase.dart';
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/get_registredLessons_usecase.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_upcoming_controller.dart';
+import 'package:studiosync/modules/trainee/features/profile/presentation/bindings/trainee_binding.dart';
 import 'package:studiosync/modules/trainee/features/workouts/data/repositories/firestore_workouts_trainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/workouts/domain/repositories/i_workouts_trainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/workouts/domain/usecases/fetch_workouts_usecase.dart';
@@ -22,6 +23,7 @@ import 'package:studiosync/core/presentation/controllers/tabs_controller.dart';
 class TraineeTabsBinding extends Bindings {
   @override
   void dependencies() {
+    TraineeBinding().dependencies();
     // general dep
     Get.put(GeneralTabController([
       'Profile',

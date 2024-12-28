@@ -6,8 +6,7 @@ class SaveTraineeUseCase {
 
   SaveTraineeUseCase(this._repository);
 
-  Future<void> execute(TraineeModel trainee,String path) async {
-   
-    await _repository.saveTrainee(trainee, path);
+  Future<void> call(TraineeModel trainee) async {
+    await _repository.saveTrainee(trainee);
   }
 }

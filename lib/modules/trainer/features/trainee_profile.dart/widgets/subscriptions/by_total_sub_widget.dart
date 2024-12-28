@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/core/presentation/widgets/linear_progress.dart';
-import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
 
 class ByTotalSubscriptionContainer extends StatelessWidget {
   final DateTime? expiredDate;

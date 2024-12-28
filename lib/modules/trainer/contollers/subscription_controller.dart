@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/by_date_model.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/by_total_trainings_model.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';

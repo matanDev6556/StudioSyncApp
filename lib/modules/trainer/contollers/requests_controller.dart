@@ -1,19 +1,23 @@
 import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/services/firebase/firestore_service.dart';
+import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
+import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
-import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
 import 'package:studiosync/core/data/models/request_model.dart';
 
 class RequestsController extends GetxController {
   final FirestoreService firestoreService;
-  RequestsController({required this.firestoreService});
+  final GetCurrentUserIdUseCase _getCurrentUserIdUseCase;
+  RequestsController({
+    required GetCurrentUserIdUseCase getCurrentUserIdUseCase,
+    required this.firestoreService,
+  }) : _getCurrentUserIdUseCase = getCurrentUserIdUseCase;
 
   RxList<TraineeModel> traineesRequests = <TraineeModel>[].obs;
-  final String trainerId =
-      Get.find<TrainerController>().trainer.value?.userId ?? '';
+  late String trainerId;
+
   final RxBool isLoading = false.obs;
 
   late StreamSubscription requestStreamSubscription;
@@ -21,7 +25,13 @@ class RequestsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    listenToRequests();
+    final uid = _getCurrentUserIdUseCase();
+    if (uid != null && uid.isNotEmpty) {
+      trainerId = uid;
+      listenToRequests();
+    } else {
+      debugPrint("TrainerController is not ready yet. No trainer ID found.");
+    }
   }
 
   @override
@@ -39,7 +49,7 @@ class RequestsController extends GetxController {
         _processRequest(doc.data());
       }
     }, onError: (error) {
-      print("Error listening to requests: $error");
+      debugPrint("Error listening to requests: $error");
     });
   }
 

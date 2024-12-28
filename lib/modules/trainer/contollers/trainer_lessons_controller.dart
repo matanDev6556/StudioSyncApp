@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
+import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/services/filter_lessons_service.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/services/lessons_crud_service.dart';
@@ -13,19 +13,20 @@ import 'package:studiosync/modules/trainer/features/lesoons/widgets/registred_tr
 
 // trainer_lessons_controller.dart
 class TrainerLessonsController extends GetxController {
-  final TrainerController trainerController;
+  final GetCurrentUserIdUseCase _getCurrentUserIdUseCase;
   final LessonTrainerFilterService filterService;
   final LessonsCrudService crudService;
   final TrainerLessonsService trainerLessonsService;
 
   TrainerLessonsController({
+    required GetCurrentUserIdUseCase getCurrentUserIdUseCase,
     required this.trainerLessonsService,
-    required this.trainerController,
     required this.filterService,
     required this.crudService,
-  });
+  }) : _getCurrentUserIdUseCase = getCurrentUserIdUseCase;
 
   var isLoading = false.obs;
+  late String trainerId;
   RxList<LessonModel> lessons = <LessonModel>[].obs;
 
   //filters
@@ -42,8 +43,12 @@ class TrainerLessonsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _listenToLessonChanges();
-    _setupFilterListeners();
+    String uid = _getCurrentUserIdUseCase() ?? '';
+    if (uid.isNotEmpty) {
+      trainerId = uid;
+      _listenToLessonChanges();
+      _setupFilterListeners();
+    }
   }
 
   @override
@@ -62,7 +67,7 @@ class TrainerLessonsController extends GetxController {
 
   void _listenToLessonChanges() {
     lessonsSubscription = trainerLessonsService
-        .getLessonChanges(trainerController.trainer.value!.userId)
+        .getLessonChanges(trainerId)
         .listen((updatedLessons) {
       lessons.value = updatedLessons;
       lessons.refresh();
@@ -95,7 +100,7 @@ class TrainerLessonsController extends GetxController {
     await Future.wait(
       newLessons.map(
         (lesson) => crudService.addLesson(
-          trainerController.trainer.value!.userId,
+          trainerId,
           lesson,
           resetId: false,
         ),
@@ -122,7 +127,7 @@ class TrainerLessonsController extends GetxController {
       if (lesson.traineesRegistrations.isNotEmpty) {
         final registeredTrainees =
             await trainerLessonsService.getRegisteredTrainees(
-          trainerController.trainer.value!.userId,
+          trainerId,
           lesson.traineesRegistrations,
         );
 
@@ -153,7 +158,7 @@ class TrainerLessonsController extends GetxController {
   Future<void> addLesson(LessonModel lesson) async {
     try {
       await crudService.addLesson(
-        trainerController.trainer.value!.userId,
+       trainerId,
         lesson,
       );
     } catch (e) {
@@ -164,7 +169,7 @@ class TrainerLessonsController extends GetxController {
   Future<void> editLesson(LessonModel lesson) async {
     try {
       await crudService.updateLesson(
-        trainerController.trainer.value!.userId,
+       trainerId,
         lesson,
       );
     } catch (e) {
@@ -175,7 +180,7 @@ class TrainerLessonsController extends GetxController {
   Future<void> deleteLesson(String lessonId) async {
     try {
       await crudService.deleteLesson(
-        trainerController.trainer.value!.userId,
+       trainerId,
         lessonId,
       );
     } catch (e) {

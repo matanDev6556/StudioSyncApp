@@ -9,7 +9,7 @@ import 'package:studiosync/modules/auth/presentation/controllers/login_controlle
 class LoginBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => GetCurrentUserIdUseCase(Get.find<IAuthRepository>()));
+    Get.put(GetCurrentUserIdUseCase(Get.find<IAuthRepository>()));
     Get.put(LoginUseCase(Get.find<IAuthRepository>()));
     Get.lazyPut(() => LogoutUseCase(Get.find<FirebaseAuthRepository>()));
     Get.put(LoginController(Get.find(), Get.find()));

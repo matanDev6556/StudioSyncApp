@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
 
 class WeekDaysSelector extends StatelessWidget {
   // מקבל את היום הנבחר כפרופרטי מבחוץ

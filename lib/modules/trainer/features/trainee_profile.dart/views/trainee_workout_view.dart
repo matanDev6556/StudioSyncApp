@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/router/routes.dart';
-import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/core/utils/dates.dart';
+import 'package:studiosync/core/presentation/router/routes.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/core/presentation/utils/dates.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/contollers/trainee_workout_controller.dart';

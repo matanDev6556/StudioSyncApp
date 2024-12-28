@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
-import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
+import 'package:studiosync/modules/trainer/features/profile/presentation/trainer_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/modules/trainer/features/statistics/model/date_range_model.dart';
 import 'package:studiosync/modules/trainer/features/statistics/model/monthly_states_model.dart';

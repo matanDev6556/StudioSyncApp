@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:studiosync/core/services/firebase/firestore_service.dart';
+import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/features/lessons/domain/repositories/i_lessons_trainee_repository.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 import 'package:studiosync/modules/trainer/models/lessons_settings_model.dart';

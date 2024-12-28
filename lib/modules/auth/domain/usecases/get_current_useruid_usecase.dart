@@ -6,7 +6,7 @@ class GetCurrentUserIdUseCase {
   GetCurrentUserIdUseCase(this._authRepository);
 
   String? call() {
-    final currentUser = _authRepository.currentUser;
-    return currentUser?.uid;
+    return _authRepository.userUid;
+    
   }
 }

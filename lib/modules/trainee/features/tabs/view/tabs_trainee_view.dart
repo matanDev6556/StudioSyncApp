@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/views/upcoming_lessons_view.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/views/trainee_profile_view.dart';

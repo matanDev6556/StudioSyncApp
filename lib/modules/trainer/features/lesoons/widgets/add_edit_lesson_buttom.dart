@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 import 'package:studiosync/core/presentation/widgets/custom_dropdown.dart';
 import 'package:studiosync/core/presentation/widgets/custom_text_field.dart';
 import 'package:studiosync/core/presentation/widgets/custome_bttn.dart';
+import 'package:studiosync/modules/trainer/features/profile/presentation/trainer_controller.dart';
 
 class LessonEditBottomSheet extends StatefulWidget {
   final LessonModel? lesson;
@@ -31,6 +32,7 @@ class _LessonEditBottomSheetState extends State<LessonEditBottomSheet> {
   late LessonModel _editingLesson;
   final _formKey = GlobalKey<FormState>();
   final controler = Get.find<TrainerLessonsController>();
+  final TrainerController trainerController = Get.find<TrainerController>();
 
   @override
   void initState() {
@@ -63,12 +65,12 @@ class _LessonEditBottomSheetState extends State<LessonEditBottomSheet> {
             CustomDropDown(
               color: AppStyle.softOrange.withOpacity(0.2),
               textColor: AppStyle.softBrown.withOpacity(0.6),
-              initialValue: controler
-                      .trainerController.trainer.value!.lessonsTypeList
+              initialValue: 
+                      trainerController.trainer.value!.lessonsTypeList
                       .contains(_editingLesson.typeLesson)
                   ? _editingLesson.typeLesson
                   : null,
-              items: controler.trainerController.trainer.value!.lessonsTypeList,
+              items: trainerController.trainer.value!.lessonsTypeList,
               onChanged: (val) =>
                   _editingLesson = _editingLesson.copyWith(typeLesson: val),
               itemLabelBuilder: (item) => item,
@@ -79,14 +81,14 @@ class _LessonEditBottomSheetState extends State<LessonEditBottomSheet> {
             CustomDropDown(
               color: AppStyle.softOrange.withOpacity(0.2),
               textColor: AppStyle.softBrown.withOpacity(0.6),
-              initialValue: controler
-                      .trainerController.trainer.value!.coachesList
+              initialValue: 
+                      trainerController.trainer.value!.coachesList
                       .contains(_editingLesson.trainerName)
                   ? _editingLesson.trainerName
                   : null,
               onChanged: (val) =>
                   _editingLesson = _editingLesson.copyWith(trainerName: val),
-              items: controler.trainerController.trainer.value!.coachesList,
+              items: trainerController.trainer.value!.coachesList,
               itemLabelBuilder: (item) => item,
             ),
             AppStyle.h(10.h),
@@ -95,14 +97,14 @@ class _LessonEditBottomSheetState extends State<LessonEditBottomSheet> {
             CustomDropDown(
               color: AppStyle.softOrange.withOpacity(0.2),
               textColor: AppStyle.softBrown.withOpacity(0.6),
-              initialValue: controler
-                      .trainerController.trainer.value!.locationsList
+              initialValue: 
+                      trainerController.trainer.value!.locationsList
                       .contains(_editingLesson.location)
                   ? _editingLesson.location
                   : null,
               onChanged: (val) =>
                   _editingLesson = _editingLesson.copyWith(location: val),
-              items: controler.trainerController.trainer.value!.locationsList,
+              items: trainerController.trainer.value!.locationsList,
               itemLabelBuilder: (item) => item,
             ),
             AppStyle.h(10.h),

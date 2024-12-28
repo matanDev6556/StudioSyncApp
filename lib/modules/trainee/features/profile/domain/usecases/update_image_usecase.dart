@@ -11,7 +11,7 @@ class UpdateProfileImageUseCase {
 
   UpdateProfileImageUseCase(this._repository, this._iStorageService);
 
-  Future<String> execute(TraineeModel trainee, String path) async {
+  Future<String> execute(TraineeModel trainee) async {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
@@ -19,7 +19,7 @@ class UpdateProfileImageUseCase {
       final imageFile = File(pickedFile.path);
       final imgUrl = await _iStorageService.uploadImage(
           imageFile, '${trainee.userId}/${const Uuid().v4()}.jpg');
-      _repository.updateProfileImage(trainee.copyWith(imgUrl: imgUrl), path);
+      _repository.updateProfileImage(trainee.copyWith(imgUrl: imgUrl));
       return imgUrl;
     }
     return '';

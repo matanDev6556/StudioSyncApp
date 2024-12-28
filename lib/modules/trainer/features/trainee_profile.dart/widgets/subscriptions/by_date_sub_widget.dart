@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 import 'package:studiosync/core/presentation/widgets/linear_progress.dart';
-import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/core/utils/dates.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/core/presentation/utils/dates.dart';
 
 class ByDateSubscriptionWidget extends StatelessWidget {
   final int usedMonthlyTraining;

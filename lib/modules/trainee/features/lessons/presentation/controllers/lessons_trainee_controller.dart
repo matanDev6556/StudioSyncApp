@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/cancle_lesson_usecase.dart';
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/get_lessonsSettings_usecase.dart';
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/get_upcomingLessons_usecase.dart';

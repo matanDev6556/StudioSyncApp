@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/services/firebase/firestore_service.dart';
-import 'package:studiosync/modules/trainer/contollers/trainer_controller.dart';
+import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
+import 'package:studiosync/modules/trainer/features/profile/presentation/trainer_controller.dart';
 
 import 'package:studiosync/modules/trainer/models/lessons_settings_model.dart';
 

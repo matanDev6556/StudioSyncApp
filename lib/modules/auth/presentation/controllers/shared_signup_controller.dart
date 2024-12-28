@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
 
-import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class AbstractSignUpController extends GetxController {
@@ -28,9 +28,10 @@ abstract class AbstractSignUpController extends GetxController {
   void pickImage() async {
     try {
       isLoading.value = true;
-      final imgUrl = await _pickImageUseCase.execute(userId);
-
-      updateImgUrl(imgUrl);
+      final imgUrl = await _pickImageUseCase(userId);
+      if (imgUrl != null) {
+        updateImgUrl(imgUrl);
+      }
     } catch (e) {
       Validations.showValidationSnackBar(e.toString(), Colors.red);
     } finally {

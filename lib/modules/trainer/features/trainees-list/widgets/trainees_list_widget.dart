@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/router/routes.dart';
+import 'package:studiosync/core/presentation/router/routes.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/widgets/trainee_card_widget.dart';
 

@@ -8,7 +8,7 @@ class PickImageUseCase {
 
   PickImageUseCase(this._storageService);
 
-  Future<String> execute(String userId) async {
+  Future<String?> call(String userId) async {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
@@ -19,7 +19,7 @@ class PickImageUseCase {
         '$userId/${const Uuid().v4()}.jpg',
       );
     } else {
-      throw Exception('No image selected');
+      return null;
     }
   }
 }

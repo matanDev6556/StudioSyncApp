@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/router/app_router.dart';
-import 'package:studiosync/core/router/routes.dart';
-import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/core/presentation/router/app_router.dart';
+import 'package:studiosync/core/presentation/router/routes.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/auth/domain/usecases/signup_trainer_usecase.dart';
 import 'package:studiosync/modules/auth/presentation/controllers/shared_signup_controller.dart';
 import 'package:studiosync/modules/trainer/models/price_tier_model.dart';

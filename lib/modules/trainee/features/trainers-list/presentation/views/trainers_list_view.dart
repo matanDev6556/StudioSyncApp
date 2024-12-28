@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/router/app_router.dart';
-import 'package:studiosync/core/router/routes.dart';
-import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/core/presentation/router/app_router.dart';
+import 'package:studiosync/core/presentation/router/routes.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/presentation/controllers/trainers_list_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/widgets/my_trainer_widget.dart';
 

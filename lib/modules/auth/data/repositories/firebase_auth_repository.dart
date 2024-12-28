@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:studiosync/core/services/firebase/auth_service.dart';
+import 'package:studiosync/core/data/services/firebase/auth_service.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
 
 class FirebaseAuthRepository implements IAuthRepository<User> {
@@ -9,7 +9,11 @@ class FirebaseAuthRepository implements IAuthRepository<User> {
       : _firebaseAuthService = firebaseAuthService;
 
   @override
- User? get currentUser => _firebaseAuthService.currentUser;
+  User? get currentUser => _firebaseAuthService.currentUser;
+
+  @override
+  
+  String? get userUid => currentUser?.uid ;
 
   @override
   Future<bool> isTrainerAllowedToSignUp(String email) {
@@ -35,4 +39,6 @@ class FirebaseAuthRepository implements IAuthRepository<User> {
 
   @override
   Stream<User?> get authStateChanges => _firebaseAuthService.authStateChanges;
+  
+ 
 }
