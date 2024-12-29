@@ -27,6 +27,7 @@ class TrainerProfileController extends GetxController {
     TraineeModel traineeModel,
   ) async {
     try {
+      isLoading.value = true;
       await _sendRequestUseCase.execute(traineeModel, trainerID);
       Validations.showValidationSnackBar(
           'Sent request successfully', Colors.green);

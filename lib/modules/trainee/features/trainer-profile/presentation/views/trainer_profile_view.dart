@@ -20,8 +20,6 @@ class TrainerProfileView extends GetView<TrainerProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    bool isMyTrainer =
-        traineeController.trainee.value!.trainerID == trainerModel.userId;
     return Scaffold(
       backgroundColor: AppStyle.backGrey2,
       body: Stack(
@@ -46,6 +44,10 @@ class TrainerProfileView extends GetView<TrainerProfileController> {
             left: 0,
             right: 0,
             child: Obx(() {
+              bool isMyTrainer = traineeController.trainee.value?.trainerID ==
+                      trainerModel.userId ||
+                  myTrainerController.myTrainer.value != null;
+              print('isMyTrainer $isMyTrainer');
               return Padding(
                 padding: EdgeInsets.all(20.w),
                 child: CustomButton(
@@ -57,6 +59,8 @@ class TrainerProfileView extends GetView<TrainerProfileController> {
                     if (isMyTrainer) {
                       myTrainerController
                           .disconnectTrainer(traineeController.trainee.value!);
+                      traineeController.trainee.value!.trainerID = '';
+                      traineeController.trainee.refresh();
                     } else {
                       controller.sendRequest(trainerModel.userId,
                           traineeController.trainee.value!);

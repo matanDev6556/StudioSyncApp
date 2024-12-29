@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
-import 'package:studiosync/modules/trainer/features/notifications/views/notifications_tab.dart';
-import 'package:studiosync/modules/trainer/features/notifications/views/requests_tab.dart';
+import 'package:studiosync/modules/trainer/features/notifications/presentation/views/notifications_tab_view.dart';
+import 'package:studiosync/modules/trainer/features/notifications/presentation/views/requests_tab_view.dart';
 
 class TabsButtom extends StatelessWidget {
   final int reqCount;
@@ -89,12 +89,12 @@ class TabsButtom extends StatelessWidget {
                 ),
               ],
             ),
-            const Expanded(
+             Expanded(
               // TabBarView לתוכן כל טאב
               child: TabBarView(
                 children: [
-                  RequestsTab(),
-                  NotificationsTab(),
+                  RequestsTabView(),
+                  NotificationsTabView(),
                 ],
               ),
             ),

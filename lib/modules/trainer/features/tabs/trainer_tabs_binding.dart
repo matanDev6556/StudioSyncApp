@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
-import 'package:studiosync/modules/trainer/contollers/requests_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_settings.controller%20.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_statistic_controller.dart';
@@ -10,6 +9,7 @@ import 'package:studiosync/modules/trainer/features/lesoons/services/lessons_cru
 import 'package:studiosync/modules/trainer/features/lesoons/services/trainer_lessons_service.dart';
 import 'package:studiosync/core/presentation/controllers/tabs_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
+import 'package:studiosync/modules/trainer/features/notifications/presentation/requests_binding.dart';
 import 'package:studiosync/modules/trainer/features/profile/presentation/trainer_profile_bindings.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/services/trainees_service.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/services/trainess_filter_service.dart';
@@ -25,11 +25,8 @@ class TrainerTabsBinding extends Bindings {
       'Clients',
       'Sessions',
     ]));
-    Get.put(
-      RequestsController(
-          firestoreService: firestoreService,
-          getCurrentUserIdUseCase: Get.find<GetCurrentUserIdUseCase>()),
-    );
+    // requests tab
+    RequestsBinding().dependencies();
     // profile
 
     _bindClientsTab();

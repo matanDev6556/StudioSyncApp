@@ -3,12 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/contollers/requests_controller.dart';
+import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
+import 'package:studiosync/modules/trainer/features/notifications/presentation/requests_controller.dart';
 import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 import 'package:studiosync/core/presentation/widgets/custom_image.dart';
 
-class RequestsTab extends GetView<RequestsController> {
-  const RequestsTab({Key? key}) : super(key: key);
+class RequestsTabView extends GetView<RequestsController> {
+  final TraineesController traineesController = Get.find();
+  RequestsTabView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +130,11 @@ class RequestsTab extends GetView<RequestsController> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => controller.approveTraineeRequest(trainee),
-                 
-
+                    onPressed: () async {
+                      TraineeModel updatedTrainee =
+                          await controller.approveTraineeRequest(trainee);
+                      traineesController.addTraineeToList(updatedTrainee);
+                    },
                     style: ElevatedButton.styleFrom(
                       primary: AppStyle.softOrange,
                       shape: RoundedRectangleBorder(
@@ -147,8 +151,6 @@ class RequestsTab extends GetView<RequestsController> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => controller.rejectTraineeRequest(trainee),
-                      
-                    
                     style: OutlinedButton.styleFrom(
                       primary: AppStyle.softBrown,
                       side: BorderSide(color: AppStyle.softBrown),
