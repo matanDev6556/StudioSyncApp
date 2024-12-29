@@ -8,18 +8,15 @@ import 'package:studiosync/modules/trainer/features/lesoons/services/filter_less
 import 'package:studiosync/modules/trainer/features/lesoons/services/lessons_crud_service.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/services/trainer_lessons_service.dart';
 import 'package:studiosync/core/presentation/controllers/tabs_controller.dart';
-import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
+import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainees_binding.dart';
 import 'package:studiosync/modules/trainer/features/notifications/presentation/requests_binding.dart';
 import 'package:studiosync/modules/trainer/features/profile/presentation/trainer_profile_bindings.dart';
-import 'package:studiosync/modules/trainer/features/trainees-list/services/trainees_service.dart';
-import 'package:studiosync/modules/trainer/features/trainees-list/services/trainess_filter_service.dart';
 
 class TrainerTabsBinding extends Bindings {
   final firestoreService = Get.find<FirestoreService>();
   @override
   void dependencies() {
     // genetrals
-    TrainerProfileBindings().dependencies();
     Get.put(GeneralTabController([
       'Profile',
       'Clients',
@@ -28,16 +25,12 @@ class TrainerTabsBinding extends Bindings {
     // requests tab
     RequestsBinding().dependencies();
     // profile
+    TrainerProfileBindings().dependencies();
+    // clients
+    TraineesListBinding().dependencies();
 
-    _bindClientsTab();
     _bindSessionsTab();
     _bindStatisticsTab();
-  }
-
-  void _bindClientsTab() {
-    Get.lazyPut(() => TraineeListService(firestoreService));
-    Get.lazyPut(() => TraineeFilterService());
-    Get.put(TraineesController(Get.find(), Get.find(), Get.find()));
   }
 
   void _bindSessionsTab() {

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
+import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainees_controller.dart';
 import 'package:studiosync/modules/trainer/features/notifications/presentation/requests_controller.dart';
 import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 import 'package:studiosync/core/presentation/widgets/custom_image.dart';

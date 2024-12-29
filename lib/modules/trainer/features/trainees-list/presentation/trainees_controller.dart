@@ -1,16 +1,17 @@
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_rx/src/rx_workers/rx_workers.dart';
-import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
+import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/features/trainees-list/services/trainees_service.dart';
-import 'package:studiosync/modules/trainer/features/trainees-list/services/trainess_filter_service.dart';
+import 'package:studiosync/modules/trainer/features/trainees-list/domain/usecases/get_trainess_usecase.dart';
+import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainess_filter_service.dart';
 
 class TraineesController extends GetxController {
-  final TraineeListService traineeService;
+  final GetCurrentUserIdUseCase _getCurrentUserIdUseCase;
+  final GetTrainessListUseCase _getTrainessListUseCase;
   final TraineeFilterService filterService;
 
-  final IAuthRepository authService;
+  late String traineId;
 
   RxList<TraineeModel> traineesList = <TraineeModel>[].obs;
   RxList<TraineeModel> filteredTraineesList = <TraineeModel>[].obs;
@@ -21,14 +22,16 @@ class TraineesController extends GetxController {
   RxString activeStatusFilter = 'All'.obs;
 
   TraineesController(
-    this.authService,
-    this.traineeService,
+    this._getCurrentUserIdUseCase,
+    this._getTrainessListUseCase,
     this.filterService,
   );
 
   @override
   void onInit() {
     super.onInit();
+    final uid = _getCurrentUserIdUseCase();
+    traineId = uid ?? '';
     fetchTrainees();
     // Set up a listener to filter the list whenever searchQuery or activeStatusFilter changes
     debounce(searchQuery, (_) => applyFilters(),
@@ -37,27 +40,18 @@ class TraineesController extends GetxController {
   }
 
   Future<void> fetchTrainees() async {
-    try {
-      print('fetch trainees');
-      final uid = authService.currentUser?.uid;
-     
-      isLoading.value = true;
+    isLoading.value = true;
 
-      // Fetch the trainees from the service
-      final trainees = await traineeService.getTraineesForTrainer(uid!);
+    // Fetch the trainees from the service
+    traineesList.value = await _getTrainessListUseCase(traineId);
+    traineesList.refresh();
 
-      // Update the trainees list
-      traineesList.value = trainees;
-      traineesList.refresh();
+    // Apply filters after fetching the data
+    applyFilters();
 
-      // Apply filters after fetching the data
-      applyFilters();
-    } catch (e) {
-      print('Error fetching trainees: $e');
-    } finally {
-      isLoading.value = false;
-    }
+    isLoading.value = false;
   }
+
   void addTraineeToList(TraineeModel trainee) {
     traineesList.add(trainee);
     traineesList.refresh();

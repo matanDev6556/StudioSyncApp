@@ -6,7 +6,7 @@ import 'package:studiosync/modules/trainee/models/subscriptions/by_date_model.da
 import 'package:studiosync/modules/trainee/models/subscriptions/by_total_trainings_model.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/contollers/trainees_controller.dart';
+import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainees_controller.dart';
 
 enum SubscriptionType { byDate, byTotalTrainings }
 
