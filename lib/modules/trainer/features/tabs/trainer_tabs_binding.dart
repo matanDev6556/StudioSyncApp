@@ -48,6 +48,6 @@ class TrainerTabsBinding extends Bindings {
   }
 
   void _bindStatisticsTab() {
-    Get.lazyPut(() => TrainerStatsController(Get.find()));
+    Get.lazyPut(() => TrainerStatsController(Get.find(),Get.find<GetCurrentUserIdUseCase>()));
   }
 }

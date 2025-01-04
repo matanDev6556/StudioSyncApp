@@ -152,4 +152,6 @@ class SubscriptionByDate extends Subscription {
   String toString() {
     return '${super.toString()} SubscriptionByDate{startDate: $startDate\n, endDate: $endDate\n, monthlyTrainingLimit: $monthlyTrainingLimit\n, currentMonth: $currentMonth\n, usedMonthlyTraining: $usedMonthlyTraining\n, subscriptionType: $subscriptionType\n}';
   }
+  
+ 
 }

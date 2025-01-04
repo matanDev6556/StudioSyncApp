@@ -69,8 +69,10 @@ class TraineeWorkoutView extends GetView<TraineeWorkoutController> {
                 ),
                 child: SingleChildScrollView(
                   child: Column(
+                    
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      
                       _sectionTitle('Subscription'),
                       _buildSubscriptionSection(trainee),
                       SizedBox(height: 25.h),
@@ -130,7 +132,7 @@ class TraineeWorkoutView extends GetView<TraineeWorkoutController> {
             fontSize: 22.sp,
             text: 'Add subscription',
             fill: true,
-            color: Colors.redAccent.withOpacity(0.5),
+            color: Colors.redAccent.withOpacity(0.8),
             width: Get.width,
             height: 50.h,
             onTap: () {

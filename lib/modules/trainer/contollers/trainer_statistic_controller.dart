@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainees_controller.dart';
-import 'package:studiosync/modules/trainer/features/profile/presentation/trainer_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
-import 'package:studiosync/modules/trainer/features/statistics/model/date_range_model.dart';
-import 'package:studiosync/modules/trainer/features/statistics/model/monthly_states_model.dart';
+import 'package:studiosync/modules/trainer/features/statistics/data/models/date_range_model.dart';
+import 'package:studiosync/modules/trainer/features/statistics/data/models/monthly_states_model.dart';
 
 class TrainerStatsController extends GetxController {
+  final GetCurrentUserIdUseCase _getCurrentUserIdUseCase;
   final TrainerLessonsController trainerLessonsController;
 
-  TrainerStatsController(this.trainerLessonsController);
+  TrainerStatsController(this.trainerLessonsController,this._getCurrentUserIdUseCase);
 
   // Observable states
   final currentMonthStats = MonthlyStats(
@@ -38,14 +39,13 @@ class TrainerStatsController extends GetxController {
     try {
       isLoading.value = true;
 
-      final trainerId = Get.find<TrainerController>().trainer.value!.userId;
       final currentMonth = DateRange.getCurrentMonth();
       final previousMonth = DateRange.getPreviousMonth();
 
       // Fetch current and previous month statistics in parallel
       final results = await Future.wait([
-        _calculateMonthlyStats(trainerId, currentMonth),
-        _calculateMonthlyStats(trainerId, previousMonth),
+        _calculateMonthlyStats(_getCurrentUserIdUseCase() ?? "", currentMonth),
+        _calculateMonthlyStats(_getCurrentUserIdUseCase() ?? "", previousMonth),
       ]);
 
       currentMonthStats.value = results[0];

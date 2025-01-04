@@ -14,16 +14,16 @@ abstract class Subscription {
   Map<String, dynamic> toMap();
 
   Widget getSubscriptionContainer(
-      { Function? editButton, bool isTrainer = true});
-
+      {Function? editButton, bool isTrainer = true});
 
   void cancleLesson();
 
   Subscription getSub();
 
-   @override
+
+
+  @override
   String toString() {
     return 'Type: $subscriptionType';
   }
-
 }
