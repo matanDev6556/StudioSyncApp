@@ -1,6 +1,6 @@
 import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/features/workouts/domain/repositories/i_workouts_trainee_repository.dart';
-import 'package:studiosync/modules/trainee/models/workout_model.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
 
 class WorkoutsRepositoryFirestore implements IWorkoutsRepository {
   final FirestoreService firestoreService;

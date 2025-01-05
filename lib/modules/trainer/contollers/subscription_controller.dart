@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
 import 'package:studiosync/core/presentation/utils/validations.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/by_date_model.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/by_total_trainings_model.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
@@ -12,9 +14,30 @@ enum SubscriptionType { byDate, byTotalTrainings }
 
 class SubscriptionController extends GetxController {
   final FirestoreService firestoreService;
+  final ListenToTraineeUpdatesUseCase listenToTraineeUpdatesUseCase;
 
-  SubscriptionController(this.firestoreService);
+  SubscriptionController({
+    required this.firestoreService,
+    required this.listenToTraineeUpdatesUseCase,
+    required TraineeModel initialTrainee,
+  }) {
+    trainee.value = initialTrainee;
+  }
 
+  @override
+  void onInit() {
+    super.onInit();
+    _listenToTraineeChanges();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    traineeDocSubscription.cancel();
+  }
+
+  final Rx<TraineeModel?> trainee = Rx<TraineeModel?>(null);
+  late StreamSubscription<TraineeModel> traineeDocSubscription;
   // init deafult subs
   var subscriptionByTotal = SubscriptionByTotalTrainings(
     totalTrainings: 0,
@@ -34,6 +57,22 @@ class SubscriptionController extends GetxController {
   var isLoading = false.obs;
 
   //---Shared functions--
+
+  void _listenToTraineeChanges() {
+    if (trainee.value != null) {
+      traineeDocSubscription = listenToTraineeUpdatesUseCase
+          .execute(
+              'trainers/${trainee.value!.trainerID}/trainees/${trainee.value!.userId}')
+          .listen(
+        (updatedTrainee) {
+          trainee.value = updatedTrainee;
+        },
+        onError: (error) {
+          debugPrint("Error listening to trainee updates: $error");
+        },
+      );
+    }
+  }
 
   void initSub(
     Subscription? sub,

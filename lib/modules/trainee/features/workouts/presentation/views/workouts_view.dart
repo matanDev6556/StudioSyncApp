@@ -7,9 +7,8 @@ import 'package:studiosync/core/presentation/utils/dates.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/workouts/presentation/controllers/workouts_controller.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/presentation/views/workouts/widgets/data_workout_container.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/presentation/views/subscription/widgets/msg_statistic.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/presentation/views/workouts/widgets/workouts_horizontal_list.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/widgets/data_workout_container.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/widgets/workouts_horizontal_list.dart';
 import 'package:studiosync/core/presentation/widgets/custom_container.dart';
 
 class TraineeWorkoutsView extends GetView<WorkoutController> {
@@ -139,8 +138,11 @@ class TraineeWorkoutsView extends GetView<WorkoutController> {
           ],
         ),
         SizedBox(height: 5.h),
-        WeightTrendMessageWidget(
-          controller.workoutSummary.value.weightTrend,
+        CustomContainer(
+          child: Text(
+            controller.workoutSummary.value.weightTrend,
+            style: AppStyle.bodyTextStyle,
+          ),
         ),
       ],
     );

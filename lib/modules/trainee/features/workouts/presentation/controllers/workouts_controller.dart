@@ -4,7 +4,7 @@ import 'package:studiosync/modules/trainee/features/profile/presentation/control
 import 'package:studiosync/modules/trainee/features/workouts/domain/usecases/fetch_workouts_usecase.dart';
 import 'package:studiosync/modules/trainee/features/workouts/domain/usecases/listen_workouts_usecase.dart';
 import 'package:studiosync/modules/trainee/features/workouts/domain/usecases/sort_workouts_usecase.dart';
-import 'package:studiosync/modules/trainee/models/workout_model.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
 import 'package:studiosync/core/data/models/workout_summary.dart';
 import 'package:studiosync/shared/services/workouts_analytics_service.dart';
 

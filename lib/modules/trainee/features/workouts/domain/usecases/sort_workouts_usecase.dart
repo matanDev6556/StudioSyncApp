@@ -1,4 +1,4 @@
-import 'package:studiosync/modules/trainee/models/workout_model.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
 
 class SortWorkoutsUseCase {
   List<WorkoutModel> call(List<WorkoutModel> workoutsList) {
