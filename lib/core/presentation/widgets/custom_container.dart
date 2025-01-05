@@ -31,8 +31,9 @@ class CustomContainer extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.r),
+        boxShadow: AppStyle.boxShadow,
         color: backgroundColor ?? AppStyle.softOrange.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(10),
       ),
       child: text != null
           ? Text(

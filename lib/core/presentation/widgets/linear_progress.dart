@@ -7,18 +7,14 @@ class LinearProgressWorkOuts extends StatelessWidget {
     Key? key,
     required this.totalWorkouts,
     required this.howWorkOutsDid,
-    required this.isTrainer,
     required this.isActive,
     required this.leftTitle,
-    this.editButton,
   }) : super(key: key);
 
   final int? totalWorkouts;
   final int? howWorkOutsDid;
-  final bool isTrainer;
   final bool isActive;
   final String leftTitle;
-  final VoidCallback? editButton;
 
   @override
   Widget build(BuildContext context) {
@@ -38,29 +34,6 @@ class LinearProgressWorkOuts extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Plan Progress',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: AppStyle.softBrown,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              if (isTrainer)
-                IconButton(
-                  onPressed: editButton,
-                  icon: Icon(
-                    Icons.edit,
-                    color: AppStyle.backGrey3,
-                    size: 20.w,
-                  ),
-                ),
-            ],
-          ),
-          SizedBox(height: 12.h),
           Stack(
             children: [
               ClipRRect(

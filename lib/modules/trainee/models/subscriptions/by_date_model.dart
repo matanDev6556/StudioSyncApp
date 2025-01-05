@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/subscriptions/by_date_sub_widget.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/presentation/views/subscription/widgets/by_date_sub_widget.dart';
 
 class SubscriptionByDate extends Subscription {
   DateTime startDate;
@@ -73,7 +73,6 @@ class SubscriptionByDate extends Subscription {
     Function? editButton,
     bool isTrainer = true,
   }) {
-    
     return ByDateSubscriptionWidget(
       usedMonthlyTraining: usedMonthlyTraining,
       monthlyTrainingLimit: monthlyTrainingLimit,
@@ -152,6 +151,4 @@ class SubscriptionByDate extends Subscription {
   String toString() {
     return '${super.toString()} SubscriptionByDate{startDate: $startDate\n, endDate: $endDate\n, monthlyTrainingLimit: $monthlyTrainingLimit\n, currentMonth: $currentMonth\n, usedMonthlyTraining: $usedMonthlyTraining\n, subscriptionType: $subscriptionType\n}';
   }
-  
- 
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-
 class AppStyle {
   // Text styles
 
@@ -35,7 +34,7 @@ class AppStyle {
   );
 
   static final TextStyle sectionTitleStyle = TextStyle(
-    fontSize: 18.sp,
+    fontSize: 17.sp,
     fontWeight: FontWeight.bold,
     color: AppStyle.softBrown,
   );

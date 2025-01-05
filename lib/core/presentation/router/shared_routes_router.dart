@@ -1,8 +1,7 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/router/routes.dart';
 import 'package:studiosync/modules/auth/presentation/bindings/login_bindng.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/views/all_workoutes_view.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/views/workout_analytic_view.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/presentation/views/workouts/all_workoutes_view.dart';
 import 'package:studiosync/core/presentation/views/splash_view.dart';
 import 'package:studiosync/modules/auth/presentation/views/login_view.dart';
 import 'package:studiosync/modules/auth/presentation/views/signup_as_view.dart';
@@ -39,12 +38,7 @@ class SharedRoutes {
       ),
     ),
 
-    GetPage(
-      name: Routes.workoutsAnalytic,
-      page: () => WorkoutAnalyticView(
-        workoutSummary: Get.arguments,
-      ),
-    ),
+ 
     // Add other shared routes here
   ];
 }

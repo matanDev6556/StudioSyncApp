@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/dots_inticator.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/single_workout_card.dart';
+import 'package:studiosync/core/presentation/widgets/dots_inticator.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/presentation/views/workouts/widgets/single_workout_card.dart';
 
 class WorkoutHorizontalListCard extends StatefulWidget {
   final List<WorkoutModel> workouts;

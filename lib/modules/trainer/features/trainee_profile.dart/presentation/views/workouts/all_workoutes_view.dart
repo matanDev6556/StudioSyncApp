@@ -6,7 +6,7 @@ import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/models/workout_model.dart';
 import 'package:studiosync/core/data/models/workout_summary.dart';
 import 'package:studiosync/core/presentation/widgets/custom_container.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/widgets/single_workout_card.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/presentation/views/workouts/widgets/single_workout_card.dart';
 
 class AllWorkoutsView extends StatelessWidget {
   final List<WorkoutModel> workouts;

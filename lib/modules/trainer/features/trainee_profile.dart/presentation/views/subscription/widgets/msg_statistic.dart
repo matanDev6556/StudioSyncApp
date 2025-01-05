@@ -10,17 +10,13 @@ class WeightTrendMessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15,
+      height: 60.h,
+      padding: EdgeInsets.symmetric(
+        horizontal: 15.h,
       ),
       width: double.infinity,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors:  [Colors.white, AppStyle.backGrey2],
-        ),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
