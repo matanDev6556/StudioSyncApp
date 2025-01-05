@@ -8,13 +8,12 @@ import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workout
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/delete_workout_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/edit_workout_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/fetch_workouts_usecase.dart';
-
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/workouts_controller.dart';
 
-class TraineeProfileBinding extends Bindings {
+class WorkoutsBinding implements Bindings {
   @override
   void dependencies() {
-    // concrete repos
+   // concrete repos
     Get.put<IWorkoutRepository>(
         FirestoreWorkoutsRepository(firestoreService: Get.find()));
 
@@ -22,7 +21,7 @@ class TraineeProfileBinding extends Bindings {
     // use cases
     Get.lazyPut(() => ListenToTraineeUpdatesUseCase(Get.find()));
 
-   ;
+   
     Get.lazyPut(() => FetchWorkoutUseCase(iWorkoutRepository: Get.find()));
     Get.lazyPut(() => AddWorkoutUseCase(iWorkoutRepository: Get.find()));
     Get.lazyPut(() => EditWorkoutUseCase(iWorkoutRepository: Get.find()));
@@ -38,6 +37,6 @@ class TraineeProfileBinding extends Bindings {
       ),
     );
 
-   
   }
+  
 }

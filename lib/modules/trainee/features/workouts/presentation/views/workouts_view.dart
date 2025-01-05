@@ -6,7 +6,7 @@ import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/core/presentation/utils/dates.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/workouts/presentation/controllers/workouts_controller.dart';
-import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/data/models/subscription_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/widgets/data_workout_container.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/widgets/workouts_horizontal_list.dart';
 import 'package:studiosync/core/presentation/widgets/custom_container.dart';

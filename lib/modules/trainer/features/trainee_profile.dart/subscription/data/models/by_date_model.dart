@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/utils/validations.dart';
-import 'package:studiosync/modules/trainee/models/subscriptions/subscription_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/widgets/by_date_sub_widget.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/data/models/subscription_model.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/presentation/widgets/by_date_sub_widget.dart';
 
 class SubscriptionByDate extends Subscription {
   DateTime startDate;

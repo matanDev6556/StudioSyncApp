@@ -214,7 +214,7 @@ class ByDateSubscriptionWidget extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        icon: Icon(Icons.edit, color: Colors.white),
+        icon: const Icon(Icons.edit, color: Colors.white),
         label: Text(
           'Edit Subscription',
           style: TextStyle(

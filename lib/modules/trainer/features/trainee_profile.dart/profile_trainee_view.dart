@@ -4,13 +4,12 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/core/presentation/utils/dates.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/contollers/subscription_controller.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/presentation/subscription_controller.dart';
 import 'package:studiosync/core/presentation/widgets/app_bar_profile.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/statistics/statistic_tab.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/subscription_tab.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/presentation/view/subscription_tab_view.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/views/workouts_tab_view.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/widgets/subscription_buttom.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/workouts_controller.dart';
 
 class ProfileOfTraineeView extends StatelessWidget {
@@ -19,9 +18,11 @@ class ProfileOfTraineeView extends StatelessWidget {
   ProfileOfTraineeView({Key? key, required this.trainee}) : super(key: key) {
     Get.put(
       SubscriptionController(
-          firestoreService: Get.find(),
-          initialTrainee: trainee,
-          listenToTraineeUpdatesUseCase: Get.find()),
+        saveSubscriptionUseCase: Get.find(),
+        cancleSubscriptionUseCase: Get.find(),
+        initialTrainee: trainee,
+        listenToTraineeUpdatesUseCase: Get.find(),
+      ),
     );
   }
 
@@ -61,7 +62,12 @@ class ProfileOfTraineeView extends StatelessWidget {
                   children: [
                     SubscriptionTabWidget(
                       trainee: trainee,
-                      showBottomAddSubscription: showBottomAddSubscription,
+                      showBottomAddSubscription: (TraineeModel traineeModel) {
+                        Get.find<SubscriptionController>()
+                            .showSubscriptionButtom(traineeModel, 'Edit');
+                      },
+                      cancleSub: () =>
+                          Get.find<SubscriptionController>().cancleSub(trainee),
                     ),
                     WorkoutsTabWidget(
                       summary: workoutsController.workoutSummary.value,

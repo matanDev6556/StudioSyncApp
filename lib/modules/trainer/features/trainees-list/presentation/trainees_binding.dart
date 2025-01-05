@@ -2,7 +2,7 @@ import 'package:get/instance_manager.dart';
 import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/data/repositories/firestore_traineesList_repository.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/domain/repositories/i_trainees_list_repository.dart';
-import 'package:studiosync/modules/trainer/features/trainees-list/domain/usecases/get_trainess_usecase.dart';
+import 'package:studiosync/modules/trainer/features/trainees-list/domain/usecases/stream_trainess_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainees_controller.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainess_filter_service.dart';
 
@@ -14,7 +14,7 @@ class TraineesListBinding extends Bindings {
         () => FirestoreTraineesListRepository(firestoreService: Get.find()));
     // use cases
     Get.lazyPut(
-        () => GetTrainessListUseCase(iTraineesListRepository: Get.find()));
+        () => StramTrainessListUseCase(iTraineesListRepository: Get.find()));
 
     // helper service for filter
     Get.lazyPut(() => TraineeFilterService());
@@ -22,7 +22,7 @@ class TraineesListBinding extends Bindings {
     Get.put(
       TraineesController(
         Get.find<GetCurrentUserIdUseCase>(),
-        Get.find<GetTrainessListUseCase>(),
+        Get.find<StramTrainessListUseCase>(),
         Get.find(),
       ),
     );

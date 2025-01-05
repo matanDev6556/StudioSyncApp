@@ -1,4 +1,3 @@
-
 import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/domain/repositories/i_trainees_list_repository.dart';
@@ -6,22 +5,15 @@ import 'package:studiosync/modules/trainer/features/trainees-list/domain/reposit
 class FirestoreTraineesListRepository implements ITraineesListRepository {
   final FirestoreService _firestoreService;
 
-  FirestoreTraineesListRepository({required FirestoreService firestoreService}): _firestoreService = firestoreService;
+  FirestoreTraineesListRepository({required FirestoreService firestoreService})
+      : _firestoreService = firestoreService;
 
   @override
-  Future<List<TraineeModel>> getTraineesOfTrainer(String trainerId) async {
+  Stream<List<TraineeModel>> streamTraineesOfTrainer(String trainerId) {
     // Fetch all trainees under the trainer's sub-collection "trainees"
-    var querySnapshot = await _firestoreService.firestore
-        .collection('trainers')
-        .doc(trainerId)
-        .collection('trainees')
-        .get();
-
-    // Map the query results to a list of TraineeModel objects
-    List<TraineeModel> traineesList = querySnapshot.docs.map((doc) {
-      return TraineeModel.fromJson(doc.data());
-    }).toList();
-
-    return traineesList;
+    return _firestoreService
+        .streamCollection('trainers/$trainerId/trainees')
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => TraineeModel.fromJson(doc.data())).toList());
   }
 }

@@ -1,23 +1,27 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
+import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/data/models/by_date_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/data/models/by_total_trainings_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/data/models/subscription_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainees_controller.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/data/models/subscription_model.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/domain/usecases/cancle_sub_usecase.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/domain/usecases/save_sub_usecase.dart';
+import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/presentation/widgets/add_edit_subscription_buttom.dart';
 
 enum SubscriptionType { byDate, byTotalTrainings }
 
 class SubscriptionController extends GetxController {
-  final FirestoreService firestoreService;
+  final SaveSubscriptionUseCase saveSubscriptionUseCase;
+  final CancleSubscriptionUseCase cancleSubscriptionUseCase;
   final ListenToTraineeUpdatesUseCase listenToTraineeUpdatesUseCase;
 
   SubscriptionController({
-    required this.firestoreService,
+    required this.saveSubscriptionUseCase,
+    required this.cancleSubscriptionUseCase,
     required this.listenToTraineeUpdatesUseCase,
     required TraineeModel initialTrainee,
   }) {
@@ -91,6 +95,45 @@ class SubscriptionController extends GetxController {
     }
   }
 
+  void save(TraineeModel trainee) async {
+    try {
+      isLoading.value = true;
+
+      TraineeModel updatedTrainee;
+      // בדיקה איזה סוג מנוי נבחר ועדכון המודל בהתאם
+      if (selectedType.value == SubscriptionType.byDate) {
+        updatedTrainee =
+            trainee.copyWith(subscription: subscriptionByDate.value);
+      } else {
+        updatedTrainee =
+            trainee.copyWith(subscription: subscriptionByTotal.value);
+      }
+      await saveSubscriptionUseCase(updatedTrainee);
+    } catch (e) {
+      Validations.showValidationSnackBar(e.toString(), Colors.red);
+    } finally {
+      isLoading.value = false;
+    }
+
+    AppRouter.navigateBack();
+  }
+
+  void cancleSub(TraineeModel trainee) async {
+    final TraineeModel updatetrainee = trainee;
+    updatetrainee.subscription = null;
+    isLoading.value = true;
+    await cancleSubscriptionUseCase(updatetrainee);
+    isLoading.value = false;
+    AppRouter.navigateBack();
+  }
+
+  void showSubscriptionButtom(TraineeModel traineeModel, String title) {
+    Get.bottomSheet(
+      AddSubscriptionWidget(trainee: traineeModel, title: title),
+      isScrollControlled: true,
+    );
+  }
+
   SubscriptionType? getSubType(String subType) {
     switch (subType) {
       case 'byTotalTrainings':
@@ -116,62 +159,6 @@ class SubscriptionController extends GetxController {
   void updateSubscriptionByDate(SubscriptionByDate newSubscription) {
     subscriptionByDate.value = newSubscription;
     subscriptionByDate.refresh();
-  }
-
-  // פונקציה לשמור שינויים במידע המנוי של המתאמן
-  void save(TraineeModel trainee) async {
-    try {
-      // מציאת הקונטרולר של המתאמנים כדי לעדכן את הרשימה שלהם
-      final traineesController = Get.find<TraineesController>();
-
-      // הפעלת מצב טעינה
-      isLoading.value = true;
-      // יצירת מודל מתאמן מעודכן עם המידע החדש
-      TraineeModel updatedTrainee;
-      // בדיקה איזה סוג מנוי נבחר ועדכון המודל בהתאם
-      if (selectedType.value == SubscriptionType.byDate) {
-        updatedTrainee =
-            trainee.copyWith(subscription: subscriptionByDate.value);
-      } else {
-        updatedTrainee =
-            trainee.copyWith(subscription: subscriptionByTotal.value);
-      }
-      // עדכון המסמך של המתאמן בשירות הפיירבייס
-      await firestoreService.setDocument(
-        'trainers/${updatedTrainee.trainerID}/trainees',
-        updatedTrainee.userId,
-        updatedTrainee.toMap(),
-      );
-
-      // עדכון הרשימה המסוננת של המתאמנים עם המידע החדש
-      traineesController.filteredTraineesList.value = traineesController
-          .filteredTraineesList
-          .map((t) => t.userId == trainee.userId ? updatedTrainee : t)
-          .toList();
-      // רענון הרשימה המלאה של המתאמנים
-      traineesController.traineesList.refresh();
-    } catch (e) {
-      // הצגת הודעת שגיאה במקרה של שגיאה
-      Validations.showValidationSnackBar(e.toString(), Colors.red);
-    } finally {
-      // הסרת מצב הטעינה
-      isLoading.value = false;
-    }
-
-    // סגירת המסך הנוכחי
-    Get.back();
-  }
-
-  void cancleSub(TraineeModel trainee) async {
-    final TraineeModel updatetrainee = trainee;
-    updatetrainee.subscription = null;
-    isLoading.value = true;
-    await firestoreService.setDocument(
-      'trainers/${updatetrainee.trainerID}/trainees',
-      updatetrainee.userId,
-      updatetrainee.toMap(),
-    );
-    isLoading.value = false;
   }
 
   //----ByTotal functions
