@@ -1,5 +1,5 @@
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
+import 'package:studiosync/core/data/models/workout_model.dart';
 
 abstract class IWorkoutRepository {
 

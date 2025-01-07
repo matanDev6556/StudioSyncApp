@@ -6,6 +6,8 @@ import 'package:studiosync/modules/trainee/features/lessons/domain/repositories/
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/cancle_lesson_usecase.dart';
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/get_registredLessons_usecase.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_upcoming_controller.dart';
+import 'package:studiosync/modules/trainee/features/profile/data/repositories/firestore_trainee_repository.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/repositories/i_trainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/bindings/trainee_binding.dart';
 import 'package:studiosync/modules/trainee/features/workouts/data/repositories/firestore_workouts_trainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/workouts/domain/repositories/i_workouts_trainee_repository.dart';
@@ -67,15 +69,22 @@ class TraineeTabsBinding extends Bindings {
   }
 
   void _bindLessonsTab() {
+    // concrete repos
     Get.lazyPut<ILessonsTraineeRepository>(
         () => LessonsTraineeRepsitory(firestoreService: Get.find()));
-    Get.lazyPut<IRegistredLessonsRepository>(
-      () => RegistredTraineeLessonsFirestoreRepository(
-          firestoreService: Get.find()),
-    );
-    Get.lazyPut(() => CancelLessonUseCase(repository: Get.find()));
+
+    Get.lazyPut<IRegistredLessonsRepository>(() =>
+        RegistredTraineeLessonsFirestoreRepository(
+            firestoreService: Get.find()));
+
+    Get.put<ITraineeRepository>(FirestoreTraineeRepository(Get.find()));
+
+    // use cases
+    Get.lazyPut(() => CancelLessonUseCase(
+        repository: Get.find(), iTraineeRepository: Get.find()));
     Get.lazyPut(() => GetRegisteredLessonsUseCase(repository: Get.find()));
 
+    // controllers
     Get.lazyPut(
       () => UpcomingLessonsController(
         cancelLessonUseCase: Get.find(),
@@ -88,6 +97,7 @@ class TraineeTabsBinding extends Bindings {
 class ProfileTraineeTabBinding extends Bindings {
   @override
   void dependencies() {
+    // concrete repos
     Get.put<IMyTrainerRepositroy>(MyTrainerFirestoreRepository(Get.find()));
     // use cases
     Get.lazyPut(() =>
@@ -104,12 +114,16 @@ class ProfileTraineeTabBinding extends Bindings {
 class WorkoutsTraineeTabBinding extends Bindings {
   @override
   void dependencies() {
+    // concrete repos
     Get.lazyPut<IWorkoutsRepository>(
         () => WorkoutsRepositoryFirestore(firestoreService: Get.find()));
+
+    // use cases
     Get.lazyPut(() => FetchWorkoutsUseCase(repository: Get.find()));
     Get.lazyPut(() => ListenWorkoutChangesUseCase(repository: Get.find()));
     Get.lazyPut(() => SortWorkoutsUseCase());
 
+    // controllers
     Get.lazyPut(() => WorkoutController(
           fetchWorkoutsUseCase: Get.find(),
           getWorkoutChangesUseCase: Get.find(),
@@ -121,15 +135,23 @@ class WorkoutsTraineeTabBinding extends Bindings {
 class LessonsTraineeTabBinding extends Bindings {
   @override
   void dependencies() {
+    // concerete repos
     Get.lazyPut<ILessonsTraineeRepository>(
         () => LessonsTraineeRepsitory(firestoreService: Get.find()));
     Get.lazyPut<IRegistredLessonsRepository>(
       () => RegistredTraineeLessonsFirestoreRepository(
           firestoreService: Get.find()),
     );
-    Get.lazyPut(() => CancelLessonUseCase(repository: Get.find()));
+    Get.put<ITraineeRepository>(FirestoreTraineeRepository(Get.find()));
+
+    // use cases
+    Get.lazyPut(
+      () => CancelLessonUseCase(
+          repository: Get.find(), iTraineeRepository: Get.find()),
+    );
     Get.lazyPut(() => GetRegisteredLessonsUseCase(repository: Get.find()));
 
+    // controlelrs
     Get.lazyPut(
       () => UpcomingLessonsController(
         cancelLessonUseCase: Get.find(),

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/auth/presentation/widgets/app_bar.dart';
-import 'package:studiosync/core/presentation/widgets/custome_bttn.dart';
+import 'package:studiosync/core/presentation/widgets/general/custome_bttn.dart';
 import 'package:studiosync/core/presentation/router/routes.dart';
 
 class SignUpAsView extends StatelessWidget {

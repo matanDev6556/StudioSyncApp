@@ -6,19 +6,24 @@ import 'package:uuid/uuid.dart';
 class PickImageUseCase {
   final IStorageService _storageService;
 
-  PickImageUseCase(this._storageService);
+  PickImageUseCase({required IStorageService iStorageService}):_storageService = iStorageService;
 
   Future<String?> call(String userId) async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    try {
+      final pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
-      final imageFile = File(pickedFile.path);
-      return await _storageService.uploadImage(
-        imageFile,
-        '$userId/${const Uuid().v4()}.jpg',
-      );
-    } else {
+      if (pickedFile != null) {
+        final imageFile = File(pickedFile.path);
+        return await _storageService.uploadImage(
+          imageFile,
+          '$userId/${const Uuid().v4()}.jpg',
+        );
+      } else {
+        return null;
+      }
+    } catch (error) {
+      print('error from pick image use case $error');
       return null;
     }
   }

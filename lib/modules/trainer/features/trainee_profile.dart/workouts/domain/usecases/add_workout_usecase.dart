@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
+import 'package:studiosync/core/data/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/repositories/i_workouts_repository.dart';
 
 class AddWorkoutUseCase {

@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
+import 'package:studiosync/core/data/models/workout_model.dart';
 import 'package:studiosync/core/data/models/workout_summary.dart';
-import 'package:studiosync/core/presentation/widgets/custom_container.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/widgets/single_workout_card.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/trainee-profile-tabs/workouts/single_workout_card.dart';
 
 class AllWorkoutsView extends StatelessWidget {
   final List<WorkoutModel> workouts;

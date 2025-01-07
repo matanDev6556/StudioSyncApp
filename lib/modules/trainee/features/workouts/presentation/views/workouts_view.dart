@@ -6,10 +6,10 @@ import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/core/presentation/utils/dates.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/workouts/presentation/controllers/workouts_controller.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/data/models/subscription_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/widgets/data_workout_container.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/widgets/workouts_horizontal_list.dart';
-import 'package:studiosync/core/presentation/widgets/custom_container.dart';
+import 'package:studiosync/core/data/models/subscription_model.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_data_container.dart';
+import 'package:studiosync/core/presentation/widgets/trainee-profile-tabs/workouts/workouts_horizontal_list.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 
 class TraineeWorkoutsView extends GetView<WorkoutController> {
   final TraineeController traineeController = Get.find();
@@ -56,7 +56,7 @@ class TraineeWorkoutsView extends GetView<WorkoutController> {
 
   Widget _buildSubscriptionSection(Subscription? subscription) {
     return subscription != null
-        ? subscription.getSubscriptionContainer(isTrainer: false)
+        ? subscription.getSubscriptionContainer()
         : CustomContainer(
             text: 'Talk with your trainer for set subscription!',
             padding: EdgeInsets.all(15.h),
@@ -67,12 +67,11 @@ class TraineeWorkoutsView extends GetView<WorkoutController> {
   }
 
   Widget _buildStartAtSection() {
-    return WorkOutDataContainer(
-      traineeDataWorkout: DatesUtils.getFormattedStartDate(
+    return CustomDataContainer(
+      text: DatesUtils.getFormattedStartDate(
         traineeController.trainee.value?.startWorOutDate,
       ),
-      emptyDataReplace: 'Not started yet',
-      iconPath: 'assets/icons/clock_icon.png',
+      leadingIcon: Image.asset('assets/icons/clock_icon.png'),
     );
   }
 

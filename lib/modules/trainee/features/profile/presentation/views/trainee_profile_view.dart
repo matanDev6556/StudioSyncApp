@@ -9,10 +9,10 @@ import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/my_trainer_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/widgets/my_trainer_widget.dart';
-import 'package:studiosync/core/presentation/widgets/custom_container.dart';
-import 'package:studiosync/core/presentation/widgets/custom_dropdown.dart';
-import 'package:studiosync/core/presentation/widgets/custom_text_field.dart';
-import 'package:studiosync/core/presentation/widgets/custome_bttn.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_dropdown.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_text_field.dart';
+import 'package:studiosync/core/presentation/widgets/general/custome_bttn.dart';
 
 class TraineeProfileView extends GetView<TraineeController> {
   TraineeProfileView({Key? key}) : super(key: key);

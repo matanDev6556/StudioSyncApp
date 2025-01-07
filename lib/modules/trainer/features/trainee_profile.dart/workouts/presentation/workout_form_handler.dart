@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/scope_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
+import 'package:studiosync/core/data/models/scope_model.dart';
+import 'package:studiosync/core/data/models/workout_model.dart';
 import 'package:uuid/uuid.dart';
 
 

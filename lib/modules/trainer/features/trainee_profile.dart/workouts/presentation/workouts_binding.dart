@@ -7,7 +7,7 @@ import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workout
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/add_workout_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/delete_workout_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/edit_workout_usecase.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/fetch_workouts_usecase.dart';
+import 'package:studiosync/core/domain/usecases/fetch_workouts_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/workouts_controller.dart';
 
 class WorkoutsBinding implements Bindings {
@@ -19,7 +19,7 @@ class WorkoutsBinding implements Bindings {
 
     Get.put<ITraineeRepository>(FirestoreTraineeRepository(Get.find()));
     // use cases
-    Get.lazyPut(() => ListenToTraineeUpdatesUseCase(Get.find()));
+    Get.lazyPut(() => ListenToTraineeUpdatesUseCase(iTraineeRepository: Get.find()));
 
    
     Get.lazyPut(() => FetchWorkoutUseCase(iWorkoutRepository: Get.find()));

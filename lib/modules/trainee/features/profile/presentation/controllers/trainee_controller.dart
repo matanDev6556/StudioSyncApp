@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
 import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/core/presentation/router/routes.dart';
-import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
 import 'package:studiosync/modules/auth/domain/usecases/logout_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/get_trainee_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
@@ -12,7 +11,7 @@ import 'package:studiosync/modules/trainee/features/profile/domain/usecases/save
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 
 class TraineeController extends GetxController {
-  final GetCurrentUserIdUseCase _getCurrentUserIdUseCase;
+
   final GetTraineeDataUseCasee _getTraineeDataUseCase;
   final ListenToTraineeUpdatesUseCase _listenToTraineeUpdatesUseCase;
   final SaveTraineeUseCase _saveTraineeUseCase;
@@ -20,13 +19,12 @@ class TraineeController extends GetxController {
   final LogoutUseCase _logoutUseCase;
 
   TraineeController({
-    required GetCurrentUserIdUseCase getCurrentUserIdUseCase,
     required GetTraineeDataUseCasee getTraineeDataUseCase,
     required ListenToTraineeUpdatesUseCase listenToTraineeUpdatesUseCase,
     required SaveTraineeUseCase saveTraineeUseCase,
     required PickImageUseCase pickImageUseCase,
     required LogoutUseCase logoutUseCase,
-  })  : _getCurrentUserIdUseCase = getCurrentUserIdUseCase,
+  })  : 
         _getTraineeDataUseCase = getTraineeDataUseCase,
         _listenToTraineeUpdatesUseCase = listenToTraineeUpdatesUseCase,
         _saveTraineeUseCase = saveTraineeUseCase,
@@ -42,54 +40,56 @@ class TraineeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    ever<TraineeModel?>(trainee, (traineeValue) {
+      if (traineeValue != null && !_isListeningToTrainee(traineeValue)) {
+        _updateTraineePathAndListen();
+      }
+    });
+
     getTraineeData();
   }
 
   @override
-  void onReady() {
-    super.onReady();
-    _updateTraineePathAndListen();
-  }
-
-  @override
   void onClose() {
-    _traineeSubscription?.cancel();
     super.onClose();
+    _traineeSubscription?.cancel();
   }
 
-  Future<void> getTraineeData() async {
-    isLoading.value = true;
-    final uid = _getCurrentUserIdUseCase();
-    if (uid != null) {
-      final trainee = await _getTraineeDataUseCase(uid);
-      updateLocalTrainee(trainee!);
-    }
-
-    isLoading.value = false;
+  bool _isListeningToTrainee(TraineeModel traineeValue) {
+    return _traineeSubscription != null &&
+        !_traineeSubscription!.isPaused &&
+        trainee.value?.userId == traineeValue.userId;
   }
 
   void _updateTraineePathAndListen() {
-    // 1. ביטול האזנה קודמת (אם קיימת)
+    debugPrint('Listening to trainee updates');
+
     _traineeSubscription?.cancel();
 
-    if (trainee.value == null) {
-      debugPrint("Trainee value is null. Cannot update path and listen.");
-      return;
-    }
-    // 2. קבלת הנתיב החדש
-    final path = _getTraineePath();
-
-    // 3. האזנה לנתיב החדש
-    _traineeSubscription = _listenToTraineeUpdatesUseCase
-        .execute('$path/${trainee.value!.userId}')
-        .listen(
+    _traineeSubscription =
+        _listenToTraineeUpdatesUseCase(trainee.value!).listen(
       (updatedTrainee) {
         updateLocalTrainee(updatedTrainee);
       },
       onError: (error) {
-        debugPrint("Error listening to trainee updates: $error");
+        debugPrint('Error listening to trainee updates: $error');
       },
     );
+  }
+
+  Future<void> getTraineeData() async {
+    try {
+      isLoading.value = true;
+      final trainee = await _getTraineeDataUseCase();
+      updateLocalTrainee(trainee!);
+      
+    } catch (error) {
+      debugPrint('Error fetching trainee data: $error');
+      // Show an error message or retry option
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<void> updateProfileImage() async {
@@ -103,21 +103,13 @@ class TraineeController extends GetxController {
       updateLocalTrainee(trainee.value!.copyWith(imgUrl: imgUrl));
       saveTrainee();
     }
+    isLoading.value = true;
   }
 
   Future<void> saveTrainee() async {
     isLoading.value = true;
     await _saveTraineeUseCase(trainee.value!);
     isLoading.value = false;
-  }
-
-  String _getTraineePath() {
-    final trainerId = trainee.value?.trainerID ?? '';
-    if (trainerId.isNotEmpty) {
-      return 'trainers/$trainerId/trainees';
-    } else {
-      return 'trainees';
-    }
   }
 
   void updateLocalTrainee(TraineeModel traineeModel) {

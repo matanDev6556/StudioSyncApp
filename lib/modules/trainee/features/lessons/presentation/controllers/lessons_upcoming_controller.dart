@@ -33,7 +33,6 @@ class UpcomingLessonsController extends GetxController {
 
   @override
   void onClose() {
-    
     _lessonsSubscription.cancel();
     super.onClose();
   }
@@ -58,9 +57,6 @@ class UpcomingLessonsController extends GetxController {
   }
 
   void cancleLesson(LessonModel lessonModel) {
-    _cancelLessonUseCase(trainee.trainerID, lessonModel.id, trainee.userId);
-
-    trainee.subscription?.cancleLesson();
-    Get.find<TraineeController>().saveTrainee();
+    _cancelLessonUseCase(trainee.trainerID, lessonModel.id, trainee);
   }
 }

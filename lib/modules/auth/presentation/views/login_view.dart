@@ -7,8 +7,8 @@ import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/auth/presentation/utils/const_auth.dart';
 import 'package:studiosync/modules/auth/presentation/controllers/login_controller.dart';
 import 'package:studiosync/modules/auth/presentation/widgets/app_bar.dart';
-import 'package:studiosync/core/presentation/widgets/custom_text_field.dart';
-import 'package:studiosync/core/presentation/widgets/custome_bttn.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_text_field.dart';
+import 'package:studiosync/core/presentation/widgets/general/custome_bttn.dart';
 import 'package:studiosync/core/presentation/router/routes.dart';
 
 class LoginView extends GetView<LoginController> {

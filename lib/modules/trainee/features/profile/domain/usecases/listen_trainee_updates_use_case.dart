@@ -4,9 +4,15 @@ import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_
 class ListenToTraineeUpdatesUseCase {
   final ITraineeRepository _repository;
 
-  ListenToTraineeUpdatesUseCase(this._repository);
+  ListenToTraineeUpdatesUseCase({
+    required ITraineeRepository iTraineeRepository,
+   
+  }) : _repository = iTraineeRepository;
 
-  Stream<TraineeModel> execute(String path) {
+  Stream<TraineeModel> call(TraineeModel traineeModel) {
+    final String path = traineeModel.trainerID.isNotEmpty
+        ? 'trainers/${traineeModel.trainerID}/trainees/${traineeModel.userId}'
+        : 'trainees/${traineeModel.userId}';
     return _repository.listenToTraineeUpdates(path);
   }
 }

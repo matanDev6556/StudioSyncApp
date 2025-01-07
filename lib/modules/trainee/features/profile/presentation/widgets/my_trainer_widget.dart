@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
-import 'package:studiosync/core/presentation/widgets/custom_container.dart';
-import 'package:studiosync/core/presentation/widgets/custom_image.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_image.dart';
 import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
 
 class MyTrainerWidget extends StatelessWidget {

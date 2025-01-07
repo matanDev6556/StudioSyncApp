@@ -7,8 +7,8 @@ import 'package:studiosync/modules/trainee/features/lessons/presentation/views/u
 import 'package:studiosync/modules/trainee/features/profile/presentation/views/trainee_profile_view.dart';
 import 'package:studiosync/modules/trainee/features/workouts/presentation/views/workouts_view.dart';
 import 'package:studiosync/core/presentation/controllers/tabs_controller.dart';
-import 'package:studiosync/core/presentation/widgets/app_bar.dart';
-import 'package:studiosync/core/presentation/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/general/app_bar.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 
 class TraineeTabsView extends StatelessWidget {
   const TraineeTabsView({Key? key}) : super(key: key);

@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/data/models/workout_summary.dart';
 import 'package:studiosync/core/presentation/router/routes.dart';
-import 'package:studiosync/core/presentation/widgets/custom_container.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
+import 'package:studiosync/core/data/models/workout_model.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/widgets/data_workout_container.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/widgets/workouts_horizontal_list.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_data_container.dart';
+import 'package:studiosync/core/presentation/widgets/trainee-profile-tabs/workouts/workouts_horizontal_list.dart';
 
 class WorkoutsTabWidget extends StatelessWidget {
   final WorkoutSummary summary;
@@ -37,10 +37,9 @@ class WorkoutsTabWidget extends StatelessWidget {
             children: [
               _sectionTitle('Start At'),
               SizedBox(height: 10.h),
-              WorkOutDataContainer(
-                traineeDataWorkout: startDate,
-                emptyDataReplace: 'Not started yet',
-                iconPath: 'assets/icons/clock_icon.png',
+              CustomDataContainer(
+                text: startDate,
+                leadingIcon: Image.asset('assets/icons/clock_icon.png'),
               ),
               SizedBox(height: 20.h),
               _buildWorkoutSection(),

@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/features/notifications/presentation/requests_controller.dart';
-import 'package:studiosync/core/presentation/widgets/custom_container.dart';
-import 'package:studiosync/core/presentation/widgets/custom_image.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_image.dart';
 
 class RequestsTabView extends GetView<RequestsController> {
  

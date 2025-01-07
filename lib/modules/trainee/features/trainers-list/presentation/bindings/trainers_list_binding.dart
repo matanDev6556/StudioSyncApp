@@ -7,7 +7,7 @@ import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecase
 import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/filter_trainers_usecase.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/load_prefrences_usecase.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/save_preference_usecase.dart';
-import 'package:studiosync/core/domain/repositories/local_storage_repository.dart';
+import 'package:studiosync/core/domain/repositories/i_local_storage_repository.dart';
 
 class TrainersListBinding extends Bindings {
   @override

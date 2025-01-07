@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/core/presentation/utils/validations.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_dialog.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/data/models/by_date_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/data/models/by_total_trainings_model.dart';
+import 'package:studiosync/core/data/models/by_date_model.dart';
+import 'package:studiosync/core/data/models/by_total_trainings_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/data/models/subscription_model.dart';
+import 'package:studiosync/core/data/models/subscription_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/domain/usecases/cancle_sub_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/domain/usecases/save_sub_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/presentation/widgets/add_edit_subscription_buttom.dart';
@@ -64,10 +65,8 @@ class SubscriptionController extends GetxController {
 
   void _listenToTraineeChanges() {
     if (trainee.value != null) {
-      traineeDocSubscription = listenToTraineeUpdatesUseCase
-          .execute(
-              'trainers/${trainee.value!.trainerID}/trainees/${trainee.value!.userId}')
-          .listen(
+      traineeDocSubscription =
+          listenToTraineeUpdatesUseCase(trainee.value!).listen(
         (updatedTrainee) {
           trainee.value = updatedTrainee;
         },
@@ -131,6 +130,17 @@ class SubscriptionController extends GetxController {
     Get.bottomSheet(
       AddSubscriptionWidget(trainee: traineeModel, title: title),
       isScrollControlled: true,
+    );
+  }
+   void showCancelSubscriptionDialog(BuildContext context,TraineeModel traineeModel) {
+    showCustomDialog(
+      context: context,
+      animationPath: 'assets/animations/warning.json',
+      title: 'Cancel Subscription',
+      msg: 'Are you sure you want to cancel the subscription?',
+      doActionMsg: 'Yes, Cancel',
+      cancelActionMsg: 'No, Keep',
+      onConfirm: () => cancleSub(traineeModel)
     );
   }
 

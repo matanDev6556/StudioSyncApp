@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainees_controller.dart';
 import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
-import 'package:studiosync/modules/trainer/features/statistics/data/models/date_range_model.dart';
-import 'package:studiosync/modules/trainer/features/statistics/data/models/monthly_states_model.dart';
+import 'package:studiosync/modules/trainer/features/trainer-statistics/data/models/date_range_model.dart';
+import 'package:studiosync/modules/trainer/features/trainer-statistics/data/models/monthly_states_model.dart';
 
 class TrainerStatsController extends GetxController {
   final GetCurrentUserIdUseCase _getCurrentUserIdUseCase;

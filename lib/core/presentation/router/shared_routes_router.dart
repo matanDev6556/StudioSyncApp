@@ -5,8 +5,8 @@ import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workout
 import 'package:studiosync/core/presentation/views/splash_view.dart';
 import 'package:studiosync/modules/auth/presentation/views/login_view.dart';
 import 'package:studiosync/modules/auth/presentation/views/signup_as_view.dart';
-import 'package:studiosync/modules/widget-tree/presentation/widget_tree_binding.dart';
-import 'package:studiosync/modules/widget-tree/presentation/widget_tree_view.dart';
+import 'package:studiosync/core/presentation/bindings/widget_tree_binding.dart';
+import 'package:studiosync/core/presentation/views/widget_tree_view.dart';
 
 class SharedRoutes {
   static final sharedRoutes = [

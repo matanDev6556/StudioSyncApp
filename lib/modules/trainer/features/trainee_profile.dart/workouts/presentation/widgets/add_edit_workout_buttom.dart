@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
+import 'package:studiosync/core/data/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/workouts_controller.dart';
 
 class AddEditWorkoutBottomSheet extends GetView<WorkoutsController> {

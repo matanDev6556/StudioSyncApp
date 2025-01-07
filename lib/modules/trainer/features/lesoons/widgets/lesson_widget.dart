@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
-import 'package:studiosync/core/presentation/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 
 class LessonWidget extends StatelessWidget {
   final LessonModel lessonModel;

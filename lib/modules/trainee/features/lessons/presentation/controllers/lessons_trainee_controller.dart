@@ -6,14 +6,15 @@ import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/canc
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/get_lessonsSettings_usecase.dart';
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/get_upcomingLessons_usecase.dart';
 import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/join_lesson_usecase.dart';
-import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/service/lessons_filter_service.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/get_trainee_usecase.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
 import 'package:studiosync/modules/trainer/models/lessons_settings_model.dart';
 
 class LessonsTraineeController extends GetxController {
   final GetUpcomingLessonsUseCase _getUpcomingLessons;
+  final GetTraineeDataUseCasee _getTraineeDataUseCasee;
   final GetLessonsSettingsUseCase _getLessonsSettingsUseCase;
   final JoinLessonUseCase _joinLessonUseCase;
   final CancelLessonUseCase _cancelLessonUseCase;
@@ -21,11 +22,13 @@ class LessonsTraineeController extends GetxController {
 
   LessonsTraineeController({
     required GetUpcomingLessonsUseCase getUpcomingLessons,
+    required GetTraineeDataUseCasee getTraineeDataUseCasee,
     required GetLessonsSettingsUseCase getLessonsSettingsUseCase,
     required JoinLessonUseCase joinLessonUseCase,
     required CancelLessonUseCase cancelLessonUseCase,
     required this.lessonFilterService,
   })  : _getUpcomingLessons = getUpcomingLessons,
+        _getTraineeDataUseCasee = getTraineeDataUseCasee,
         _getLessonsSettingsUseCase = getLessonsSettingsUseCase,
         _joinLessonUseCase = joinLessonUseCase,
         _cancelLessonUseCase = cancelLessonUseCase;
@@ -42,14 +45,20 @@ class LessonsTraineeController extends GetxController {
       Rx<LessonsSettingsModel?>(null);
 
   //  use trainee controller
-  TraineeController traineeController = Get.find<TraineeController>();
-  TraineeModel get trainee => traineeController.trainee.value!;
+  //TraineeController traineeController = Get.find<TraineeController>();
+  late TraineeModel? trainee;
 
   @override
   void onInit() {
     super.onInit();
-    _listenToLessonChanges();
-    _listenToLessonsSettings();
+    fetchTrainee().then((_) {
+      if (trainee != null) {
+        _listenToLessonChanges();
+        _listenToLessonsSettings();
+      } else {
+        print("Trainee is null, skipping listeners initialization.");
+      }
+    });
   }
 
   @override
@@ -59,9 +68,23 @@ class LessonsTraineeController extends GetxController {
     super.onClose();
   }
 
+  Future<void> fetchTrainee() async {
+    isLoading.value = true;
+    try {
+      trainee = await _getTraineeDataUseCasee();
+      if (trainee == null) {
+        print("No trainee data available.");
+      }
+    } catch (e) {
+      print("Error fetching trainee data: $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   void _listenToLessonChanges() {
     _lessonsSubscription =
-        _getUpcomingLessons(trainee.trainerID).listen((updatedList) {
+        _getUpcomingLessons(trainee!.trainerID).listen((updatedList) {
       _lessons.value = updatedList;
       applyFilters();
     });
@@ -69,35 +92,32 @@ class LessonsTraineeController extends GetxController {
 
   void _listenToLessonsSettings() {
     _lessonsSettingsSubscription =
-        _getLessonsSettingsUseCase(trainee.trainerID).listen((settings) {
+        _getLessonsSettingsUseCase(trainee!.trainerID).listen((settings) {
       if (settings != null) {
+        print(settings);
         lessonsSettings.value = settings;
       }
     });
   }
 
   Future<void> joinLesson(LessonModel lessonModel) async {
-    if (trainee.subscription != null &&
-        trainee.subscription!.isAllowedTosheduleLesson()) {
-      await _joinLessonUseCase(
-        trainee.trainerID,
-        lessonModel.id,
-        trainee.userId,
-      );
-    }
-
-    traineeController.saveTrainee();
+    isLoading.value = true;
+    await _joinLessonUseCase(
+      trainee!.trainerID,
+      lessonModel.id,
+      trainee!,
+    );
+    isLoading.value = false;
   }
 
   Future<void> cancleLesson(LessonModel lessonModel) async {
+    isLoading.value = true;
     await _cancelLessonUseCase(
-      trainee.trainerID,
+      trainee!.trainerID,
       lessonModel.id,
-      trainee.userId,
+      trainee!,
     );
-
-    trainee.subscription?.cancleLesson();
-    traineeController.saveTrainee();
+    isLoading.value = false;
   }
 
   void applyFilters() {
@@ -106,13 +126,13 @@ class LessonsTraineeController extends GetxController {
       ..sort((a, b) => a.startDateTime.compareTo(b.startDateTime));
   }
 
-  void handleLessonPress(LessonModel lesson) {
+  Future<void> handleLessonPress(LessonModel lesson) async {
     if (checkIfTraineeInLesson(lesson)) {
-      cancleLesson(lesson);
+      await cancleLesson(lesson);
     } else if (lesson.isLessonFull()) {
       Validations.showValidationSnackBar('Lesson is full!', Colors.red);
     } else {
-      joinLesson(lesson);
+      await joinLesson(lesson);
     }
   }
 
@@ -122,6 +142,6 @@ class LessonsTraineeController extends GetxController {
   }
 
   bool checkIfTraineeInLesson(LessonModel lessonModel) {
-    return lessonModel.traineesRegistrations.contains(trainee.userId);
+    return lessonModel.traineesRegistrations.contains(trainee!.userId);
   }
 }

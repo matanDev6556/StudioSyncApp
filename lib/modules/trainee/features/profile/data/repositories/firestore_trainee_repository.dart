@@ -34,9 +34,9 @@ class FirestoreTraineeRepository implements ITraineeRepository {
   Future<void> updateProfileImage(TraineeModel trainee) async {
     saveTrainee(trainee);
   }
-  
+
   @override
-  Future<TraineeModel?> getTraineeData(String uid)async {
+  Future<TraineeModel?> getTraineeData(String uid) async {
     final traineeMap = await _firestoreService.getDocument('AllTrainees', uid);
 
     if (traineeMap == null) return null;
@@ -52,6 +52,4 @@ class FirestoreTraineeRepository implements ITraineeRepository {
     final trainee = await _firestoreService.getDocument('trainees', uid);
     return TraineeModel.fromJson(trainee!);
   }
-
-
 }

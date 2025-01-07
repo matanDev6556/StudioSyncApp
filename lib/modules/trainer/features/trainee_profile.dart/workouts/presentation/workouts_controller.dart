@@ -4,13 +4,13 @@ import 'package:studiosync/core/data/models/workout_summary.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/widgets/add_edit_workout_buttom.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/workout_form_handler.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/data/models/workout_model.dart';
+import 'package:studiosync/core/data/models/workout_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/add_workout_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/delete_workout_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/edit_workout_usecase.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/domain/usecases/fetch_workouts_usecase.dart';
+import 'package:studiosync/core/domain/usecases/fetch_workouts_usecase.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/shared/services/workouts_analytics_service.dart';
+import 'package:studiosync/core/analytics/workouts_analytics.dart';
 
 class WorkoutsController extends GetxController {
   final FetchWorkoutUseCase fetchWorkoutUseCase;

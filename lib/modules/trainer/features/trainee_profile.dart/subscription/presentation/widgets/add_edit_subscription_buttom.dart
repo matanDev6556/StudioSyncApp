@@ -6,7 +6,7 @@ import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/presentation/subscription_controller.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/subscription/presentation/widgets/number_controll_widget.dart';
-import 'package:studiosync/core/presentation/widgets/date_selector.dart';
+import 'package:studiosync/core/presentation/widgets/general/date_selector.dart';
 
 class AddSubscriptionWidget extends StatelessWidget {
   final TraineeModel trainee;

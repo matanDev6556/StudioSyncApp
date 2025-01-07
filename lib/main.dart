@@ -7,7 +7,7 @@ import 'package:studiosync/core/data/services/service_locator.dart';
 import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/core/presentation/router/routes.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
-import 'package:studiosync/modules/widget-tree/presentation/widget_tree_binding.dart';
+import 'package:studiosync/core/presentation/bindings/widget_tree_binding.dart';
 
 Future<void> main() async {
   // init firebase
