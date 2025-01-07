@@ -12,7 +12,7 @@ import 'package:studiosync/core/presentation/widgets/general/app_bar_profile.dar
 import 'package:studiosync/core/presentation/views/trainee-profile-tabs/statistic_tab_view.dart';
 import 'package:studiosync/core/presentation/views/trainee-profile-tabs/subscription_tab_view.dart';
 import 'package:studiosync/core/data/models/workout_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/views/workouts_tab_view.dart';
+import 'package:studiosync/core/presentation/views/trainee-profile-tabs/workouts_tab_view.dart';
 import 'package:studiosync/modules/trainer/features/trainee_profile.dart/workouts/presentation/workouts_controller.dart';
 
 class ProfileOfTraineeView extends StatelessWidget {
@@ -118,6 +118,7 @@ class ProfileOfTraineeView extends StatelessWidget {
                           ),
                     trainee.subscription != null
                         ? WorkoutsTabWidget(
+                            isTrainer: true,
                             summary: workoutsController.workoutSummary.value,
                             workouts: workoutsController.workouts,
                             startDate: DatesUtils.getFormattedStartDate(

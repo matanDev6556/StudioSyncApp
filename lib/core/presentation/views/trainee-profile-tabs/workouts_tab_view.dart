@@ -1,4 +1,3 @@
-// workouts_tab_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -14,16 +13,18 @@ class WorkoutsTabWidget extends StatelessWidget {
   final WorkoutSummary summary;
   final List<WorkoutModel> workouts;
   final String startDate;
-  final Function(WorkoutModel?) showAddWorkoutBottomSheet;
-  final Function(WorkoutModel) deleteWorkout;
+  final bool isTrainer;
+  final Function(WorkoutModel?)? showAddWorkoutBottomSheet;
+  final Function(WorkoutModel)? deleteWorkout;
 
   const WorkoutsTabWidget({
     Key? key,
     required this.summary,
     required this.workouts,
     required this.startDate,
-    required this.showAddWorkoutBottomSheet,
-    required this.deleteWorkout,
+    required this.isTrainer,
+    this.showAddWorkoutBottomSheet,
+    this.deleteWorkout,
   }) : super(key: key);
 
   @override
@@ -46,15 +47,17 @@ class WorkoutsTabWidget extends StatelessWidget {
             ],
           ),
         ),
-        Positioned(
-          bottom: 16.h,
-          right: 16.w,
-          child: FloatingActionButton(
-            onPressed: () => showAddWorkoutBottomSheet(null),
-            backgroundColor: AppStyle.softOrange,
-            child: Icon(Icons.add, color: AppStyle.darkOrange),
+        if (isTrainer) ...[
+          Positioned(
+            bottom: 16.h,
+            right: 16.w,
+            child: FloatingActionButton(
+              onPressed: () => showAddWorkoutBottomSheet?.call(null),
+              backgroundColor: AppStyle.softOrange,
+              child: Icon(Icons.add, color: AppStyle.darkOrange),
+            ),
           ),
-        ),
+        ],
       ],
     );
   }
@@ -80,17 +83,22 @@ class WorkoutsTabWidget extends StatelessWidget {
                   Routes.allTraineeWorkouts,
                   arguments: {
                     'workouts': workouts,
-                    'onEdit': (WorkoutModel workout) {
-                      showAddWorkoutBottomSheet(workout);
-                    },
-                    'onDelete': (WorkoutModel workout) {
-                      deleteWorkout(workout);
-                    },
-                    'summary': summary
+                    'onEdit': isTrainer
+                        ? (WorkoutModel workout) {
+                            showAddWorkoutBottomSheet?.call(workout);
+                          }
+                        : null,
+                    'onDelete': isTrainer
+                        ? (WorkoutModel workout) {
+                            deleteWorkout?.call(workout);
+                          }
+                        : null,
+                    'summary': summary,
+                    'isTrainer': isTrainer,
                   },
                 ),
               ),
-            ),
+            )
           ],
         ),
         SizedBox(height: 10.h),
@@ -105,8 +113,8 @@ class WorkoutsTabWidget extends StatelessWidget {
               )
             : WorkoutHorizontalListCard(
                 workouts: workouts,
-                onDelete: deleteWorkout,
-                onEdit: showAddWorkoutBottomSheet,
+                onDelete: isTrainer ? deleteWorkout : null,
+                onEdit: isTrainer ? showAddWorkoutBottomSheet : null,
               ),
       ],
     );

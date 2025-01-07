@@ -5,10 +5,10 @@ import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/views/upcoming_lessons_view.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/views/trainee_profile_view.dart';
-import 'package:studiosync/modules/trainee/features/workouts/presentation/views/workouts_view.dart';
 import 'package:studiosync/core/presentation/controllers/tabs_controller.dart';
 import 'package:studiosync/core/presentation/widgets/general/app_bar.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
+import 'package:studiosync/modules/trainee/features/trainee-sections/trainee_sections_view.dart';
 
 class TraineeTabsView extends StatelessWidget {
   const TraineeTabsView({Key? key}) : super(key: key);
@@ -91,7 +91,7 @@ class TraineeWorkoutsTab extends StatelessWidget {
     return Obx(() {
       final trainee = controller.trainee.value;
       return trainee?.trainerID.isNotEmpty ?? false
-          ? TraineeWorkoutsView()
+          ? const TraineeSectionsView()
           : Center(
               child: CustomContainer(
                 backgroundColor: Colors.red.withOpacity(0.2),

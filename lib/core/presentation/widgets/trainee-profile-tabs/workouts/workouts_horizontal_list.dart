@@ -7,12 +7,14 @@ import 'package:studiosync/core/presentation/widgets/trainee-profile-tabs/workou
 
 class WorkoutHorizontalListCard extends StatefulWidget {
   final List<WorkoutModel> workouts;
+  
   final Function(WorkoutModel workout)? onDelete;
   final Function(WorkoutModel workout)? onEdit;
 
   const WorkoutHorizontalListCard({
     Key? key,
     required this.workouts,
+    
     this.onDelete,
     this.onEdit,
   }) : super(key: key);

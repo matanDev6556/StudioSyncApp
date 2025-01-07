@@ -10,6 +10,16 @@ class FirestoreWorkoutsRepository implements IWorkoutRepository {
   FirestoreWorkoutsRepository({required FirestoreService firestoreService})
       : _firestoreService = firestoreService;
 
+    @override
+  Stream<List<WorkoutModel>> streamWorkoutChanges(
+      String trainerId, String traineeId) {
+    return _firestoreService
+        .streamCollection('trainers/$trainerId/trainees/$traineeId/workouts')
+        .map((snapshot) => snapshot.docs
+            .map((doc) => WorkoutModel.fromJson(doc.data()))
+            .toList());
+  }
+
   @override
   Future<void> addWorkoutToTrainee(
       String trainerId, String traineeId, WorkoutModel workout) async {

@@ -13,6 +13,7 @@ class Routes {
   static const profileTrainee = '/profile-trainee';
   static const workoutesTrainee = '/workouts-trainee';
   static const lessonsTrainee = '/lessons-trainee';
+  static const sectionsTrainee = '/sections-trainee';
 
   //trainee routes
   static const signUpTrainee = '/sign-up-trainee';

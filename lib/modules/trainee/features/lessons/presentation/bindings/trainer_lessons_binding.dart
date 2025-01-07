@@ -45,3 +45,5 @@ class TrainerLessonsBinding extends Bindings {
         ));
   }
 }
+
+

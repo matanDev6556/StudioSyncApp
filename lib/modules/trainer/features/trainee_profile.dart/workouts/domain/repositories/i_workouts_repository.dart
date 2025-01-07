@@ -2,6 +2,8 @@ import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_
 import 'package:studiosync/core/data/models/workout_model.dart';
 
 abstract class IWorkoutRepository {
+  Stream<List<WorkoutModel>> streamWorkoutChanges(
+      String trainerId, String traineeId);
 
   Future<List<WorkoutModel>> fetchWorkouts(String trainerId, String traineeId);
 
@@ -10,7 +12,7 @@ abstract class IWorkoutRepository {
 
   Future<void> editWorkoutToFirestore(
       String trainerId, String traineeId, WorkoutModel workout);
-
+      
   Future<void> deleteWorkout(
       String trainerId, TraineeModel trainee, WorkoutModel workout);
 }
