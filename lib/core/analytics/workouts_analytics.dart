@@ -1,5 +1,5 @@
-import 'package:studiosync/core/data/models/workout_model.dart';
-import 'package:studiosync/core/data/models/workout_summary.dart';
+import 'package:studiosync/modules/workouts/data/model/workout_model.dart';
+import 'package:studiosync/modules/workouts/data/model/workout_summary.dart';
 
 class WorkoutAnalytics {
   static int getTotalWorkouts(List<WorkoutModel> workouts) {

@@ -82,4 +82,19 @@ class AppStyle {
   static double getScreenHeight() => Get.height;
 
   static double getScreenWidht() => Get.width;
+
+  static void showCustomBottomSheet({
+    required Widget content,
+    bool isScrollControlled = true,
+    Color backgroundColor = Colors.white,
+    BorderRadiusGeometry borderRadius =
+        const BorderRadius.vertical(top: Radius.circular(20)),
+  }) {
+    Get.bottomSheet(
+      content,
+      isScrollControlled: isScrollControlled,
+      backgroundColor: backgroundColor,
+      shape: RoundedRectangleBorder(borderRadius: borderRadius),
+    );
+  }
 }

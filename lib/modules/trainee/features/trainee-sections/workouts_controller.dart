@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/domain/usecases/fetch_workouts_usecase.dart';
+import 'package:studiosync/modules/workouts/domain/usecases/fetch_workouts_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/get_trainee_usecase.dart';
-import 'package:studiosync/core/domain/usecases/stream_workouts_usecase.dart';
-import 'package:studiosync/core/domain/usecases/sort_workouts_usecase.dart';
-import 'package:studiosync/core/data/models/workout_model.dart';
-import 'package:studiosync/core/data/models/workout_summary.dart';
+import 'package:studiosync/modules/workouts/domain/usecases/stream_workouts_usecase.dart';
+import 'package:studiosync/modules/workouts/domain/usecases/sort_workouts_usecase.dart';
+import 'package:studiosync/modules/workouts/data/model/workout_model.dart';
+import 'package:studiosync/modules/workouts/data/model/workout_summary.dart';
 import 'package:studiosync/core/analytics/workouts_analytics.dart';
 
 class WorkoutTraineeController extends GetxController {

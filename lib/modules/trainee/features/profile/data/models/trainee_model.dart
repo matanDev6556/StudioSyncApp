@@ -1,5 +1,5 @@
-import 'package:studiosync/core/data/models/by_date_model.dart';
-import 'package:studiosync/core/data/models/by_total_trainings_model.dart';
+import 'package:studiosync/core/data/models/sub_by_date_model.dart';
+import 'package:studiosync/core/data/models/sub_by_total_trainings_model.dart';
 import 'package:studiosync/core/data/models/user_model.dart';
 import 'package:studiosync/core/data/models/subscription_model.dart';
 

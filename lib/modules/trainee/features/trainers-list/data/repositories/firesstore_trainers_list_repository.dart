@@ -1,4 +1,4 @@
-import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
+import 'package:studiosync/core/data/data_source/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/domain/repositories/i_trainers_list_repository.dart';
 import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
 

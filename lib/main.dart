@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/config/firebase_options.dart';
-import 'package:studiosync/core/data/services/service_locator.dart';
+import 'package:studiosync/core/data/data_source/service_locator.dart';
 import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/core/presentation/router/routes.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';

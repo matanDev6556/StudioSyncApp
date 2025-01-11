@@ -1,7 +1,6 @@
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_instance/src/bindings_interface.dart';
-import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
 import 'package:studiosync/modules/auth/data/repositories/firebase_auth_repository.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
 import 'package:studiosync/modules/auth/domain/usecases/logout_usecase.dart';
@@ -18,7 +17,7 @@ class TraineeBinding extends Bindings {
   void dependencies() {
     //concrete repo
     Get.put<ITraineeRepository>(
-        FirestoreTraineeRepository(Get.find<FirestoreService>()));
+        FirestoreTraineeRepository(firestoreService: Get.find()));
     Get.put<IAuthRepository>(
         FirebaseAuthRepository(firebaseAuthService: Get.find()));
 

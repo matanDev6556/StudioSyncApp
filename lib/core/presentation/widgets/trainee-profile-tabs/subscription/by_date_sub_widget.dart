@@ -6,7 +6,7 @@ import 'package:studiosync/core/presentation/widgets/general/custom_container.da
 import 'package:studiosync/core/presentation/widgets/general/linear_progress.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/core/presentation/utils/dates.dart';
-import 'package:studiosync/core/data/models/by_date_model.dart';
+import 'package:studiosync/core/data/models/sub_by_date_model.dart';
 
 class ByDateSubscriptionWidget extends StatelessWidget {
   final SubscriptionByDate subscriptionByDate;

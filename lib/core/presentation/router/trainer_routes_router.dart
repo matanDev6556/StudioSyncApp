@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/trainee_profile_binding.dart';
+import 'package:studiosync/modules/trainer/features/trainee-sections/binding_profile_trainee_sections.dart';
 import 'package:studiosync/modules/trainer/features/tabs/trainer_tabs_binding.dart';
-import 'package:studiosync/modules/trainer/features/trainee_profile.dart/profile_trainee_view.dart';
+import 'package:studiosync/modules/trainer/features/trainee-sections/view_profile_trainee_sections.dart';
 import 'package:studiosync/modules/trainer/features/tabs/trainer_tabs_view.dart';
 import 'package:studiosync/modules/auth/presentation/views/signup_trainer_view.dart';
 import 'package:studiosync/modules/auth/presentation/bindings/signup_trainer_binding.dart';
@@ -28,6 +28,5 @@ class TrainerRouter {
       },
       binding: TraineeProfileBinding(),
     ),
-   
   ];
 }

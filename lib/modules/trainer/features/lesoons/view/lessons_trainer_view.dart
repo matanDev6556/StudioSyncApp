@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
-import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/widgets/days_selector.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/contollers/trainer_lessons_controller.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/widgets/add_edit_lesson_buttom.dart';
+import 'package:studiosync/modules/lessons/presentation/widgets/days_selector.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/filters_widget.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
+import 'package:studiosync/modules/lessons/presentation/widgets/lesson_widget.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/settings_widget.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 
@@ -48,10 +49,9 @@ class LessonsView extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.tune, color: AppStyle.softOrange),
                     onPressed: () {
-                      Get.bottomSheet(
-                        LessonFiltersWidget(),
-                        isScrollControlled: true,
+                      AppStyle.showCustomBottomSheet(
                         backgroundColor: Colors.transparent,
+                        content: LessonFiltersWidget(),
                       );
                     },
                   ),
@@ -61,21 +61,24 @@ class LessonsView extends StatelessWidget {
                       color: AppStyle.softOrange,
                     ),
                     onPressed: () {
-                      Get.bottomSheet(
-                        const LessonSettingsWidget(),
-                        isScrollControlled: true,
+                      AppStyle.showCustomBottomSheet(
                         backgroundColor: Colors.transparent,
+                        content: const LessonSettingsWidget(),
                       );
                     },
                   ),
-                  IconButton(
-                    icon: Icon(Icons.play_circle_outline,
-                        color: AppStyle.softOrange),
+                  //TODO : try another way
+                  /* IconButton(
+                    icon: Icon(
+                      Icons.play_circle_outline,
+                      color: AppStyle.softOrange,
+                    ),
                     onPressed: () {
                       Get.dialog(
                         AlertDialog(
                           title: const Text('שחזור יומן השבוע שעבר ?'),
-                          content: const Text('האם ברצונך לשחזר את יומן שבוע שעבר?'),
+                          content:
+                              const Text('האם ברצונך לשחזר את יומן שבוע שעבר?'),
                           actions: [
                             TextButton(
                               child: const Text('לא'),
@@ -84,8 +87,8 @@ class LessonsView extends StatelessWidget {
                             TextButton(
                               child: const Text('כן'),
                               onPressed: () {
-                                controller.duplicateLastWeekLessons();
-                                Get.back();
+                                //controller.duplicateLastWeekLessons();
+                                //AppRouter.navigateBack();
                               },
                             ),
                           ],
@@ -93,6 +96,7 @@ class LessonsView extends StatelessWidget {
                       );
                     },
                   ),
+                  */
                 ],
               ),
             ),
@@ -109,7 +113,7 @@ class LessonsView extends StatelessWidget {
                       ),
                     );
                   }
-
+                  // lessons list
                   return ListView.builder(
                     itemCount: lessons.length,
                     itemBuilder: (context, index) {
@@ -120,11 +124,13 @@ class LessonsView extends StatelessWidget {
                           children: [
                             _buildIconButton(
                               onTap: () {
-                                controller.showLessonBottomSheet(
-                                  title: 'Add lesson',
-                                  lesson: lesson,
-                                  onSave: (updatedLesson) =>
-                                      controller.addLesson(updatedLesson),
+                                AppStyle.showCustomBottomSheet(
+                                  content: LessonEditBottomSheet(
+                                    title: 'Add lesson',
+                                    lesson: lesson,
+                                    onSave: (updatedLesson) =>
+                                        controller.addLesson(updatedLesson),
+                                  ),
                                 );
                               },
                               icon: Icons.copy,
@@ -133,11 +139,13 @@ class LessonsView extends StatelessWidget {
                             SizedBox(width: 8.w),
                             _buildIconButton(
                               onTap: () {
-                                controller.showLessonBottomSheet(
-                                  title: 'Edit lesson',
-                                  lesson: lesson,
-                                  onSave: (updatedLesson) =>
-                                      controller.editLesson(updatedLesson),
+                                AppStyle.showCustomBottomSheet(
+                                  content: LessonEditBottomSheet(
+                                    title: 'Edit lesson',
+                                    lesson: lesson,
+                                    onSave: (updatedLesson) =>
+                                        controller.editLesson(updatedLesson),
+                                  ),
                                 );
                               },
                               icon: Icons.edit,
@@ -150,14 +158,14 @@ class LessonsView extends StatelessWidget {
                               color: Colors.redAccent,
                             ),
                             const Spacer(),
-                            controller.isLoading.value
+                            Obx(() => controller.isLoading.value
                                 ? const CircularProgressIndicator()
                                 : _buildActionButton(
                                     onTap: () =>
                                         controller.onDetailsTap(lesson),
                                     label: 'Details',
                                     color: AppStyle.softBrown,
-                                  )
+                                  ))
                           ],
                         ),
                       );
@@ -168,15 +176,18 @@ class LessonsView extends StatelessWidget {
             ),
           ],
         ),
+        // add lessons bttn
         Positioned(
           bottom: 16.h,
           right: 16.w,
           child: FloatingActionButton(
             onPressed: () {
-              // הוסף את הקוד להוספת שיעור חדש כאן
-              controller.showLessonBottomSheet(
-                title: 'Add lesson',
-                onSave: (newLesson) => controller.addLesson(newLesson),
+              AppStyle.showCustomBottomSheet(
+                content: LessonEditBottomSheet(
+                  title: 'Add lesson',
+                  onSave: (updatedLesson) =>
+                      controller.addLesson(updatedLesson),
+                ),
               );
             },
             child: const Icon(Icons.add),

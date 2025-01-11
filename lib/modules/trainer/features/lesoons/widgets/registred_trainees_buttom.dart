@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_image.dart';
 
 class RegisteredTrainees extends StatelessWidget {
+  final List<TraineeModel> registeredTrainees;
+  final String lessonId;
+  
   const RegisteredTrainees({
     super.key,
     required this.registeredTrainees,
     required this.lessonId,
   });
 
-  final List<TraineeModel> registeredTrainees;
-  final String lessonId;
+  
 
   @override
   Widget build(BuildContext context) {

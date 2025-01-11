@@ -5,9 +5,9 @@ import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/service/lessons_filter_service.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/widgets/trainee_filter_lessosn_buttom.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/widgets/days_selector.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
+import 'package:studiosync/modules/lessons/data/model/lesson_model.dart';
+import 'package:studiosync/modules/lessons/presentation/widgets/days_selector.dart';
+import 'package:studiosync/modules/lessons/presentation/widgets/lesson_widget.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 
 class TrainerLessonsView extends GetView<LessonsTraineeController> {

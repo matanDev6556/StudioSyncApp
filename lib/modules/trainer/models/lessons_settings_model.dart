@@ -59,7 +59,7 @@ class LessonsSettingsModel {
       return "לא הוגדרו יום ושעות פעילות";
     }
 
-    // מפה של ימי השבוע בעברית
+   
     const daysMap = {
       1: "Sunday",
       2: "Monday",

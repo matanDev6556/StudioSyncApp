@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/consts_lessons.dart';
+import 'package:studiosync/core/presentation/utils/consts_lessons.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_dropdown.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_text_field.dart';
 import 'package:studiosync/core/presentation/widgets/general/custome_bttn.dart';

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/auth/presentation/controllers/signup_trainer_controller.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/consts_lessons.dart';
+import 'package:studiosync/core/presentation/utils/consts_lessons.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_text_field.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_dropdown.dart';
 import 'package:studiosync/core/presentation/widgets/general/list_of_strings.dart';

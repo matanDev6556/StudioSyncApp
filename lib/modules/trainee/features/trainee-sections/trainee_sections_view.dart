@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/core/presentation/utils/dates.dart';
-import 'package:studiosync/core/presentation/views/trainee-profile-tabs/statistic_tab_view.dart';
-import 'package:studiosync/core/presentation/views/trainee-profile-tabs/subscription_tab_view.dart';
-import 'package:studiosync/core/presentation/views/trainee-profile-tabs/workouts_tab_view.dart';
+import 'package:studiosync/core/presentation/views/trainee-sections/statistic_tab_view.dart';
+import 'package:studiosync/core/presentation/views/trainee-sections/subscription_tab_view.dart';
+import 'package:studiosync/modules/workouts/presentation/views/workouts_tab_view.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/trainee-sections/workouts_controller.dart';
@@ -39,17 +39,28 @@ class TraineeSectionsView extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    SubscriptionTabWidget(
-                      trainee: trainee!,
-                    ),
-                    trainee.subscription != null
+                    trainee?.subscription != null
+                        ? SubscriptionTabWidget(
+                            trainee: trainee!,
+                          )
+                        : Center(
+                            child: CustomContainer(
+                              textColor: AppStyle.darkGrey,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 16.sp, horizontal: 16.sp),
+                              text: 'No subscription sets',
+                              backgroundColor:
+                                  Colors.redAccent.withOpacity(0.3),
+                            ),
+                          ),
+                    trainee?.subscription != null
                         ? WorkoutsTabWidget(
-                            isTrainer: true,
+                            isTrainer: false,
                             summary:
                                 workoutTraineeController.workoutSummary.value,
                             workouts: workoutTraineeController.workouts,
                             startDate: DatesUtils.getFormattedStartDate(
-                              trainee.startWorOutDate,
+                              trainee!.startWorOutDate,
                             ),
                           )
                         : Center(

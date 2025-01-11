@@ -1,10 +1,8 @@
 import 'package:get/get.dart';
 import 'package:studiosync/modules/auth/presentation/views/signup_trainee_view.dart';
-import 'package:studiosync/modules/trainee/features/lessons/presentation/bindings/registred_lessons_bindings.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/views/upcoming_lessons_view.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/views/trainee_profile_view.dart';
 import 'package:studiosync/modules/trainee/features/tabs/trainee_tabs_binding.dart';
-import 'package:studiosync/modules/trainee/features/lessons/presentation/bindings/trainer_lessons_binding.dart';
 import 'package:studiosync/modules/trainee/features/trainee-sections/trainee_sections_view.dart';
 import 'package:studiosync/modules/trainee/features/trainer-profile/presentation/bindings/profile_trainer_binding.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/presentation/bindings/trainers_list_binding.dart';
@@ -36,29 +34,25 @@ class TraineeRouter {
       name: Routes.sectionsTrainee,
       page: () => const TraineeSectionsView(),
     ),
-
     GetPage(
       name: Routes.lessonsTrainee,
       page: () => const UpcomingLessonsView(),
-      binding: RegistredLessonsTabBinding(),
     ),
-
     GetPage(
       name: Routes.trainersList,
       page: () => const TrainersListView(),
       binding: TrainersListBinding(),
     ),
     GetPage(
-        name: Routes.trainerProfile,
-        page: () => TrainerProfileView(
-              trainerModel: Get.arguments,
-            ),
-        binding: ProfileTraineeTabBinding()),
+      name: Routes.trainerProfile,
+      page: () => TrainerProfileView(
+        trainerModel: Get.arguments,
+      ),
+      binding: ProfileTraineeTabBinding(),
+    ),
     GetPage(
-        name: Routes.trainerLessons,
-        page: () => const TrainerLessonsView(),
-        binding: TrainerLessonsBinding()),
-
-    // Add other trainee-specific routes here
+      name: Routes.trainerLessons,
+      page: () => const TrainerLessonsView(),
+    ),
   ];
 }

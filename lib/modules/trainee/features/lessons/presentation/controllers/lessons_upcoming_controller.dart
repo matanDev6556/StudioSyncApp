@@ -1,23 +1,23 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/cancle_lesson_usecase.dart';
-import 'package:studiosync/modules/trainee/features/lessons/domain/usecases/get_registredLessons_usecase.dart';
+import 'package:studiosync/modules/lessons/domain/usecases/cancle_lesson_usecase.dart';
+import 'package:studiosync/modules/lessons/domain/usecases/stream_trainee_lessons_usecae.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
+import 'package:studiosync/modules/lessons/data/model/lesson_model.dart';
 
 class UpcomingLessonsController extends GetxController {
   final CancelLessonUseCase _cancelLessonUseCase;
-  final GetRegisteredLessonsUseCase _getRegisteredLessonsUseCase;
+  final StreamTraineeLessonsUseCase _streamTraineeLessonsUseCase;
 
-  TraineeModel get trainee => Get.find<TraineeController>().trainee.value!;
+  TraineeModel? get trainee => Get.find<TraineeController>().trainee.value;
 
   UpcomingLessonsController({
     required CancelLessonUseCase cancelLessonUseCase,
-    required GetRegisteredLessonsUseCase getRegisteredLessonsUseCase,
+    required StreamTraineeLessonsUseCase streamTraineeLessonsUseCase,
   })  : _cancelLessonUseCase = cancelLessonUseCase,
-        _getRegisteredLessonsUseCase = getRegisteredLessonsUseCase;
+        _streamTraineeLessonsUseCase = streamTraineeLessonsUseCase;
 
   RxList<LessonModel> registeredLessons = <LessonModel>[].obs;
 
@@ -26,7 +26,7 @@ class UpcomingLessonsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (trainee.trainerID.isNotEmpty) {
+    if (trainee?.trainerID.isNotEmpty ?? false) {
       fetchRegisteredLessons();
     }
   }
@@ -38,9 +38,9 @@ class UpcomingLessonsController extends GetxController {
   }
 
   void fetchRegisteredLessons() {
-    _lessonsSubscription =
-        _getRegisteredLessonsUseCase(trainee.trainerID, trainee.userId).listen(
-            (lessonsData) {
+    _lessonsSubscription = _streamTraineeLessonsUseCase(
+            trainee?.trainerID ?? '', trainee?.userId ?? '')
+        .listen((lessonsData) {
       registeredLessons.value = filterUpcomingLessons(lessonsData);
     }, onError: (e) {
       debugPrint("Error fetching registered lessons: $e");
@@ -57,6 +57,6 @@ class UpcomingLessonsController extends GetxController {
   }
 
   void cancleLesson(LessonModel lessonModel) {
-    _cancelLessonUseCase(trainee.trainerID, lessonModel.id, trainee);
+    _cancelLessonUseCase(trainee?.trainerID ?? '', lessonModel.id, trainee!);
   }
 }

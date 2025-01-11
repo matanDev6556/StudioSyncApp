@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
 import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainees_controller.dart';
-import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/modules/trainer/features/trainer-statistics/data/models/date_range_model.dart';
 import 'package:studiosync/modules/trainer/features/trainer-statistics/data/models/monthly_states_model.dart';
 

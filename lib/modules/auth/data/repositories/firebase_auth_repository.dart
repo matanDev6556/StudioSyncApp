@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:studiosync/core/data/services/firebase/auth_service.dart';
+import 'package:studiosync/core/data/data_source/firebase/auth_service.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
 
 class FirebaseAuthRepository implements IAuthRepository<User> {

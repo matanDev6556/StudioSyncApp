@@ -1,11 +1,11 @@
-import 'package:studiosync/core/data/services/firebase/firestore_service.dart';
+import 'package:studiosync/core/data/data_source/firebase/firestore_service.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/repositories/i_trainee_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 
 class FirestoreTraineeRepository implements ITraineeRepository {
   final FirestoreService _firestoreService;
 
-  FirestoreTraineeRepository(this._firestoreService);
+  FirestoreTraineeRepository({required FirestoreService firestoreService}): _firestoreService = firestoreService;
 
   @override
   Stream<TraineeModel> listenToTraineeUpdates(String path) {

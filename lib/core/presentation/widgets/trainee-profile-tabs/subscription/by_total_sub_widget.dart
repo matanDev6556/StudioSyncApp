@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 import 'package:studiosync/core/presentation/widgets/general/linear_progress.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
-import 'package:studiosync/core/data/models/by_total_trainings_model.dart';
+import 'package:studiosync/core/data/models/sub_by_total_trainings_model.dart';
 
 class ByTotalSubscriptionContainer extends StatelessWidget {
   final SubscriptionByTotalTrainings subscriptionByTotalTrainings;

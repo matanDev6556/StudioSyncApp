@@ -8,7 +8,7 @@ import 'package:studiosync/modules/trainer/features/profile/domain/usecases/get_
 import 'package:studiosync/modules/trainer/features/profile/domain/usecases/save_trainer_usecase.dart';
 import 'package:studiosync/modules/trainer/features/profile/presentation/trainer_controller.dart';
 
-class TrainerProfileBindings extends Bindings {
+class ProfileTrainerBindings extends Bindings {
   @override
   void dependencies() {
     // concrete repo

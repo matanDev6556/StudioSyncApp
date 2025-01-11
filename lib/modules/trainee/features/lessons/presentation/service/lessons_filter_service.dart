@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
+import 'package:studiosync/modules/lessons/data/model/lesson_model.dart';
 
 
 enum FilterType { trainer, lesson, location }
