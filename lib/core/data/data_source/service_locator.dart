@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/core/config/firebase_options.dart';
 import 'package:studiosync/core/data/data_source/firebase/firestore_service.dart';
 import 'package:studiosync/core/data/data_source/firebase/auth_service.dart';
 import 'package:studiosync/core/data/data_source/firebase/storage_services.dart';
@@ -12,6 +14,9 @@ import 'package:studiosync/core/data/repositories/shared_refrences_repository.da
 class ServiceLocator {
   static Future<void> init() async {
     try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
       Get.put(FirebaseAuthService());
       Get.put(FirestoreService());
       Get.put<IAuthRepository>(
@@ -20,7 +25,6 @@ class ServiceLocator {
           FirebaseAuthRepository(firebaseAuthService: Get.find())); // Add this
       Get.put<IStorageService>(StorageServices());
       Get.put<ILocalStorageRepository>(SharedPreferencesRepository());
-     
 
       debugPrint('Services initialized successfully');
     } catch (e) {

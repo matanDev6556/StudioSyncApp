@@ -1,5 +1,5 @@
 import 'package:studiosync/core/domain/repositories/i_lessons_repository.dart';
-import 'package:studiosync/modules/trainer/models/lessons_settings_model.dart';
+import 'package:studiosync/modules/lessons/data/model/lessons_settings_model.dart';
 
 class UpdateSettingsLessonsUseCase {
   final ILessonsRepository _iLessonsRepository;

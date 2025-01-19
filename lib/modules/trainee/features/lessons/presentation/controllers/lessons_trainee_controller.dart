@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/modules/lessons/data/model/lessons_settings_model.dart';
 import 'package:studiosync/modules/lessons/domain/usecases/traineee/join_lesson_usecase.dart';
 import 'package:studiosync/modules/lessons/domain/usecases/stream_lessons_usecase.dart';
 import 'package:studiosync/modules/lessons/domain/usecases/stream_settings_lessons_usecase.dart';
@@ -10,7 +11,6 @@ import 'package:studiosync/modules/trainee/features/lessons/presentation/service
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/get_trainee_usecase.dart';
 import 'package:studiosync/modules/lessons/data/model/lesson_model.dart';
-import 'package:studiosync/modules/trainer/models/lessons_settings_model.dart';
 
 class LessonsTraineeController extends GetxController {
   final StreamLessonsUseCase _streamLessonsUseCase;

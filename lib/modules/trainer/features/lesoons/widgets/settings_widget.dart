@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/contollers/trainer_lessons_settings.controller%20.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
@@ -23,7 +24,7 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _buildHeader(),
-              _buildShowLessonsSwitch(),
+              _buildFlexibleScheduleSwitch(),
               _buildDaySelector(),
               _buildTimeSelector(context),
               _buildDivider(),
@@ -71,14 +72,14 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
     );
   }
 
-  Widget _buildShowLessonsSwitch() {
+  Widget _buildFlexibleScheduleSwitch() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Enable Lesson Scheduling',
+            'Allow Scheduling Anytime',
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,
@@ -86,8 +87,9 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
             ),
           ),
           Switch(
-            value: controller.isAlloweingToSheduleNow.value ?? false,
-            onChanged: (va) {},
+            value: controller.settings.isFlexibleSchedule,
+            onChanged: (value) => controller.updateLocalLessons(
+                controller.settings.copyWith(isFlexibleSchedule: value)),
             activeColor: AppStyle.softOrange,
           ),
         ],
@@ -264,7 +266,7 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
       child: ElevatedButton(
         onPressed: () {
           controller.updateLessonsSettings();
-          
+          AppRouter.navigateBack();
         },
         style: ElevatedButton.styleFrom(
           primary: AppStyle.softOrange,

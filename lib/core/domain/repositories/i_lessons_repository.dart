@@ -1,6 +1,7 @@
+import 'package:studiosync/modules/lessons/data/model/lessons_settings_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/lessons/data/model/lesson_model.dart';
-import 'package:studiosync/modules/trainer/models/lessons_settings_model.dart';
+
 
 abstract class ILessonsRepository {
   // trainer

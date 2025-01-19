@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/core/presentation/utils/dates.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/service/lessons_filter_service.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/widgets/trainee_filter_lessosn_buttom.dart';
@@ -197,7 +198,11 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
                   ),
                   SizedBox(height: 10.h),
                   Text(
-                    settings.getDayAndHoursText(),
+                    DatesUtils.getDayAndHoursText(
+                      dayOfWeek: settings.scheduledDayOfWeek,
+                      startHour: settings.scheduledStartHour,
+                      endHour: settings.scheduledEndHour,
+                    ),
                     style:
                         TextStyle(fontSize: 18.sp, color: AppStyle.softBrown),
                     textAlign: TextAlign.center,

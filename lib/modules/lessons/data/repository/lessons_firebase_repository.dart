@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studiosync/core/data/data_source/firebase/firestore_service.dart';
 import 'package:studiosync/core/domain/repositories/i_lessons_repository.dart';
+import 'package:studiosync/modules/lessons/data/model/lessons_settings_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/lessons/data/model/lesson_model.dart';
-import 'package:studiosync/modules/trainer/models/lessons_settings_model.dart';
 
 class FirebaseLessonsRepository implements ILessonsRepository {
   final FirestoreService _firestoreService;

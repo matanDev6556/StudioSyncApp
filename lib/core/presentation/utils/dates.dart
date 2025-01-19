@@ -57,6 +57,40 @@ class DatesUtils {
     }
   }
 
+  // schedule_utils.dart
+
+  static String getDayAndHoursText({
+    int? dayOfWeek,
+    int? startHour,
+    int? endHour,
+  }) {
+    if (dayOfWeek == null ||
+        startHour == null ||
+        endHour == null) {
+      return "לא הוגדרו יום ושעות פעילות";
+    }
+
+    const daysMap = {
+      1: "Sunday",
+      2: "Monday",
+      3: "Tuesday",
+      4: "Wednesday",
+      5: "Thursday",
+      6: "Friday",
+      7: "Saturday",
+    };
+
+    // המרת השעות לפורמט "HH:MM"
+    String formatHour(int hour) => "${hour.toString().padLeft(2, '0')}:00";
+
+    // בניית מחרוזת התוצאה
+    final dayText = daysMap[dayOfWeek] ?? "יום לא ידוע";
+    final startHourText = formatHour(startHour);
+    final endHourText = formatHour(endHour);
+
+    return "$dayText |  $startHourText - $endHourText";
+  }
+
   static String getHourFormat(TimeOfDay startTime, TimeOfDay endTime) {
     return '${startTime.hour.toString().padLeft(2, "0")}:${startTime.minute.toString().padLeft(2, "0")} - ${endTime.hour.toString().padLeft(2, "0")}:${endTime.minute.toString().padLeft(2, "0")}';
   }
@@ -65,8 +99,7 @@ class DatesUtils {
     return date != null ? DateFormat('yMMMMd').format(date) : 'Not start yet';
   }
 
-  static Future<DateTime?> selectDateTime(
-       DateTime initialDate) async {
+  static Future<DateTime?> selectDateTime(DateTime initialDate) async {
     // pick date
     final DateTime? pickedDate = await showDatePicker(
       context: Get.context!,
