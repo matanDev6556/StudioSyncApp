@@ -40,7 +40,6 @@ class LessonsTrainerBindings implements Bindings {
     ));
 
     Get.put(TrainerLessonsSettingsController(
-      firestoreService: Get.find(),
       getSettingsLessonsUseCase: Get.find(),
       updateSettingsLessonsUseCase: Get.find(),
       getCurrentUserIdUseCase: Get.find<GetCurrentUserIdUseCase>(),

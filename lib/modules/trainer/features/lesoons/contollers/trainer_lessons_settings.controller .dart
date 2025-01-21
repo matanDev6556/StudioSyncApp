@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/data/data_source/firebase/firestore_service.dart';
 import 'package:studiosync/modules/lessons/data/model/lessons_settings_model.dart';
 import 'package:studiosync/modules/lessons/domain/usecases/trainer/get_settings_lessons_usecase.dart';
-import 'package:studiosync/modules/lessons/domain/usecases/trainer/update_settings_lessons_usecase.dart';import 'package:studiosync/core/presentation/utils/validations.dart';
+import 'package:studiosync/modules/lessons/domain/usecases/trainer/update_settings_lessons_usecase.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
 
 class TrainerLessonsSettingsController extends GetxController {
-  final FirestoreService firestoreService;
+  
   final GetCurrentUserIdUseCase getCurrentUserIdUseCase;
   final GetSettingsLessonsUseCase getSettingsLessonsUseCase;
   final UpdateSettingsLessonsUseCase updateSettingsLessonsUseCase;
 
   TrainerLessonsSettingsController({
-    required this.firestoreService,
     required this.getCurrentUserIdUseCase,
     required this.getSettingsLessonsUseCase,
     required this.updateSettingsLessonsUseCase,

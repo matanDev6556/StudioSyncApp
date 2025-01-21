@@ -45,8 +45,8 @@ class TrainerTabsView extends StatelessWidget {
           },
           //TODO: add notificationCount to TabsButtom (use same as req controller)
           onNotificationPressed: () {
-            Get.bottomSheet(
-              Obx(() =>
+            AppStyle.showCustomBottomSheet(
+              content: Obx(() =>
                   TabsButtom(reqCount: reqController.traineesRequests.length)),
               isScrollControlled: true,
             );
