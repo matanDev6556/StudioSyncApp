@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/service/lessons_filter_service.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/my_trainer_controller.dart';

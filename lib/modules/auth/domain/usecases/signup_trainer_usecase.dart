@@ -1,5 +1,6 @@
 import 'package:studiosync/modules/auth/domain/repositories/i_signup_repository.dart';
-import 'package:studiosync/modules/trainer/models/trainer_model.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
+
 import '../../../../modules/auth/domain/repositories/i_auth_repository.dart';
 
 class SignUpTrainerUseCase {

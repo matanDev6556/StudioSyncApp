@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/my_trainer_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/trainer-profile/presentation/controllers/trainer_profile_controller.dart';
-import 'package:studiosync/modules/trainer/models/trainer_model.dart';
-import 'package:studiosync/shared/widgets/app_bar_profile.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
-import 'package:studiosync/shared/widgets/custom_image.dart';
-import 'package:studiosync/shared/widgets/custome_bttn.dart';
+import 'package:studiosync/core/presentation/widgets/general/app_bar_profile.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_image.dart';
+import 'package:studiosync/core/presentation/widgets/general/custome_bttn.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
 
 class TrainerProfileView extends GetView<TrainerProfileController> {
   final TrainerModel trainerModel;
@@ -20,8 +20,6 @@ class TrainerProfileView extends GetView<TrainerProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    bool isMyTrainer =
-        traineeController.trainee.value!.trainerID == trainerModel.userId;
     return Scaffold(
       backgroundColor: AppStyle.backGrey2,
       body: Stack(
@@ -46,6 +44,10 @@ class TrainerProfileView extends GetView<TrainerProfileController> {
             left: 0,
             right: 0,
             child: Obx(() {
+              bool isMyTrainer = traineeController.trainee.value?.trainerID ==
+                      trainerModel.userId ||
+                  myTrainerController.myTrainer.value != null;
+              print('isMyTrainer $isMyTrainer');
               return Padding(
                 padding: EdgeInsets.all(20.w),
                 child: CustomButton(
@@ -57,6 +59,8 @@ class TrainerProfileView extends GetView<TrainerProfileController> {
                     if (isMyTrainer) {
                       myTrainerController
                           .disconnectTrainer(traineeController.trainee.value!);
+                      traineeController.trainee.value!.trainerID = '';
+                      traineeController.trainee.refresh();
                     } else {
                       controller.sendRequest(trainerModel.userId,
                           traineeController.trainee.value!);

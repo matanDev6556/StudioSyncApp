@@ -1,7 +1,8 @@
-import 'package:studiosync/core/services/firebase/firestore_service.dart';
+import 'package:studiosync/core/data/data_source/firebase/firestore_service.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_signup_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
-import 'package:studiosync/modules/trainer/models/trainer_model.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
+
 
 class SignUpFirestoreRepository implements ISignUpRepository {
   final FirestoreService _firestoreService;

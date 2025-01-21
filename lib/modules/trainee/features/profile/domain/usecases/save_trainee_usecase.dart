@@ -4,10 +4,9 @@ import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_
 class SaveTraineeUseCase {
   final ITraineeRepository _repository;
 
-  SaveTraineeUseCase(this._repository);
+  SaveTraineeUseCase({required ITraineeRepository iTraineeRepository}): _repository = iTraineeRepository;
 
-  Future<void> execute(TraineeModel trainee,String path) async {
-   
-    await _repository.saveTrainee(trainee, path);
+  Future<void> call(TraineeModel trainee) async {
+    await _repository.saveTrainee(trainee);
   }
 }

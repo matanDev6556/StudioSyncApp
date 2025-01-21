@@ -1,4 +1,4 @@
-import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
+import 'package:studiosync/modules/lessons/data/model/lesson_model.dart';
 
 class LessonTrainerFilterService {
   List<LessonModel> filterLessons(

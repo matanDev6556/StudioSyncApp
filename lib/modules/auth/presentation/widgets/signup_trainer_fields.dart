@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/auth/presentation/controllers/signup_trainer_controller.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/consts_lessons.dart';
-import 'package:studiosync/shared/widgets/custom_text_field.dart';
-import 'package:studiosync/shared/widgets/custom_dropdown.dart';
-import 'package:studiosync/shared/widgets/list_of_strings.dart';
-import 'package:studiosync/shared/widgets/title_with_bttn.dart';
-import 'package:studiosync/modules/trainer/models/price_tier_model.dart';
+import 'package:studiosync/core/presentation/utils/consts_lessons.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_text_field.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_dropdown.dart';
+import 'package:studiosync/core/presentation/widgets/general/list_of_strings.dart';
+import 'package:studiosync/core/presentation/widgets/general/title_with_bttn.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/price_tier_model.dart';
+
 
 class SignUpTrainerFields extends StatelessWidget {
   final controller = Get.find<SignUpTrainerController>();

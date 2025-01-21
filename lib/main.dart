@@ -1,20 +1,14 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/config/firebase_options.dart';
-import 'package:studiosync/core/services/service_locator.dart';
-import 'package:studiosync/core/router/app_router.dart';
-import 'package:studiosync/core/router/routes.dart';
-import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/shared/widget-tree/presentation/widget_tree_binding.dart';
+import 'package:studiosync/core/data/data_source/service_locator.dart';
+import 'package:studiosync/core/presentation/router/app_router.dart';
+import 'package:studiosync/core/presentation/router/routes.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/core/presentation/bindings/widget_tree_binding.dart';
 
 Future<void> main() async {
-  // init firebase
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   // init all servieces
   await ServiceLocator.init();
   runApp(const MainApp());

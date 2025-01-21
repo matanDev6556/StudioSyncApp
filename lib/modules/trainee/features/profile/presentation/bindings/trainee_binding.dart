@@ -1,10 +1,13 @@
 import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/bindings_interface.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
-import 'package:studiosync/core/services/firebase/firestore_service.dart';
+import 'package:get/get_instance/src/bindings_interface.dart';
+import 'package:studiosync/modules/auth/data/repositories/firebase_auth_repository.dart';
+import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
 import 'package:studiosync/modules/auth/domain/usecases/logout_usecase.dart';
+import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/repositories/firestore_trainee_repository.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/repositories/i_trainee_repository.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/get_trainee_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/listen_trainee_updates_use_case.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/save_trainee_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
@@ -12,14 +15,25 @@ import 'package:studiosync/modules/trainee/features/profile/presentation/control
 class TraineeBinding extends Bindings {
   @override
   void dependencies() {
-    final traineeRepository =
-        FirestoreTraineeRepository(Get.find<FirestoreService>());
+    //concrete repo
+    Get.put<ITraineeRepository>(
+        FirestoreTraineeRepository(firestoreService: Get.find()));
+    Get.put<IAuthRepository>(
+        FirebaseAuthRepository(firebaseAuthService: Get.find()));
 
+    //use cases
+
+    Get.put(ListenToTraineeUpdatesUseCase(iTraineeRepository: Get.find()));
+    Get.put(SaveTraineeUseCase(iTraineeRepository: Get.find()));
+    Get.put(GetTraineeDataUseCasee(
+        iTraineeRepository: Get.find(), iAuthRepository: Get.find()));
+
+    //controlers
     Get.put<TraineeController>(
       TraineeController(
-        listenToTraineeUpdatesUseCase:
-            Get.put(ListenToTraineeUpdatesUseCase(traineeRepository)),
-        saveTraineeUseCase: Get.put(SaveTraineeUseCase(traineeRepository)),
+        getTraineeDataUseCase: Get.find(),
+        listenToTraineeUpdatesUseCase: Get.find(),
+        saveTraineeUseCase: Get.find(),
         pickImageUseCase: Get.find<PickImageUseCase>(),
         logoutUseCase: Get.find<LogoutUseCase>(),
       ),

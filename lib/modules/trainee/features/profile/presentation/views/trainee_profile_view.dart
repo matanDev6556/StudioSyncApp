@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/router/app_router.dart';
-import 'package:studiosync/core/router/routes.dart';
-import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/core/utils/const.dart';
-import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/core/presentation/router/app_router.dart';
+import 'package:studiosync/core/presentation/router/routes.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/core/presentation/utils/const.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/my_trainer_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/widgets/my_trainer_widget.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
-import 'package:studiosync/shared/widgets/custom_dropdown.dart';
-import 'package:studiosync/shared/widgets/custom_text_field.dart';
-import 'package:studiosync/shared/widgets/custome_bttn.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_dropdown.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_text_field.dart';
+import 'package:studiosync/core/presentation/widgets/general/custome_bttn.dart';
 
 class TraineeProfileView extends GetView<TraineeController> {
   TraineeProfileView({Key? key}) : super(key: key);
@@ -42,7 +42,7 @@ class TraineeProfileView extends GetView<TraineeController> {
               icon: Icons.person,
               hintText: "Name",
               initialValue: controller.trainee.value!.userFullName,
-              onChanged: (newVal) => controller.updateLocalTrainer(
+              onChanged: (newVal) => controller.updateLocalTrainee(
                   controller.trainee.value!.copyWith(userFullName: newVal)),
               validator: (val) => Validations.validateEmptey(val, 'Name'),
             ),
@@ -51,7 +51,7 @@ class TraineeProfileView extends GetView<TraineeController> {
               icon: Icons.email,
               hintText: "Email",
               initialValue: controller.trainee.value!.userEmail,
-              onChanged: (newVal) => controller.updateLocalTrainer(
+              onChanged: (newVal) => controller.updateLocalTrainee(
                   controller.trainee.value!.copyWith(userEmail: newVal)),
               validator: (val) => Validations.validateEmail(val),
             ),
@@ -60,7 +60,7 @@ class TraineeProfileView extends GetView<TraineeController> {
               icon: Icons.person,
               hintText: "Age",
               initialValue: controller.trainee.value!.userAge.toString(),
-              onChanged: (newVal) => controller.updateLocalTrainer(
+              onChanged: (newVal) => controller.updateLocalTrainee(
                 controller.trainee.value!.copyWith(userAge: int.parse(newVal)),
               ),
               validator: (val) => Validations.validateEmptey(val, 'Age'),
@@ -75,7 +75,7 @@ class TraineeProfileView extends GetView<TraineeController> {
                 color: Colors.white,
                 textColor: AppStyle.softBrown,
                 initialValue: controller.trainee.value!.userCity,
-                onChanged: (newVal) => controller.updateLocalTrainer(
+                onChanged: (newVal) => controller.updateLocalTrainee(
                     controller.trainee.value!.copyWith(userCity: newVal)),
                 items: Const.cities,
                 itemLabelBuilder: (city) => city,

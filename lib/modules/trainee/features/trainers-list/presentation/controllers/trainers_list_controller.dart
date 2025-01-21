@@ -7,7 +7,8 @@ import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecase
 import 'package:studiosync/modules/trainee/features/trainers-list/domain/usecases/save_preference_usecase.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/presentation/utils/keys_filters_prefrences.dart';
 import 'package:studiosync/modules/trainee/features/trainers-list/presentation/widgets/filters_trainrs_buttom.dart';
-import 'package:studiosync/modules/trainer/models/trainer_model.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
+
 
 class TrainersListController extends GetxController {
   final FetchTrainersUseCase _fetchTrainersUseCase;

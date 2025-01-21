@@ -2,12 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainer/contollers/trainer_lessons_controller.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/contollers/trainer_lessons_controller.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
+import 'package:studiosync/modules/trainer/features/profile/presentation/trainer_controller.dart';
 
 class LessonFiltersWidget extends StatelessWidget {
   final TrainerLessonsController lessonsController = Get.find();
+  final TrainerController trainerController = Get.find();
 
   LessonFiltersWidget({
     Key? key,
@@ -70,23 +72,17 @@ class LessonFiltersWidget extends StatelessWidget {
                   ),
                   _buildFilterSection(
                     'Trainer',
-                    ['All'] +
-                        lessonsController
-                            .trainerController.trainer.value!.coachesList,
+                    ['All'] + trainerController.trainer.value!.coachesList,
                     lessonsController.trainerFilter,
                   ),
                   _buildFilterSection(
                     'Type',
-                    ['All'] +
-                        lessonsController
-                            .trainerController.trainer.value!.lessonsTypeList,
+                    ['All'] + trainerController.trainer.value!.lessonsTypeList,
                     lessonsController.typeFilter,
                   ),
                   _buildFilterSection(
                     'Location',
-                    ['All'] +
-                        lessonsController
-                            .trainerController.trainer.value!.locationsList,
+                    ['All'] + trainerController.trainer.value!.locationsList,
                     lessonsController.locationFilter,
                   ),
                 ],

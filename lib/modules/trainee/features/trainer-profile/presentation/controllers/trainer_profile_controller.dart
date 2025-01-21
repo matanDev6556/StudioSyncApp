@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/trainer-profile/domain/usecases/count_trainees_usecase.dart';
@@ -27,6 +27,7 @@ class TrainerProfileController extends GetxController {
     TraineeModel traineeModel,
   ) async {
     try {
+      isLoading.value = true;
       await _sendRequestUseCase.execute(traineeModel, trainerID);
       Validations.showValidationSnackBar(
           'Sent request successfully', Colors.green);

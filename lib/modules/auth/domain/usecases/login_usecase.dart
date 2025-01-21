@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studiosync/core/utils/validations.dart';
+import 'package:studiosync/core/presentation/utils/validations.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
 
 class LoginUseCase {

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/theme/app_style.dart';
-import 'package:studiosync/modules/trainer/contollers/trainer_lessons_settings.controller%20.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
-import 'package:studiosync/shared/widgets/custom_text_field.dart';
+import 'package:studiosync/core/presentation/router/app_router.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/contollers/trainer_lessons_settings.controller%20.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_text_field.dart';
 
 class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
   const LessonSettingsWidget({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _buildHeader(),
-              _buildShowLessonsSwitch(),
+              _buildFlexibleScheduleSwitch(),
               _buildDaySelector(),
               _buildTimeSelector(context),
               _buildDivider(),
@@ -42,7 +43,7 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
 
   Widget _buildHeader() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       decoration: BoxDecoration(
         color: AppStyle.softOrange.withOpacity(0.1),
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
@@ -66,23 +67,19 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
               ),
             ],
           ),
-          IconButton(
-            icon: Icon(Icons.close, color: AppStyle.deepBlackOrange),
-            onPressed: () => Get.back(),
-          ),
         ],
       ),
     );
   }
 
-  Widget _buildShowLessonsSwitch() {
+  Widget _buildFlexibleScheduleSwitch() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Enable Lesson Scheduling',
+            'Allow Scheduling Anytime',
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,
@@ -90,8 +87,9 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
             ),
           ),
           Switch(
-            value: controller.isAlloweingToSheduleNow.value ?? false,
-            onChanged: (va) {},
+            value: controller.settings.isFlexibleSchedule,
+            onChanged: (value) => controller.updateLocalLessons(
+                controller.settings.copyWith(isFlexibleSchedule: value)),
             activeColor: AppStyle.softOrange,
           ),
         ],
@@ -100,51 +98,53 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
   }
 
   Widget _buildDaySelector() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Lesson Day',
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-              color: AppStyle.softBrown,
-            ),
-          ),
-          SizedBox(height: 8.h),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppStyle.softOrange),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<int>(
-                isExpanded: true,
-                value: controller.settings.scheduledDayOfWeek,
-                onChanged: (value) {
-                  controller.updateLocalLessons(
-                    controller.settings.copyWith(scheduledDayOfWeek: value),
-                  );
-                },
-                items: [
-                  DropdownMenuItem(value: 0, child: Text('Sunday')),
-                  DropdownMenuItem(value: 1, child: Text('Monday')),
-                  DropdownMenuItem(value: 2, child: Text('Tuesday')),
-                  DropdownMenuItem(value: 3, child: Text('Wednesday')),
-                  DropdownMenuItem(value: 4, child: Text('Thursday')),
-                  DropdownMenuItem(value: 5, child: Text('Friday')),
-                  DropdownMenuItem(value: 6, child: Text('Saturday')),
-                ],
-                hint: Text('Select a day'),
+    return Obx(() {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Lesson Day',
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+                color: AppStyle.softBrown,
               ),
             ),
-          ),
-        ],
-      ),
-    );
+            SizedBox(height: 8.h),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppStyle.softOrange),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<int>(
+                  isExpanded: true,
+                  value: controller.settings.scheduledDayOfWeek,
+                  onChanged: (value) {
+                    controller.updateLocalLessons(
+                      controller.settings.copyWith(scheduledDayOfWeek: value),
+                    );
+                  },
+                  items: const [
+                    DropdownMenuItem(value: 0, child: Text('Sunday')),
+                    DropdownMenuItem(value: 1, child: Text('Monday')),
+                    DropdownMenuItem(value: 2, child: Text('Tuesday')),
+                    DropdownMenuItem(value: 3, child: Text('Wednesday')),
+                    DropdownMenuItem(value: 4, child: Text('Thursday')),
+                    DropdownMenuItem(value: 5, child: Text('Friday')),
+                    DropdownMenuItem(value: 6, child: Text('Saturday')),
+                  ],
+                  hint: const Text('Select a day'),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildDivider() {
@@ -265,8 +265,8 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
       padding: EdgeInsets.all(24.w),
       child: ElevatedButton(
         onPressed: () {
-          controller.updateLessonsSettings(controller.lessonsSettings.value);
-          Get.back();
+          controller.updateLessonsSettings();
+          AppRouter.navigateBack();
         },
         style: ElevatedButton.styleFrom(
           primary: AppStyle.softOrange,

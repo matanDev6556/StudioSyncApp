@@ -1,5 +1,5 @@
 import 'package:studiosync/modules/trainee/features/trainers-list/presentation/utils/keys_filters_prefrences.dart';
-import 'package:studiosync/shared/repositories/interfaces/local_storage_repository.dart';
+import 'package:studiosync/core/domain/repositories/i_local_storage_repository.dart';
 
 class LoadPreferencesUseCase {
   final ILocalStorageRepository _iLocalStorageRepository;

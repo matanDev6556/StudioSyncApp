@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:studiosync/core/theme/app_style.dart';
+import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/core/presentation/utils/dates.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/service/lessons_filter_service.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/widgets/trainee_filter_lessosn_buttom.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/model/lesson_model.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/widgets/days_selector.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/widgets/lesson_widget.dart';
-import 'package:studiosync/shared/widgets/custom_container.dart';
+import 'package:studiosync/modules/lessons/data/model/lesson_model.dart';
+import 'package:studiosync/modules/lessons/presentation/widgets/days_selector.dart';
+import 'package:studiosync/modules/lessons/presentation/widgets/lesson_widget.dart';
+import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 
 class TrainerLessonsView extends GetView<LessonsTraineeController> {
   const TrainerLessonsView({Key? key}) : super(key: key);
@@ -197,7 +198,11 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
                   ),
                   SizedBox(height: 10.h),
                   Text(
-                    settings.getDayAndHoursText(),
+                    DatesUtils.getDayAndHoursText(
+                      dayOfWeek: settings.scheduledDayOfWeek,
+                      startHour: settings.scheduledStartHour,
+                      endHour: settings.scheduledEndHour,
+                    ),
                     style:
                         TextStyle(fontSize: 18.sp, color: AppStyle.softBrown),
                     textAlign: TextAlign.center,
@@ -261,26 +266,31 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
 
   Widget _buildLessonItem(LessonModel lesson) {
     return LessonWidget(
-      lessonModel: lesson,
-      actionButton: Center(
-        child: ElevatedButton(
-          onPressed: () => controller.handleLessonPress(lesson),
-          style: ElevatedButton.styleFrom(
-            primary: _buttonColor(lesson),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r)),
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        lessonModel: lesson,
+        actionButton: Center(
+          child: Obx(
+            () => ElevatedButton(
+              onPressed: controller.isLoading.value
+                  ? null
+                  : () async {
+                      await controller.handleLessonPress(lesson);
+                    },
+              style: ElevatedButton.styleFrom(
+                primary: _buttonColor(lesson),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r)),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+              ),
+              child: Text(
+                _buttonText(lesson),
+                style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
           ),
-          child: Text(
-            _buttonText(lesson),
-            style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
-          ),
-        ),
-      ),
-    );
+        ));
   }
 
   String _buttonText(LessonModel lesson) {

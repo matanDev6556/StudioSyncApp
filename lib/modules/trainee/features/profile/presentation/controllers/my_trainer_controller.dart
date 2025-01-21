@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
-import 'package:studiosync/core/router/app_router.dart';
+import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/fetch_mytrainer_usecase.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
-import 'package:studiosync/modules/trainee/features/trainer-profile/domain/usecases/disconnect_trainer_ussecase.dart';
-import 'package:studiosync/modules/trainer/models/trainer_model.dart';
+import 'package:studiosync/modules/trainee/features/profile/domain/usecases/disconnect_trainer_ussecase.dart';
+import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
+
 
 class MyTrainerController extends GetxController {
   final DisconnectTrainerUseCase _disconnectTrainerUseCase;
