@@ -10,8 +10,8 @@ class TrainerModel extends UserModel {
   List<String> locationsList;
   List<String> lessonsTypeList;
   String about;
-  
   String instagramLink;
+
   TrainerModel({
     super.id,
     super.imgUrl,
@@ -26,7 +26,6 @@ class TrainerModel extends UserModel {
     this.coachesList = const <String>[],
     this.locationsList = const <String>[],
     this.lessonsTypeList = const <String>[],
-   
     this.instagramLink = '',
     required this.about,
   });
@@ -80,7 +79,6 @@ class TrainerModel extends UserModel {
     final userCity = json['userCity'] ?? '';
     final userPhone = json['userPhone'] ?? '';
     final about = json['about'] ?? '';
-
     final imgUrl = json['imgUrl'] ?? '';
     final id = json['id'] ?? '';
     
@@ -128,6 +126,7 @@ class TrainerModel extends UserModel {
   @override
   Map<String, dynamic> toMap() {
     return {
+       'id': userId,
       'imgUrl': imgUrl,
       'userFullName': userFullName,
       'isTrainer': isTrainer,
@@ -138,8 +137,6 @@ class TrainerModel extends UserModel {
       'priceList': priceList.map((p) => p.toMap()).toList(),
       'about': about,
       'imageUrls': imageUrls,
-      'id': userId,
-      
       'coachesList': coachesList,
       'locationsList': locationsList,
       'lessonsTypeList': lessonsTypeList,

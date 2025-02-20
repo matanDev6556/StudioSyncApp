@@ -10,4 +10,4 @@ class StreamLessonsUseCase {
   Stream<List<LessonModel>> call(String trainerId) {
     return _iLessonsRepository.streamLessons(trainerId);
   }
-}
+} 

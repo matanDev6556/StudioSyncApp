@@ -18,7 +18,7 @@ class TraineeModel extends UserModel {
     required super.userCity,
     required super.userPhone,
     this.startWorOutDate,
-    //this.workouts = const <WorkoutModel>[],
+   
     this.trainerID = '',
     this.subscription,
   });

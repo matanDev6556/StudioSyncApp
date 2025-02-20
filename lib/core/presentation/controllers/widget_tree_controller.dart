@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:studiosync/core/data/repositories/widget_tree_firebase_repository.dart';
 import 'package:studiosync/core/presentation/router/app_router.dart';
 import 'package:studiosync/core/presentation/router/routes.dart';
 import 'package:studiosync/modules/auth/domain/usecases/get_current_useruid_usecase.dart';
@@ -32,9 +33,9 @@ class WidgetTreeController<T extends UserModel> extends GetxController {
       return;
     }
 
-    if (userRole == 'trainee') {
+    if (userRole == UserRole.trainee.value) {
       AppRouter.navigateOffAllNamed(Routes.homeTrainee);
-    } else if (userRole == 'trainer') {
+    } else if (userRole ==  UserRole.trainer.value) {
       AppRouter.navigateOffAllNamed(Routes.homeTrainer);
     }
   }

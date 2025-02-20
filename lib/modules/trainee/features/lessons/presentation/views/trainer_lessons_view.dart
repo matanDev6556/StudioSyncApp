@@ -8,7 +8,7 @@ import 'package:studiosync/modules/trainee/features/lessons/presentation/service
 import 'package:studiosync/modules/trainee/features/lessons/presentation/widgets/trainee_filter_lessosn_buttom.dart';
 import 'package:studiosync/modules/lessons/data/model/lesson_model.dart';
 import 'package:studiosync/modules/lessons/presentation/widgets/days_selector.dart';
-import 'package:studiosync/modules/lessons/presentation/widgets/lesson_widget.dart';
+import 'package:studiosync/modules/lessons/presentation/widgets/lesson_item.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 
 class TrainerLessonsView extends GetView<LessonsTraineeController> {
@@ -276,7 +276,7 @@ class TrainerLessonsView extends GetView<LessonsTraineeController> {
                       await controller.handleLessonPress(lesson);
                     },
               style: ElevatedButton.styleFrom(
-                primary: _buttonColor(lesson),
+                backgroundColor: _buttonColor(lesson),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.r)),
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),

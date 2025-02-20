@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/router/routes.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/controllers/lessons_upcoming_controller.dart';
-import 'package:studiosync/modules/lessons/presentation/widgets/lesson_widget.dart';
+import 'package:studiosync/modules/lessons/presentation/widgets/lesson_item.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 
 class UpcomingLessonsView extends GetView<UpcomingLessonsController> {
@@ -101,8 +101,7 @@ class UpcomingLessonsView extends GetView<UpcomingLessonsController> {
       child: ElevatedButton(
         onPressed: () => controller.cancleLesson(lesson),
         style: ElevatedButton.styleFrom(
-          primary: Colors.red,
-          onPrimary: Colors.white,
+          foregroundColor: Colors.white, backgroundColor: Colors.red,
           textStyle: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w600,
@@ -123,8 +122,7 @@ class UpcomingLessonsView extends GetView<UpcomingLessonsController> {
       child: ElevatedButton(
         onPressed: () => Get.toNamed(Routes.trainerLessons),
         style: ElevatedButton.styleFrom(
-          primary: AppStyle.deepBlackOrange,
-          onPrimary: Colors.white,
+          foregroundColor: Colors.white, backgroundColor: AppStyle.deepBlackOrange,
           minimumSize: Size(double.infinity, 50.h),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),

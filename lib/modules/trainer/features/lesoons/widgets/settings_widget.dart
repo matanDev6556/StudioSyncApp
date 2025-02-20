@@ -269,7 +269,7 @@ class LessonSettingsWidget extends GetView<TrainerLessonsSettingsController> {
           AppRouter.navigateBack();
         },
         style: ElevatedButton.styleFrom(
-          primary: AppStyle.softOrange,
+          backgroundColor: AppStyle.softOrange,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.r),
           ),

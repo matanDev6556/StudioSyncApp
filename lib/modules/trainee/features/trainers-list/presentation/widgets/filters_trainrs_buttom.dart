@@ -60,7 +60,7 @@ class FilterTrainersBottomSheet extends StatelessWidget {
                     Get.back();
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: AppStyle.softOrange,
+                    backgroundColor: AppStyle.softOrange,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),

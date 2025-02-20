@@ -14,17 +14,22 @@ import 'package:studiosync/core/data/repositories/shared_refrences_repository.da
 class ServiceLocator {
   static Future<void> init() async {
     try {
+      // init firebase
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
+      // services
       Get.put(FirebaseAuthService());
       Get.put(FirestoreService());
+      Get.put<IStorageService>(StorageServices());
+      Get.put<ILocalStorageRepository>(SharedPreferencesRepository());
+      
+      // repositories
       Get.put<IAuthRepository>(
           FirebaseAuthRepository(firebaseAuthService: Get.find()));
       Get.put<FirebaseAuthRepository>(
-          FirebaseAuthRepository(firebaseAuthService: Get.find())); // Add this
-      Get.put<IStorageService>(StorageServices());
-      Get.put<ILocalStorageRepository>(SharedPreferencesRepository());
+          FirebaseAuthRepository(firebaseAuthService: Get.find())); 
+      
 
       debugPrint('Services initialized successfully');
     } catch (e) {

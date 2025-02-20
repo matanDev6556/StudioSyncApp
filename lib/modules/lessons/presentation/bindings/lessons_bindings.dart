@@ -15,10 +15,9 @@ class LessonsBindings implements Bindings {
     Get.lazyPut<ITraineeRepository>(
         () => FirestoreTraineeRepository(firestoreService: Get.find()));
 
-   
     // common usecases
-    Get.lazyPut(() => CancelLessonUseCase(
+    Get.put(CancelLessonUseCase(
         iLessonRepository: Get.find(), iTraineeRepository: Get.find()));
-    Get.lazyPut(() => StreamLessonsUseCase(iLessonsRepository: Get.find()));
+    Get.put(StreamLessonsUseCase(iLessonsRepository: Get.find()));
   }
 }

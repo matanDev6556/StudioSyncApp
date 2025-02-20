@@ -179,7 +179,7 @@ class ProfileOfTraineeView extends StatelessWidget {
         ),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          primary: color,
+          backgroundColor: color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.r),
           ),

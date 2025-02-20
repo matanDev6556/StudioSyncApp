@@ -12,70 +12,82 @@ class SignUpAsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
-    
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(AppStyle.getScreenHeight() * 0.5),
+        preferredSize:
+            Size.fromHeight(AppStyle.getScreenHeight() * 0.4), // גובה מותאם
         child: AppBarAuth(
           context: context,
-          toolBarHeight: AppStyle.getScreenHeight() * 0.5,
+          toolBarHeight: AppStyle.getScreenHeight() * 0.4,
           back: false,
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AppStyle.h(30.h),
-          Text(
-            'Sign-Up',
-            style: TextStyle(
-              fontSize: 30.sp,
-              color: AppStyle.deepBlackOrange,
-              fontWeight: FontWeight.w400,
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 30.h),
+                  Text(
+                    'Sign-Up',
+                    style: TextStyle(
+                      fontSize: 30.sp,
+                      color: AppStyle.deepBlackOrange,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(height: 25.h),
+                  CustomButton(
+                    text: 'Sign as Trainer',
+                    fill: true,
+                    color: AppStyle.deepOrange,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    onTap: () => AppRouter.navigateTo(Routes.signUpTrainer),
+                  ),
+                  SizedBox(height: 15.h),
+                  CustomButton(
+                    text: 'Sign as Trainee',
+                    fill: false,
+                    color: AppStyle.deepOrange,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    onTap: () => AppRouter.navigateTo(Routes.signUpTrainee),
+                  ),
+                  SizedBox(height: 15.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Already signed up?",
+                        style: TextStyle(
+                          color: AppStyle.darkGrey,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                      SizedBox(width: 8.w),
+                      InkWell(
+                        onTap: () => AppRouter.navigateTo(Routes.login),
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                            color: AppStyle.deepBlackOrange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 25.h),
+                ],
+              ),
             ),
           ),
-          AppStyle.h(25.h),
-          CustomButton(
-            text: 'Sign as Trainer',
-            fill: true,
-            color: AppStyle.deepOrange,
-            width: MediaQuery.of(context).size.width * 0.85,
-            onTap: () => AppRouter.navigateTo(Routes.signUpTrainer),
-          ),
-          AppStyle.h(15.h),
-          CustomButton(
-            text: 'Sign as Trainee',
-            fill: false,
-            color: AppStyle.deepOrange,
-            width: AppStyle.getScreenWidht() * 0.85,
-            onTap: () => AppRouter.navigateTo(Routes.signUpTrainee),
-          ),
-          AppStyle.h(15.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Already sign up?",
-                style: TextStyle(
-                  color: AppStyle.darkGrey,
-                ),
-              ),
-              AppStyle.w(8.h),
-              InkWell(
-                onTap: () => AppRouter.navigateTo(Routes.login),
-                child: Text(
-                  'Login',
-                  style: TextStyle(
-                    color: AppStyle.deepBlackOrange,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          _buildTermsAndConditions(context),
+          _buildTermsAndConditions(context), // ה-terms בתחתית
         ],
       ),
     );
@@ -83,45 +95,25 @@ class SignUpAsView extends StatelessWidget {
 
   Widget _buildTermsAndConditions(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(25.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
           text: "By creating an account, you are agreeing to our\n",
-          style: TextStyle(color: AppStyle.backGrey3),
+          style: TextStyle(color: AppStyle.backGrey3, fontSize: 12.sp),
           children: [
             TextSpan(
                 text: "Terms & Conditions ",
                 style: const TextStyle(fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
-                /*
-                ..onTap = () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return PolicyDialog(
-                          mdFileName: 'terms_of_use.md');
-                    },
-                  );
-                },
-                */
+                // ניתן להוסיף כאן onTap
                 ),
             const TextSpan(text: "and "),
             TextSpan(
                 text: "Privacy Policy! ",
                 style: const TextStyle(fontWeight: FontWeight.bold),
                 recognizer: TapGestureRecognizer()
-                /*
-                ..onTap = () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return PolicyDialog(
-                          mdFileName: 'privacy_policy.md');
-                    },
-                  );
-                },
-                */
+                // ניתן להוסיף כאן onTap
                 ),
           ],
         ),

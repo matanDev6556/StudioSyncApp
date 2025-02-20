@@ -2,16 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   FirebaseFirestore get firestore => _firestore;
 
   // can use for add/update
-  Future<void> setDocument(String collectionPath, String documentId,
-      Map<String, dynamic> data) async {
+  Future<void> setDocument(
+    String collectionPath,
+    String documentId,
+    Map<String, dynamic> data,
+  ) async {
     await _firestore.collection(collectionPath).doc(documentId).set(data);
   }
 
-  // פונקציה למחיקת מסמך
   Future<void> deleteDocument(String collectionPath, String documentId) async {
     await _firestore.collection(collectionPath).doc(documentId).delete();
   }
@@ -36,18 +37,14 @@ class FirestoreService {
   Future<void> deleteDocumentsWithFilters(
       String collectionPath, Map<String, dynamic> filters) async {
     try {
-    
       Query query = _firestore.collection(collectionPath);
 
-      
       filters.forEach((field, value) {
         query = query.where(field, isEqualTo: value);
       });
 
-    
       QuerySnapshot querySnapshot = await query.get();
 
-     
       for (var doc in querySnapshot.docs) {
         await doc.reference.delete();
       }
@@ -58,7 +55,7 @@ class FirestoreService {
     }
   }
 
-  // פונקציה לקבלת מסמך לפי מזהה
+  
   Future<Map<String, dynamic>?> getDocument(
     String collectionPath,
     String documentId,
@@ -72,7 +69,7 @@ class FirestoreService {
     }
   }
 
-  // פונקציה לקבלת כל המסמכים מקולקציה
+  
   Future<List<Map<String, dynamic>>> getCollection(
       String collectionPath) async {
     QuerySnapshot querySnapshot =
@@ -82,7 +79,6 @@ class FirestoreService {
         .toList();
   }
 
-  // פונקציה לקבלת מסמכים עם תנאים (פילטרים)
   Future<List<Map<String, dynamic>>> getCollectionWithFilters(
       String collectionPath, Map<String, dynamic> filters) async {
     Query query = _firestore.collection(collectionPath);
@@ -97,7 +93,7 @@ class FirestoreService {
         .toList();
   }
 
-  // stream doc
+ 
   Stream<DocumentSnapshot<Map<String, dynamic>>> streamDocument(String path) {
     return _firestore.doc(path).snapshots();
   }
