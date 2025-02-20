@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:studiosync/core/domain/usecases/pick_image_usecase.dart';
 import 'package:studiosync/modules/auth/data/repositories/firestore_signup_repository.dart';
+import 'package:studiosync/modules/auth/data/repositories/mongo_signup_repository.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_auth_repository.dart';
 import 'package:studiosync/modules/auth/domain/repositories/i_signup_repository.dart';
 import 'package:studiosync/modules/auth/domain/usecases/signup_trainee_usecase.dart';
@@ -11,6 +12,7 @@ class SignUpTraineeBinding implements Bindings {
   void dependencies() {
     //concrete repository
     Get.put<ISignUpRepository>(SignUpFirestoreRepository(Get.find()));
+    //Get.put<ISignUpRepository>(SignUpMongoRepository(Get.find()));
     // use case
     Get.lazyPut(() => SignUpTraineeUseCase(
           Get.find<IAuthRepository>(),

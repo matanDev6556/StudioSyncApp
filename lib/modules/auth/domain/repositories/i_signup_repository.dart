@@ -2,6 +2,6 @@ import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_
 import 'package:studiosync/modules/trainer/features/profile/data/models/trainer_model.dart';
 
 abstract class ISignUpRepository {
-   Future<void> createTrainee(TraineeModel trainee);
-   Future<void> createTrainer(TrainerModel trainer);
+  Future<void> createTrainee(TraineeModel trainee, {String? token});
+  Future<void> createTrainer(TrainerModel trainer);
 }

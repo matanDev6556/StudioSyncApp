@@ -13,9 +13,12 @@ class SignUpTraineeUseCase {
       newTrainee.userEmail,
       password,
     );
+    final token = await user.getIdToken();
+    print('Token: $token');
 
     if (user != null) {
-      await _iSignUpRepository.createTrainee(newTrainee.copyWith(id: user.uid));
+      await _iSignUpRepository.createTrainee(newTrainee.copyWith(id: user.uid),
+          token: token);
     }
   }
 }

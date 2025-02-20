@@ -10,7 +10,7 @@ class SignUpFirestoreRepository implements ISignUpRepository {
   SignUpFirestoreRepository(this._firestoreService);
 
   @override
-  Future<void> createTrainee(TraineeModel trainee) async {
+  Future<void> createTrainee(TraineeModel trainee,{String? token}) async {
     await _firestoreService.setDocument(
       'trainees',
       trainee.userId,
