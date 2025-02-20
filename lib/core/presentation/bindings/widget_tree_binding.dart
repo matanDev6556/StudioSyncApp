@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:studiosync/core/presentation/bindings/global_bindings.dart';
 import 'package:studiosync/core/data/repositories/widget_tree_firebase_repository.dart';
 import 'package:studiosync/core/domain/repositories/i_widget_tree_repository.dart';
 import 'package:studiosync/core/domain/usecases/check_role_usecase.dart';
@@ -8,8 +7,7 @@ import 'package:studiosync/core/presentation/controllers/widget_tree_controller.
 class WidgetTreeBinding extends Bindings {
   @override
   void dependencies() {
-    GlobalBindings().dependencies();
-
+   
     // widget tree concrete repo
     Get.lazyPut<IWidgetTreeRepository>(() => WidgetTreeFirebaseRepository(
         firestoreService: Get.find(), iAuthRepository: Get.find()));

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
+import 'package:studiosync/modules/lessons/data/model/lesson_model.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/contollers/trainer_lessons_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/widgets/add_edit_lesson_buttom.dart';
 import 'package:studiosync/modules/lessons/presentation/widgets/days_selector.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/widgets/filters_widget.dart';
-import 'package:studiosync/modules/lessons/presentation/widgets/lesson_widget.dart';
-import 'package:studiosync/modules/trainer/features/lesoons/widgets/settings_widget.dart';
+import 'package:studiosync/modules/lessons/presentation/widgets/lesson_item.dart';
+import 'package:studiosync/modules/trainer/features/lesoons/widgets/lessons_header.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 
 class LessonsView extends StatelessWidget {
@@ -29,77 +29,7 @@ class LessonsView extends StatelessWidget {
                     controller.selectedDayIndex.value = index,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Row(
-                children: [
-                  Obx(
-                    () => Text(
-                      controller.filteredLessons.length < 2
-                          ? 'Lessons (${controller.statusFilter})'
-                          : '${controller.filteredLessons.length} Lessons (${controller.statusFilter})',
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        color: AppStyle.softBrown,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: Icon(Icons.tune, color: AppStyle.softOrange),
-                    onPressed: () {
-                      AppStyle.showCustomBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        content: LessonFiltersWidget(),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.schedule,
-                      color: AppStyle.softOrange,
-                    ),
-                    onPressed: () {
-                      AppStyle.showCustomBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        content: const LessonSettingsWidget(),
-                      );
-                    },
-                  ),
-                  //TODO : try another way
-                  /* IconButton(
-                    icon: Icon(
-                      Icons.play_circle_outline,
-                      color: AppStyle.softOrange,
-                    ),
-                    onPressed: () {
-                      Get.dialog(
-                        AlertDialog(
-                          title: const Text('שחזור יומן השבוע שעבר ?'),
-                          content:
-                              const Text('האם ברצונך לשחזר את יומן שבוע שעבר?'),
-                          actions: [
-                            TextButton(
-                              child: const Text('לא'),
-                              onPressed: () => Get.back(),
-                            ),
-                            TextButton(
-                              child: const Text('כן'),
-                              onPressed: () {
-                                //controller.duplicateLastWeekLessons();
-                                //AppRouter.navigateBack();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  */
-                ],
-              ),
-            ),
+            LessonsHeader(controller: controller),
             AppStyle.h(10.h),
             Expanded(
               child: Obx(
@@ -120,54 +50,7 @@ class LessonsView extends StatelessWidget {
                       final lesson = lessons[index];
                       return LessonWidget(
                         lessonModel: lesson,
-                        actionButton: Row(
-                          children: [
-                            _buildIconButton(
-                              onTap: () {
-                                AppStyle.showCustomBottomSheet(
-                                  content: LessonEditBottomSheet(
-                                    title: 'Add lesson',
-                                    lesson: lesson,
-                                    onSave: (updatedLesson) =>
-                                        controller.addLesson(updatedLesson),
-                                  ),
-                                );
-                              },
-                              icon: Icons.copy,
-                              color: AppStyle.softOrange,
-                            ),
-                            SizedBox(width: 8.w),
-                            _buildIconButton(
-                              onTap: () {
-                                AppStyle.showCustomBottomSheet(
-                                  content: LessonEditBottomSheet(
-                                    title: 'Edit lesson',
-                                    lesson: lesson,
-                                    onSave: (updatedLesson) =>
-                                        controller.editLesson(updatedLesson),
-                                  ),
-                                );
-                              },
-                              icon: Icons.edit,
-                              color: AppStyle.deepBlackOrange,
-                            ),
-                            SizedBox(width: 8.w),
-                            _buildIconButton(
-                              onTap: () => controller.deleteLesson(lesson.id),
-                              icon: Icons.delete,
-                              color: Colors.redAccent,
-                            ),
-                            const Spacer(),
-                            Obx(() => controller.isLoading.value
-                                ? const CircularProgressIndicator()
-                                : _buildActionButton(
-                                    onTap: () =>
-                                        controller.onDetailsTap(lesson),
-                                    label: 'Details',
-                                    color: AppStyle.softBrown,
-                                  ))
-                          ],
-                        ),
+                        actionButton: lessonsActions(lesson),
                       );
                     },
                   );
@@ -177,22 +60,54 @@ class LessonsView extends StatelessWidget {
           ],
         ),
         // add lessons bttn
-        Positioned(
-          bottom: 16.h,
-          right: 16.w,
-          child: FloatingActionButton(
-            onPressed: () {
-              AppStyle.showCustomBottomSheet(
-                content: LessonEditBottomSheet(
-                  title: 'Add lesson',
-                  onSave: (updatedLesson) =>
-                      controller.addLesson(updatedLesson),
-                ),
-              );
-            },
-            child: const Icon(Icons.add),
-          ),
+      ],
+    );
+  }
+
+  Row lessonsActions(LessonModel lesson) {
+    return Row(
+      children: [
+        _buildIconButton(
+          icon: Icons.copy,
+          color: AppStyle.softOrange,
+          onTap: () {
+            AppStyle.showCustomBottomSheet(
+              content: LessonEditBottomSheet(
+                title: 'Add lesson',
+                lesson: lesson,
+                onSave: (updatedLesson) => controller.addLesson(updatedLesson),
+              ),
+            );
+          },
         ),
+        SizedBox(width: 8.w),
+        _buildIconButton(
+          icon: Icons.edit,
+          color: AppStyle.deepBlackOrange,
+          onTap: () {
+            AppStyle.showCustomBottomSheet(
+              content: LessonEditBottomSheet(
+                title: 'Edit lesson',
+                lesson: lesson,
+                onSave: (updatedLesson) => controller.editLesson(updatedLesson),
+              ),
+            );
+          },
+        ),
+        SizedBox(width: 8.w),
+        _buildIconButton(
+          onTap: () => controller.deleteLesson(lesson.id),
+          icon: Icons.delete,
+          color: Colors.redAccent,
+        ),
+        const Spacer(),
+        Obx(() => controller.isLoading.value
+            ? const CircularProgressIndicator()
+            : _buildActionButton(
+                onTap: () => controller.onDetailsTap(lesson),
+                label: 'Details',
+                color: AppStyle.softBrown,
+              ))
       ],
     );
   }
@@ -220,7 +135,7 @@ class LessonsView extends StatelessWidget {
     return TextButton(
       onPressed: onTap,
       style: TextButton.styleFrom(
-        primary: color,
+        foregroundColor: color,
         textStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         shape: RoundedRectangleBorder(

@@ -142,9 +142,21 @@ class ByDateSubscriptionWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildDateColumn(
-            'Start Date', subscriptionByDate.startDate, Icons.calendar_today),
-        _buildDateColumn('End Date', subscriptionByDate.endDate, Icons.event),
+        Expanded(
+          child: _buildDateColumn(
+            'Start Date',
+            subscriptionByDate.startDate,
+            Icons.calendar_today,
+          ),
+        ),
+        SizedBox(width: 8.w),
+        Expanded(
+          child: _buildDateColumn(
+            'End Date',
+            subscriptionByDate.endDate,
+            Icons.event,
+          ),
+        ),
       ],
     );
   }

@@ -29,6 +29,7 @@ class TraineeProfileView extends GetView<TraineeController> {
   @override
   Widget build(BuildContext context) {
     final MyTrainerController myTrainerController = Get.find();
+   
 
     return Obx(() {
       return Form(

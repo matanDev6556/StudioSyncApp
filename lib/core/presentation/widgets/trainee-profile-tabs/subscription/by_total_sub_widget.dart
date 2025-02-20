@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 import 'package:studiosync/core/presentation/widgets/general/linear_progress.dart';
@@ -36,7 +35,8 @@ class ByTotalSubscriptionContainer extends StatelessWidget {
           SizedBox(height: 15.h),
           _buildProgressBar(),
           SizedBox(height: 15.h),
-          _buildDateInfo(),
+          _buildDateColumn(
+              'Expired at', subscriptionByTotalTrainings.expiredDate),
         ],
       ),
     );
@@ -95,7 +95,7 @@ class ByTotalSubscriptionContainer extends StatelessWidget {
               ),
               CustomContainer(
                 textColor: AppStyle.softOrange,
-                text: 'Monthly Usage',
+                text: 'Total usage',
                 backgroundColor: AppStyle.softOrange.withOpacity(0.1),
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               ),
@@ -144,30 +144,16 @@ class ByTotalSubscriptionContainer extends StatelessWidget {
     );
   }
 
-  Widget _buildDateInfo() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _buildDateColumn('Expired at', subscriptionByTotalTrainings.expiredDate),
-      ],
-    );
-  }
-
   Widget _buildDateColumn(String label, DateTime? date) {
-    // חישוב ההפרש בין התאריך הנוכחי לבין התאריך המופיע
     String daysLeft = '';
     if (date != null) {
       final DateTime now = DateTime.now();
       final Duration difference = date.difference(now);
-      if (difference.inDays >= 0) {
-        daysLeft = '${difference.inDays} days left';
-      } else {
-        daysLeft = 'Expired';
-      }
+      daysLeft =
+          difference.inDays >= 0 ? '${difference.inDays} days left' : 'Expired';
     }
 
     return Container(
-      width: Get.width * 0.90,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -185,29 +171,36 @@ class ByTotalSubscriptionContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment
-                .spaceBetween, // מאפשר מיקום של שני פריטים בצדדים
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Icon(Icons.event, color: AppStyle.softOrange, size: 20.sp),
-                  SizedBox(width: 8.w),
-                  Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppStyle.softBrown,
+              Expanded(
+                child: Row(
+                  children: [
+                    Icon(Icons.event, color: AppStyle.softOrange, size: 20.sp),
+                    SizedBox(width: 8.w),
+                    Flexible(
+                      child: Text(
+                        label,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppStyle.softBrown,
+                        ),
+                        overflow: TextOverflow.ellipsis, // מונע overflow
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Text(
-                'Left',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppStyle.softBrown,
+              Flexible(
+                child: Text(
+                  'Left',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppStyle.softBrown,
+                  ),
+                  overflow: TextOverflow.ellipsis, // מונע overflow
                 ),
               ),
             ],
@@ -216,22 +209,30 @@ class ByTotalSubscriptionContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                date != null
-                    ? DateFormat('dd/MM/yy').format(date)
-                    : 'No expiration date',
-                style: TextStyle(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w400,
-                  color: AppStyle.deepBlackOrange,
+              Flexible(
+                child: Text(
+                  date != null
+                      ? DateFormat('dd/MM/yy').format(date)
+                      : 'No expiration date',
+                  style: TextStyle(
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.w400,
+                    color: AppStyle.deepBlackOrange,
+                  ),
+                  overflow: TextOverflow.ellipsis, // מונע overflow
                 ),
               ),
-              Text(
-                subscriptionByTotalTrainings.expiredDate != null ? daysLeft : '',
-                style: TextStyle(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w400,
-                  color: AppStyle.deepBlackOrange,
+              Flexible(
+                child: Text(
+                  subscriptionByTotalTrainings.expiredDate != null
+                      ? daysLeft
+                      : '',
+                  style: TextStyle(
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.w400,
+                    color: AppStyle.deepBlackOrange,
+                  ),
+                  overflow: TextOverflow.ellipsis, // מונע overflow
                 ),
               ),
             ],

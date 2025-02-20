@@ -37,6 +37,8 @@ class LessonsTraineeController extends GetxController {
   late StreamSubscription<List<LessonModel>> _lessonsSubscription;
   late StreamSubscription<LessonsSettingsModel?> _lessonsSettingsSubscription;
 
+
+  //state
   final isLoading = false.obs;
   final _lessons = <LessonModel>[].obs;
   final filteredLessons = <LessonModel>[].obs;

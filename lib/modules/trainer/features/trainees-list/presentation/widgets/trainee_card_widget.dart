@@ -16,81 +16,75 @@ class TraineeCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.r),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(15.r),
-        child: Padding(
-          padding: EdgeInsets.all(12.w),
-          child: Row(
-            children: [
-              CustomImageWidget(
-                imageUrl: trainee.imgUrl,
-                width: 72.w,
-                height: 70.h,
-                borderColor: trainee.isActive()
-                    ? Colors.greenAccent.withOpacity(0.6)
-                    : Colors.redAccent.withOpacity(0.6),
-              ),
-              SizedBox(width: 16.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      trainee.userFullName,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppStyle.deepBlackOrange,
-                      ),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(15.r),
+      child: Padding(
+        padding: EdgeInsets.all(12.w),
+        child: Row(
+          children: [
+            CustomImageWidget(
+              imageUrl: trainee.imgUrl,
+              width: 72.w,
+              height: 70.h,
+              borderColor: trainee.isActive()
+                  ? Colors.greenAccent.withOpacity(0.6)
+                  : Colors.redAccent.withOpacity(0.6),
+            ),
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    trainee.userFullName,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppStyle.deepBlackOrange,
                     ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      trainee.userCity,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppStyle.backGrey3,
-                      ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Text(
+                    trainee.userCity,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: AppStyle.backGrey3,
                     ),
-                    SizedBox(height: 8.h),
-                    Row(
-                      children: [
-                        SizedBox(width: 8.w),
+                  ),
+                  SizedBox(height: 8.h),
+                  Wrap(
+                    spacing: 8.w,
+                    runSpacing: 8.h, // ריווח בין שורות
+                    children: [
+                      _buildInfoChip(
+                        icon: trainee.subscription != null
+                            ? (trainee.subscription!.isActive()
+                                ? Icons.done_rounded
+                                : Icons.close_rounded)
+                            : Icons.close_rounded,
+                        label: trainee.subscription != null
+                            ? (trainee.subscription!.isActive()
+                                ? 'Active'
+                                : 'Inactive')
+                            : 'No subscription!',
+                      ),
+                      if (trainee.startWorOutDate != null)
                         _buildInfoChip(
-                          icon: trainee.subscription != null
-                              ? (trainee.subscription!.isActive()
-                                  ? Icons.done_rounded
-                                  : Icons.close_rounded)
-                              : Icons.close_rounded,
-                          label: trainee.subscription != null
-                              ? (trainee.subscription!.isActive()
-                                  ? 'Active'
-                                  : 'Inactive')
-                              : 'No subscription!',
+                          icon: Icons.calendar_today,
+                          label: 'Since ${trainee.startWorOutDate!.year}',
                         ),
-                        if (trainee.startWorOutDate != null)
-                          _buildInfoChip(
-                            icon: Icons.calendar_today,
-                            label: 'Since ${trainee.startWorOutDate!.year}',
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
-              Icon(
-                Icons.chevron_right,
-                color: AppStyle.softOrange,
-                size: 24.w,
-              ),
-            ],
-          ),
+            ),
+            Icon(
+              Icons.chevron_right,
+              color: AppStyle.softOrange,
+              size: 24.w,
+            ),
+          ],
         ),
       ),
     );

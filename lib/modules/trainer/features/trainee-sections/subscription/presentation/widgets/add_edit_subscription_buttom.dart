@@ -288,8 +288,7 @@ class AddSubscriptionWidget extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => controller.save(trainee),
       style: ElevatedButton.styleFrom(
-        primary: AppStyle.softOrange,
-        onPrimary: Colors.white,
+        foregroundColor: Colors.white, backgroundColor: AppStyle.softOrange,
         minimumSize: Size(double.infinity, 56.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),

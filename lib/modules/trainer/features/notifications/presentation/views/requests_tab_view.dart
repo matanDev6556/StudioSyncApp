@@ -135,7 +135,7 @@ class RequestsTabView extends GetView<RequestsController> {
                       
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: AppStyle.softOrange,
+                      backgroundColor: AppStyle.softOrange,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.r),
                       ),
@@ -151,8 +151,7 @@ class RequestsTabView extends GetView<RequestsController> {
                   child: OutlinedButton(
                     onPressed: () => controller.rejectTraineeRequest(trainee),
                     style: OutlinedButton.styleFrom(
-                      primary: AppStyle.softBrown,
-                      side: BorderSide(color: AppStyle.softBrown),
+                      foregroundColor: AppStyle.softBrown, side: BorderSide(color: AppStyle.softBrown),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.r),
                       ),

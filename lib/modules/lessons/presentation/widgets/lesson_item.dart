@@ -9,9 +9,11 @@ class LessonWidget extends StatelessWidget {
   final LessonModel lessonModel;
   final Widget actionButton;
 
-  const LessonWidget(
-      {Key? key, required this.lessonModel, required this.actionButton})
-      : super(key: key);
+  const LessonWidget({
+    Key? key,
+    required this.lessonModel,
+    required this.actionButton,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class LessonWidget extends StatelessWidget {
         ),
       ),
       child: Column(
+        spacing: 8.h,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -60,24 +63,20 @@ class LessonWidget extends StatelessWidget {
             text: lessonModel.typeLesson,
             color: AppStyle.deepBlackOrange,
           ),
-          SizedBox(height: 8.h),
           _buildInfoRow(
             icon: Icons.location_on,
-            text: lessonModel.location ,
+            text: lessonModel.location,
             color: AppStyle.deepBlackOrange,
           ),
-          SizedBox(height: 8.h),
           _buildInfoRow(
             icon: Icons.person,
             text: lessonModel.trainerName,
             color: AppStyle.deepBlackOrange,
           ),
-          SizedBox(height: 8.h),
           _buildProgressBar(
             current: lessonModel.traineesRegistrations.length,
             total: lessonModel.limitPeople,
           ),
-          SizedBox(height: 16.h),
           actionButton,
         ],
       ),

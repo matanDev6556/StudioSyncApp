@@ -144,7 +144,7 @@ class ContentBox extends StatelessWidget {
                         Navigator.of(context).pop();
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.redAccent,
+                        backgroundColor: Colors.redAccent,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.r)),
                       ),
