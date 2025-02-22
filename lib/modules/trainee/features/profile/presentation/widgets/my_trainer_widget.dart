@@ -21,7 +21,7 @@ class MyTrainerWidget extends StatelessWidget {
           BoxShadow(
             color: AppStyle.softOrange.withOpacity(0.1),
             blurRadius: 10,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
