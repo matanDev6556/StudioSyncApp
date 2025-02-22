@@ -15,7 +15,7 @@ import 'package:studiosync/core/presentation/widgets/general/custom_text_field.d
 import 'package:studiosync/core/presentation/widgets/general/custome_bttn.dart';
 
 class TraineeProfileView extends GetView<TraineeController> {
-  TraineeProfileView({Key? key}) : super(key: key);
+  const TraineeProfileView({Key? key}) : super(key: key);
 
   void _handleSave() {
     if (controller.formKey.currentState!.validate()) {

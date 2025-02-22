@@ -37,7 +37,6 @@ class LessonsTraineeController extends GetxController {
   late StreamSubscription<List<LessonModel>> _lessonsSubscription;
   late StreamSubscription<LessonsSettingsModel?> _lessonsSettingsSubscription;
 
-
   //state
   final isLoading = false.obs;
   final _lessons = <LessonModel>[].obs;
@@ -51,7 +50,7 @@ class LessonsTraineeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchTrainee().then((_) {
-      if (trainee != null) {
+      if (trainee?.trainerID.isNotEmpty ?? false) {
         _listenToLessonChanges();
         _listenToLessonsSettings();
       } else {

@@ -41,7 +41,7 @@ class TraineeModel extends UserModel {
     Subscription? subscription,
   }) {
     return TraineeModel(
-      id: id ?? this.userId,
+      id: id ?? userId,
       imgUrl: imgUrl ?? this.imgUrl,
       userFullName: userFullName ?? this.userFullName,
       isTrainer: isTrainer ?? this.isTrainer,

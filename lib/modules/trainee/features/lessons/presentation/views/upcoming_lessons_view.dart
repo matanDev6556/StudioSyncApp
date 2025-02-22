@@ -111,7 +111,7 @@ class UpcomingLessonsView extends GetView<UpcomingLessonsController> {
             borderRadius: BorderRadius.circular(8.r),
           ),
         ),
-        child: Text('Cancel'),
+        child: const Text('Cancel'),
       ),
     );
   }
