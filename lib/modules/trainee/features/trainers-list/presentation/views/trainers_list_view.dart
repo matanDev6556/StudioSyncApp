@@ -189,8 +189,7 @@ class TrainersListView extends GetView<TrainersListController> {
           )),
     );
   }
-
-  Widget _buildTrainersList() {
+ Widget _buildTrainersList() {
     return Obx(() {
       if (controller.errorMessage.isNotEmpty) {
         return SliverFillRemaining(
@@ -249,4 +248,5 @@ class TrainersListView extends GetView<TrainersListController> {
       backgroundColor: AppStyle.softOrange,
     );
   }
+ 
 }
