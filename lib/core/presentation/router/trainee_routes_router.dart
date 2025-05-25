@@ -22,12 +22,12 @@ class TraineeRouter {
     ),
     GetPage(
       name: Routes.homeTrainee,
-      page: () => const TraineeTabsView(),
+      page: () =>  TraineeTabsView(),
       binding: TraineeTabsBinding(),
     ),
     GetPage(
       name: Routes.profileTrainee,
-      page: () => TraineeProfileView(),
+      page: () => const TraineeProfileView(),
       binding: ProfileTraineeTabBinding(),
     ),
     GetPage(

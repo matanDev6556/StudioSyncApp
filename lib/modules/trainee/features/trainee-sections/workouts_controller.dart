@@ -46,6 +46,7 @@ class WorkoutTraineeController extends GetxController {
 
   @override
   void onClose() {
+    print('dispose..');
     workoutsDocSubscription.cancel();
     super.onClose();
   }
@@ -64,6 +65,7 @@ class WorkoutTraineeController extends GetxController {
       trainee!.trainerID,
       trainee!.userId,
     ).listen((updatedWorkouts) {
+      debugPrint("listen to workout changes $updatedWorkouts");
       workouts.assignAll(filterAndSortWorkoutsUseCase(updatedWorkouts));
     });
   }

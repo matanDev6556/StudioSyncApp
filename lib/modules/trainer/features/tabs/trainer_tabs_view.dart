@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:studiosync/modules/trainer/features/notifications/presentation/requests_controller.dart';
 import 'package:studiosync/modules/trainer/features/lesoons/view/lessons_trainer_view.dart';
 import 'package:studiosync/modules/trainer/features/notifications/presentation/widgets/tabs.buttom.dart';
-import 'package:studiosync/core/presentation/controllers/tabs_controller.dart';
 import 'package:studiosync/core/presentation/widgets/general/app_bar.dart';
 import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainer/features/profile/presentation/trainer_controller.dart';
@@ -12,7 +11,8 @@ import 'package:studiosync/modules/trainer/features/trainer-statistics/presentat
 import 'package:studiosync/modules/trainer/features/trainees-list/presentation/trainees_list_view.dart';
 
 class TrainerTabsView extends StatelessWidget {
-  const TrainerTabsView({Key? key}) : super(key: key);
+   TrainerTabsView({Key? key}) : super(key: key);
+  final _selectedIndex = 0.obs;
 
   // Define the list of pages
   static final List<Widget> _pages = <Widget>[
@@ -24,7 +24,7 @@ class TrainerTabsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<TrainerController>();
-    final tabController = Get.find<GeneralTabController>();
+    
 
     return Obx(() {
       final trainer = controller.trainer.value;
@@ -54,11 +54,11 @@ class TrainerTabsView extends StatelessWidget {
           thereIsNotifications: reqController.traineesRequests.isNotEmpty,
           isLoading: controller.isLoading.value,
         ),
-        body: _pages[tabController.selectedIndex.value],
+        body: _pages[_selectedIndex.value],
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,
-          currentIndex: tabController.selectedIndex.value,
-          onTap: (index) => tabController.updateIndex(index),
+          currentIndex: _selectedIndex.value,
+          onTap: (index) => _selectedIndex.value = index,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: const Icon(

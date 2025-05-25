@@ -5,18 +5,19 @@ import 'package:studiosync/core/presentation/theme/app_style.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/lessons/presentation/views/upcoming_lessons_view.dart';
 import 'package:studiosync/modules/trainee/features/profile/presentation/views/trainee_profile_view.dart';
-import 'package:studiosync/core/presentation/controllers/tabs_controller.dart';
 import 'package:studiosync/core/presentation/widgets/general/app_bar.dart';
 import 'package:studiosync/core/presentation/widgets/general/custom_container.dart';
 import 'package:studiosync/modules/trainee/features/trainee-sections/trainee_sections_view.dart';
 
 class TraineeTabsView extends StatelessWidget {
-  const TraineeTabsView({Key? key}) : super(key: key);
+  TraineeTabsView({Key? key}) : super(key: key);
+  final _selectedIndex = 0.obs;
+
+  
 
   @override
   Widget build(BuildContext context) {
     final traineeController = Get.find<TraineeController>();
-    final tabController = Get.find<GeneralTabController>();
 
     return Obx(() {
       final trainee = traineeController.trainee.value;
@@ -35,18 +36,11 @@ class TraineeTabsView extends StatelessWidget {
           thereIsNotifications: false,
           isLoading: traineeController.isLoading.value,
         ),
-        body: IndexedStack(
-          index: tabController.selectedIndex.value,
-          children: const [
-            TraineeProfileTab(),
-            TraineeWorkoutsTab(),
-            TraineeLessonsTab(),
-          ],
-        ),
+        body: _buildCurrentTab(_selectedIndex.value),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,
-          currentIndex: tabController.selectedIndex.value,
-          onTap: (index) => tabController.updateIndex(index),
+          currentIndex: _selectedIndex.value,
+          onTap: (index) => _selectedIndex.value = index,
           selectedItemColor: AppStyle.deepBlackOrange,
           unselectedItemColor: Colors.grey,
           items: <BottomNavigationBarItem>[
@@ -71,6 +65,19 @@ class TraineeTabsView extends StatelessWidget {
       );
     });
   }
+
+  Widget _buildCurrentTab(int index) {
+    switch (index) {
+      case 0:
+        return const TraineeProfileTab();
+      case 1:
+        return const TraineeWorkoutsTab();
+      case 2:
+        return const TraineeLessonsTab();
+      default:
+        return Container();
+    }
+  }
 }
 
 class TraineeProfileTab extends StatelessWidget {
@@ -78,7 +85,7 @@ class TraineeProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TraineeProfileView();
+    return const TraineeProfileView();
   }
 }
 

@@ -11,7 +11,6 @@ import 'package:studiosync/modules/trainee/features/profile/domain/usecases/save
 import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_model.dart';
 
 class TraineeController extends GetxController {
-
   final GetTraineeDataUseCasee _getTraineeDataUseCase;
   final ListenToTraineeUpdatesUseCase _listenToTraineeUpdatesUseCase;
   final SaveTraineeUseCase _saveTraineeUseCase;
@@ -24,8 +23,7 @@ class TraineeController extends GetxController {
     required SaveTraineeUseCase saveTraineeUseCase,
     required PickImageUseCase pickImageUseCase,
     required LogoutUseCase logoutUseCase,
-  })  : 
-        _getTraineeDataUseCase = getTraineeDataUseCase,
+  })  : _getTraineeDataUseCase = getTraineeDataUseCase,
         _listenToTraineeUpdatesUseCase = listenToTraineeUpdatesUseCase,
         _saveTraineeUseCase = saveTraineeUseCase,
         _pickImageUseCase = pickImageUseCase,
@@ -52,6 +50,7 @@ class TraineeController extends GetxController {
 
   @override
   void onClose() {
+    print(' trainee controller dispose');
     super.onClose();
     _traineeSubscription?.cancel();
   }
@@ -83,7 +82,6 @@ class TraineeController extends GetxController {
       isLoading.value = true;
       final trainee = await _getTraineeDataUseCase();
       updateLocalTrainee(trainee!);
-      
     } catch (error) {
       debugPrint('Error fetching trainee data: $error');
       // Show an error message or retry option
