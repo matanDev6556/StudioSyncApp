@@ -2,6 +2,9 @@ import 'package:studiosync/core/data/data_source/firebase/firestore_service.dart
 import 'package:studiosync/modules/trainee/features/trainer-profile/domain/repositories/i_trainer_profile_repository.dart';
 import 'package:studiosync/modules/trainer/features/notifications/data/models/request_model.dart';
 
+
+
+
 class TrainerProfileFirestoreRepository implements ITrainerProfileRepository {
   final FirestoreService firestoreService;
 
