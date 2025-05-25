@@ -28,9 +28,5 @@ class TrainerProfileFirestoreRepository implements ITrainerProfileRepository {
     return existingRequest.isNotEmpty;
   }
 
-  @override
-  Future<int> countTraineesOfTrainer(String trainerID) async {
-    return await firestoreService
-        .countDocumentsInCollection('trainers/$trainerID/trainees');
-  }
+ 
 }
