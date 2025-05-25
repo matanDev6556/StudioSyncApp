@@ -1,5 +1,6 @@
 import 'package:studiosync/modules/trainee/features/trainer-profile/domain/repositories/i_trainer_profile_repository.dart';
 
+
 class CountTraineesOfTrainer {
   final ITrainerProfileRepository _iTrainerProfileRepository;
 
