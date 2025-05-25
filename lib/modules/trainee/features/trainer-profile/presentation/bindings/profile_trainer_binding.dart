@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get/get_connect/sockets/src/socket_notifier.dart';
 import 'package:studiosync/modules/trainee/features/profile/data/repositories/firestore_mytrainer_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/repositories/i_mytrainer_repository.dart';
 import 'package:studiosync/modules/trainee/features/profile/domain/usecases/disconnect_trainer_ussecase.dart';
@@ -35,3 +36,4 @@ class ProfileTraineeTabBinding extends Bindings {
         countTraineesOfTrainer: Get.find(), sendRequestUseCase: Get.find()));
   }
 }
+

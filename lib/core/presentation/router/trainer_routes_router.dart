@@ -17,7 +17,7 @@ class TrainerRouter {
     ),
     GetPage(
       name: Routes.homeTrainer,
-      page: () => const TrainerTabsView(),
+      page: () =>  TrainerTabsView(),
       binding: TrainerTabsBinding(),
     ),
     GetPage(

@@ -43,7 +43,7 @@ class WorkoutsController extends GetxController {
     if (!workoutFormHandler.validateWorkoutInput()) return;
 
     final newWorkout = workoutFormHandler.createWorkoutFromInput();
-    workouts.add(newWorkout); // עדכון רשימה מקומית
+    workouts.add(newWorkout); 
 
     addWorkoutUseCase(
       traineeModel.trainerID,
