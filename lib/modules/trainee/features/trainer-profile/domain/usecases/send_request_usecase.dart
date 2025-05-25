@@ -8,4 +8,20 @@ class SendRequestUseCase {
 
   SendRequestUseCase(this.repository);
 
+  Future<void> execute(TraineeModel traineeModel, String trainerID) async {
+    if (traineeModel.trainerID.isNotEmpty) {
+      throw Exception("Disconnect from your trainer first!");
+    }
+
+    final isRequestExists =
+        await repository.checkIfRequestExists(traineeModel.userId, trainerID);
+
+    if (isRequestExists) {
+      throw Exception("Request already sent!");
+    }
+
+    final request =
+        RequestModel(traineeID: traineeModel.userId, trainerID: trainerID);
+    await repository.sendRequest(request);
+  }
 }
