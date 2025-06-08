@@ -4,7 +4,7 @@ class LessonsSettingsModel {
   final int? scheduledDayOfWeek; // 1 = Sunday, 2 = Monday, ...
   final int? scheduledStartHour; // שעה להתחלה (בפורמט 24 שעות)
   final int? scheduledEndHour; // שעה לסיום (בפורמט 24 שעות)
-  final bool isFlexibleSchedule; 
+  final bool isFlexibleSchedule;
 
   LessonsSettingsModel({
     this.message = '',
@@ -32,7 +32,7 @@ class LessonsSettingsModel {
       scheduledDayOfWeek: scheduledDayOfWeek ?? this.scheduledDayOfWeek,
       scheduledStartHour: scheduledStartHour ?? this.scheduledStartHour,
       scheduledEndHour: scheduledEndHour ?? this.scheduledEndHour,
-       isFlexibleSchedule: isFlexibleSchedule ?? this.isFlexibleSchedule,
+      isFlexibleSchedule: isFlexibleSchedule ?? this.isFlexibleSchedule,
     );
   }
 
@@ -58,26 +58,26 @@ class LessonsSettingsModel {
     );
   }
 
-  
-bool isAllowedToSchedule() {
-  if (isFlexibleSchedule) {
-    // אם המצב גמיש, אפשר לקבוע בכל זמן
-    return true;
-  }
+  bool isAllowedToSchedule() {
+    
+    if (isFlexibleSchedule) {
+      // אם המצב גמיש, אפשר לקבוע בכל זמן
+      return true;
+    }
 
-  final now = DateTime.now();
+    final now = DateTime.now();
 
-  // בדיקה אם היום והשעה הנוכחיים מתאימים לתזמון שנקבע
-  if (scheduledDayOfWeek == null || now.weekday != scheduledDayOfWeek) {
+    // בדיקה אם היום והשעה הנוכחיים מתאימים לתזמון שנקבע
+    if (scheduledDayOfWeek == null || now.weekday != scheduledDayOfWeek) {
+      return false;
+    }
+
+    if (scheduledStartHour != null && scheduledEndHour != null) {
+      final currentHour = now.hour;
+      return currentHour >= scheduledStartHour! &&
+          currentHour < scheduledEndHour!;
+    }
+
     return false;
   }
-
-  if (scheduledStartHour != null && scheduledEndHour != null) {
-    final currentHour = now.hour;
-    return currentHour >= scheduledStartHour! &&
-        currentHour < scheduledEndHour!;
-  }
-
-  return false;
-}
 }

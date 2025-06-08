@@ -5,8 +5,10 @@ import 'package:studiosync/modules/trainee/features/profile/data/models/trainee_
 import 'package:studiosync/modules/trainee/features/profile/presentation/controllers/trainee_controller.dart';
 import 'package:studiosync/modules/trainee/features/trainer-profile/domain/usecases/count_trainees_usecase.dart';
 import 'package:studiosync/modules/trainee/features/trainer-profile/domain/usecases/send_request_usecase.dart';
-
 import 'package:url_launcher/url_launcher.dart';
+
+
+// this controller is used to handle the trainer profile
 
 class TrainerProfileController extends GetxController {
   final CountTraineesOfTrainer _countTraineesOfTrainer;
@@ -41,6 +43,8 @@ class TrainerProfileController extends GetxController {
   Future<int> countTraineesOfTrainer(String trainerID) async {
     return _countTraineesOfTrainer.execute(trainerID);
   }
+
+
 
   Future<void> openUrl(String url) async {
     final Uri uri = Uri.parse(url);

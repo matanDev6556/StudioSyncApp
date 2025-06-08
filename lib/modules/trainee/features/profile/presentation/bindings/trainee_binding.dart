@@ -40,6 +40,4 @@ class TraineeBinding extends Bindings {
       permanent: true,
     );
   }
-
-  
 }

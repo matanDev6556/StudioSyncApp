@@ -28,6 +28,7 @@ class LessonsTrainerBindings implements Bindings {
         () => UpdateSettingsLessonsUseCase(iLessonsRepository: Get.find()));
 
     //controllers
+
     Get.put(TrainerLessonsController(
       getCurrentUserIdUseCase: Get.find<GetCurrentUserIdUseCase>(),
       getRegistredTraineesOfLessonUseCase: Get.find(),
