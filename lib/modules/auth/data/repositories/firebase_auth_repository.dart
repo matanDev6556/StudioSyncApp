@@ -12,8 +12,7 @@ class FirebaseAuthRepository implements IAuthRepository<User> {
   User? get currentUser => _firebaseAuthService.currentUser;
 
   @override
-  
-  String? get userUid => currentUser?.uid ;
+  String? get userUid => currentUser?.uid;
 
   @override
   Future<bool> isTrainerAllowedToSignUp(String email) {
@@ -30,6 +29,8 @@ class FirebaseAuthRepository implements IAuthRepository<User> {
     await _firebaseAuthService.signOut();
   }
 
+  //  sign up with email and password
+
   @override
   Future<User?> signUpWithEmailAndPassword(String email, String password,
       {bool isTrainer = false}) async {
@@ -39,6 +40,4 @@ class FirebaseAuthRepository implements IAuthRepository<User> {
 
   @override
   Stream<User?> get authStateChanges => _firebaseAuthService.authStateChanges;
-  
- 
 }
